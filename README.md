@@ -1,1 +1,103 @@
-# ecopatrol
+# NusantaraPass — Smart Interconnected Geotourism & Heritage Passport 🧭🇮🇩
+
+[![UINIC 8.0](https://img.shields.io/badge/Competition-UINIC%208.0%20WebDev-emerald?style=flat-square)](https://bit.ly/GuidebookUINIC8_WEBDEV)
+[![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-blue?style=flat-square&logo=github)](https://sufyantsaury753-beep.github.io/nusantarapass/)
+[![Leaflet GIS](https://img.shields.io/badge/Mapping-Leaflet%20%26%20OSM-199900?style=flat-square&logo=leaflet)](https://leafletjs.com)
+[![Supabase](https://img.shields.io/badge/Database-PostgreSQL%20(Supabase)-3ECF8E?style=flat-square&logo=supabase)](https://supabase.com)
+[![SDG 11 & 8.9](https://img.shields.io/badge/SDGs-Heritage%20%26%20Sustainable%20Tourism-amber?style=flat-square)](https://sdgs.un.org)
+
+> **Karya Kompetisi:** Web Development Competition UINIC 8.0 (UIN Sunan Kalijaga Yogyakarta, Tahun 2026)  
+> **Tema Utama:** *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*  
+> **Sub-Tema:** Sosial Budaya & Lingkungan (Pariwisata Berkelanjutan & Pelestarian Cagar Alam-Budaya)  
+> **Kategori:** Individu (Solo Developer)  
+> **Akses Demo Langsung:** 🌐 **[https://sufyantsaury753-beep.github.io/nusantarapass/](https://sufyantsaury753-beep.github.io/nusantarapass/)**
+
+---
+
+## 📌 Latar Belakang & Problem Statement
+1. **Overtourism & Kerusakan Cagar Budaya/Alam:**
+   * Konsentrasi wisatawan di Indonesia sering menumpuk di sedikit destinasi populer (seperti Candi Borobudur, Malioboro, Kuta), memicu abrasi fisik batuan candi, penumpukan sampah di pesisir (misal Pantai Pangandaran), dan kerusakan jalur konservasi alam.
+2. **Ketiadaan Sistem Pengendali Kuota Harian (Carrying Capacity):**
+   * Sebagian besar situs web pariwisata pemerintah saat ini (seperti Geoportal Kemenpar & portal dinas daerah) hanya berupa brosur digital statis tanpa fitur pemantauan dan pembatasan daya dukung kuota pelestarian *real-time*.
+3. **Minimnya Apresiasi & Edukasi Budaya bagi Generasi Muda:**
+   * Wisatawan kerap berkunjung hanya untuk berswafoto tanpa memahami nilai sejarah luhur, serta ketiadaan rekam jejak digital (*digital footprint*) yang mengapresiasi kunjungan budaya.
+4. **Data Terfragmentasi:**
+   * Ketiadaan sistem pertukaran data (*API Interoperability*) antara pengelola destinasi, dinas kebudayaan/pariwisata daerah, dan biro perjalanan wisata.
+
+---
+
+## 🚀 Fitur Unggulan NusantaraPass
+
+### 1. 🗺️ Geoportal Interaktif 38 Provinsi (Leaflet & OpenStreetMap)
+* Multi-basemap: **Citra Satelit Beresolusi Tinggi (ESRI)**, **Peta Topografi & Kontur Medan (OpenTopoMap)**, dan **Peta Jalan (OpenStreetMap)**.
+* 4 Kategori Destinasi dengan **Custom Floating Thematic SVG Markers**:
+  * 🏖️ **Bahari & Pantai:** *Pantai Pangandaran, Pantai Kuta, Tanjung Kelayang Belitung, Raja Ampat*.
+  * 🏔️ **Gunung & Dataran Tinggi:** *Gunung Papandayan, Bromo, Rinjani, Dieng*.
+  * 🏛️ **Cagar Budaya & Sejarah:** *Candi Borobudur, Candi Prambanan, Keraton Yogyakarta, Tana Toraja*.
+  * 🌿 **Taman Nasional & Konservasi:** *TN Baluran, TN Ujung Kulon, Geopark Ciletuh, TN Komodo*.
+* **Floating Filter Bar:** Filter Kategori & Filter Wilayah/Pulau se-Indonesia (Jawa, Sumatera, Bali-Nusra, Sulawesi, Papua).
+
+### 2. 🛡️ Live Carrying Capacity & Eco-Warning Barometer
+* Memantau kuota harian daya dukung lingkungan (*sustainable carrying capacity*) dengan indikator berkode warna:
+  * 🟢 **Tersedia (Aman)**
+  * 🟡 **Hampir Penuh (Peringatan Batas Wisatawan)**
+  * 🔴 **Penuh / Ditutup Sementara** (untuk perawatan cagar budaya atau gelombang pasang tinggi di pantai).
+* Peringatan gelombang pasang & cuaca pantai berbasis data maritim BMKG.
+
+### 3. 🎫 Smart QR Visitor Pass & Gate Verification
+* Wisatawan dapat memesan tiket retribusi konservasi digital dalam 1 klik dan mendapatkan **QR Code NusantaraPass**.
+* Petugas gerbang destinasi memindai QR tiket untuk verifikasi dan pemotongan kuota harian secara otomatis di database.
+
+### 4. 🛂 E-Passport Jelajah Nusantara & Stempel Digital (Automated PDF)
+* Mengadopsi konsep *Stamp Rally* dan paspor peziarah budaya internasional.
+* Setiap kali wisatawan melakukan *check-in* di destinasi, mereka mendapatkan **Stempel Digital (*Digital Heritage Stamp*)**.
+* **Generator Buku Paspor Digital (Format PDF):** Menghasilkan dokumen resmi berdesain Buku Paspor Republik Indonesia lengkap dengan biodata wisatawan, stempel cap destinasi yang telah dikunjungi, dan sertifikat Pelestari Budaya & Alam Indonesia siap cetak!
+
+### 5. ⚙️ Cloud CMS Admin Dashboard (`admin/index.html`)
+* Dashboard khusus pengelola destinasi dan dinas pariwisata:
+  * Ringkasan analitik wisatawan harian & destinasi terpadat.
+  * Manajemen kuota pelestarian (CRUD data objek wisata & ubah kuota darurat dalam 1 klik).
+  * Log verifikasi tiket gerbang masuk.
+
+### 6. 🔌 Open REST API & Interoperabilitas (OpenAPI 3.0 Standard)
+* Sesuai tema *"Engineering Interconnected Web Solutions"*, NusantaraPass menyediakan endpoint API publik:
+  * `GET /api/v1/destinations` (filter kategori & provinsi)
+  * `GET /api/v1/destinations/{id}/quota` (status daya dukung wisata)
+  * `POST /api/v1/pass/verify` (verifikasi tiket gerbang)
+  * `GET /api/v1/openapi` (spesifikasi OpenAPI resmi)
+
+---
+
+## 🗄️ Skema Basis Data Relasional (PostgreSQL Supabase)
+Struktur tabel relasional, indeks performa, dan aturan *Row-Level Security (RLS)* tersedia lengkap di file [`supabase_schema.sql`](./supabase_schema.sql):
+* `destinations`: Data lengkap objek wisata, koordinat, elevasi, kuota harian, status gelombang/cuaca.
+* `visitor_passes`: Data tiket kunjungan ber-token QR unik.
+* `digital_stamps`: Koleksi stempel paspor wisatawan yang berhasil diklaim.
+* `checkin_logs`: Riwayat pemindaian tiket di gerbang masuk konservasi.
+
+---
+
+## 🛠️ Cara Menjalankan Secara Lokal
+
+```bash
+# 1. Clone repositori
+git clone https://github.com/sufyantsaury753-beep/nusantarapass.git
+cd nusantarapass
+
+# 2. Buka langsung di browser atau gunakan server statis (Live Server / Python HTTP / npx serve)
+npx serve .
+# atau buka index.html secara langsung di peramban web Anda
+```
+
+---
+
+## 🏆 Kepatuhan Terhadap Kriteria Penilaian Lomba
+* **Inovasi & Relevansi Solusi (30%):** Memecahkan isu *overtourism* dan pelestarian cagar alam-budaya di 38 provinsi.
+* **Kesesuaian Kebutuhan Pengguna (20%):** Akomodasi dua sisi (Wisatawan dan Pengelola Destinasi/Dinas Pariwisata).
+* **Kualitas Teknis & API (20%):** Arsitektur modular, database relasional Supabase, Leaflet GIS, QR engine, dan OpenAPI.
+* **Kualitas Desain UI/UX (15%):** Desain modern, warna tematik, *floating luxury markers*, dan responsif di smartphone.
+* **Dokumentasi & Testing (15%):** README komprehensif, panduan instalasi, dan proposal lengkap.
+
+---
+
+&copy; 2026 **NusantaraPass**. Dikembangkan untuk Web Development Competition UINIC 8.0 UIN Sunan Kalijaga Yogyakarta.

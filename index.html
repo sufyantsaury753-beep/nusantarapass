@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NusantaraPass — Platform Geoportal Interkoneksi &amp; Paspor Wisata Berkelanjutan Indonesia</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/map.css" />
+</head>
+
+<body>
+  <!-- Ticker Banner -->
+  <div class="sub-header-ticker">
+    <div>
+      <span>🇮🇩 NUSANTARAPASS: Sistem Geoportal Interkoneksi Pariwisata Berkelanjutan 38 Provinsi</span>
+    </div>
+    <div style="opacity: 0.9;">
+      <span>UINIC 8.0 WebDev Edition • SDG 11 &amp; SDG 8.9</span>
+    </div>
+  </div>
+
+  <!-- Topbar Header -->
+  <header class="topbar">
+    <div class="topbar-content">
+      <a href="index.html" class="brand-wrapper">
+        <div class="brand-logo-box">🧭</div>
+        <div class="brand-title-box">
+          <h1>NusantaraPass <span style="font-size: 11px; background: rgba(5,150,105,0.25); color: #34d399; border: 1px solid rgba(5,150,105,0.4); padding: 1px 8px; border-radius: 20px; font-weight: 700;">PRO</span></h1>
+          <p>Smart Interconnected Geotourism &amp; Heritage Passport</p>
+        </div>
+      </a>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <button class="btn-nav" onclick="openPassportModal()">
+          🛂 Paspor Saya (<span id="passportBadgeCount" style="color: #34d399; font-weight: bold;">0</span>)
+        </button>
+        <button class="btn-nav" onclick="openApiModal()">
+          🔌 REST API Docs
+        </button>
+        <a href="admin/index.html" class="btn-nav btn-nav-gold">
+          ⚙️ Dashboard Admin
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metrics KPI Strip -->
+  <section class="metrics-strip">
+    <div class="metric-card">
+      <div class="metric-icon-box" style="background: rgba(6,182,212,0.15); color: #06b6d4;">🏖️</div>
+      <div>
+        <div class="metric-number" id="kpiTotalDest">20 Destinasi</div>
+        <div class="metric-label">Terkurasi di 38 Provinsi</div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon-box" style="background: rgba(249,115,22,0.15); color: #f97316;">🏔️</div>
+      <div>
+        <div class="metric-number" id="kpiTotalVisitors">18.250 Jiwa</div>
+        <div class="metric-label">Wisatawan Aktif Hari Ini</div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon-box" style="background: rgba(16,185,129,0.15); color: #10b981;">🛡️</div>
+      <div>
+        <div class="metric-number" id="kpiEcoSafe">94.8% Terkendali</div>
+        <div class="metric-label">Daya Dukung Konservasi Aman</div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon-box" style="background: rgba(217,119,6,0.15); color: #d97706;">🏛️</div>
+      <div>
+        <div class="metric-number">4 Kategori</div>
+        <div class="metric-label">Pantai, Gunung, Candi, TN</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Map Section -->
+  <main class="main-layout">
+    <div class="map-wrapper-card">
+      <!-- Leaflet Map Container -->
+      <div id="map"></div>
+
+      <!-- Floating Controls: Region & Categories -->
+      <div class="map-floating-controls">
+        <!-- Region Pills -->
+        <div class="floating-pills-bar">
+          <span style="font-size: 11px; font-weight: bold; color: #94a3b8; padding: 0 6px;">Wilayah:</span>
+          <button class="pill-btn region-pill active" onclick="filterRegion('all', this)">Semua (Nasional)</button>
+          <button class="pill-btn region-pill" onclick="filterRegion('Jawa', this)">Jawa</button>
+          <button class="pill-btn region-pill" onclick="filterRegion('Sumatera', this)">Sumatera</button>
+          <button class="pill-btn region-pill" onclick="filterRegion('Bali-Nusra', this)">Bali &amp; Nusa Tenggara</button>
+          <button class="pill-btn region-pill" onclick="filterRegion('Sulawesi', this)">Sulawesi</button>
+          <button class="pill-btn region-pill" onclick="filterRegion('Papua', this)">Papua</button>
+        </div>
+
+        <!-- Basemap Switcher -->
+        <div class="basemap-pills-bar">
+          <button class="basemap-btn active" data-basemap="satellite" onclick="switchBasemap('satellite')">🛰️ Satelit</button>
+          <button class="basemap-btn" data-basemap="topo" onclick="switchBasemap('topo')">🏔️ Topografi</button>
+          <button class="basemap-btn" data-basemap="osm" onclick="switchBasemap('osm')">🗺️ Street</button>
+        </div>
+      </div>
+
+      <!-- Floating Bottom Legend -->
+      <div class="map-floating-legend">
+        <strong style="color: white; margin-bottom: 2px;">Kategori Penjelajahan:</strong>
+        <div class="legend-item"><span class="legend-dot" style="background: #06b6d4;"></span> 🏖️ Bahari &amp; Pantai (Pangandaran, Kuta, Raja Ampat)</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #f97316;"></span> 🏔️ Gunung &amp; Dataran Tinggi (Bromo, Papandayan, Rinjani)</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #d97706;"></span> 🏛️ Cagar Budaya &amp; Sejarah (Borobudur, Prambanan, Toraja)</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #10b981;"></span> 🌿 Taman Nasional &amp; Konservasi (Baluran, Ciletuh, Komodo)</div>
+      </div>
+    </div>
+
+    <!-- Category Filter Bar for Grid -->
+    <div class="section-title-bar">
+      <div>
+        <h2>Katalog Eksplorasi 38 Provinsi</h2>
+        <p style="font-size: 12px; color: #94a3b8;">Pilih objek wisata untuk memesan Smart Pass atau klaim stempel paspor</p>
+      </div>
+
+      <div class="floating-pills-bar" style="position: static; box-shadow: none;">
+        <button class="pill-btn cat-pill active" onclick="filterCategory('all', this)">Semua Kategori</button>
+        <button class="pill-btn cat-pill" onclick="filterCategory('pantai', this)">🏖️ Pantai</button>
+        <button class="pill-btn cat-pill" onclick="filterCategory('gunung', this)">🏔️ Gunung</button>
+        <button class="pill-btn cat-pill" onclick="filterCategory('budaya', this)">🏛️ Cagar Budaya</button>
+        <button class="pill-btn cat-pill" onclick="filterCategory('taman_nasional', this)">🌿 Taman Nasional</button>
+      </div>
+    </div>
+
+    <!-- Destinations Grid -->
+    <div class="destinations-grid" id="destinationsGrid"></div>
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: BOOKING & SMART QR PASS
+       ========================================== -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3>Pesan Tiket NusantaraPass</h3>
+          <p id="bookingDestTitle" style="font-size: 11px; color: #34d399; font-weight: 600;"></p>
+        </div>
+        <button class="modal-close-btn" onclick="closeBookingModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="bookingDestPrice" style="font-size: 12px; color: #cbd5e1;"></p>
+        
+        <div class="form-group">
+          <label>Nama Lengkap Wisatawan:</label>
+          <input type="text" id="visitorNameInput" class="form-input" placeholder="Masukkan nama sesuai KTP/KTM..." value="Sufyan Tsauri" />
+        </div>
+
+        <div class="form-group">
+          <label>Email Aktif:</label>
+          <input type="email" id="visitorEmailInput" class="form-input" placeholder="email@contoh.com" value="sufyantsaury753@gmail.com" />
+        </div>
+
+        <button class="btn-nav btn-nav-primary" style="width: 100%; justify-content: center; padding: 12px;" onclick="generateDigitalPass()">
+          ✨ Terbitkan Smart Pass (QR) Sekarang
+        </button>
+
+        <!-- QR Display Area -->
+        <div id="bookingQrArea" style="display: none; background: #0b0f19; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 18px; text-align: center;">
+          <div style="font-size: 11px; color: #10b981; font-weight: bold; margin-bottom: 10px;">
+            ✅ TIKET SMART PASS BERHASIL DITERBITKAN &amp; STEMPEL TERSIMPAN!
+          </div>
+          <div id="qrcodeContainer" style="display: inline-block; padding: 12px; background: white; border-radius: 10px; margin-bottom: 10px;"></div>
+          <div id="passTokenText" style="font-family: monospace; font-size: 12px; color: #38bdf8;"></div>
+          <p style="font-size: 11px; color: #94a3b8; margin-top: 8px;">
+            Tunjukkan kode QR ini ke petugas gerbang konservasi saat berkunjung.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: PASPOR JELAJAH NUSANTARA & PDF
+       ========================================== -->
+  <div class="modal-overlay" id="passportModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3>Paspor Jelajah Nusantara</h3>
+          <p style="font-size: 11px; color: #94a3b8;">Buku Koleksi Stempel Resmi &amp; Sertifikat Pelestari Budaya</p>
+        </div>
+        <button class="modal-close-btn" onclick="closePassportModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: linear-gradient(135deg, rgba(5,150,105,0.2), rgba(2,132,199,0.2)); border: 1px solid rgba(5,150,105,0.3); padding: 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size: 11px; color: #34d399; font-weight: bold;">PASPOR DIGITAL TERVALIDASI</div>
+            <div style="font-size: 14px; font-weight: bold; color: white;">Pemegang: Sufyan Tsauri</div>
+          </div>
+          <button class="btn-nav btn-nav-primary" onclick="downloadPassportPDF()">
+            📥 Unduh Buku Paspor (PDF)
+          </button>
+        </div>
+
+        <div style="font-size: 12px; font-weight: bold; color: #e2e8f0; margin-top: 6px;">
+          Daftar Stempel Destinasi yang Berhasil Dikoleksi:
+        </div>
+
+        <div id="passportStampsList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 3: OPEN REST API SANDBOX
+       ========================================== -->
+  <div class="modal-overlay" id="apiModal">
+    <div class="modal-dialog" style="max-width: 720px;">
+      <div class="modal-header">
+        <div>
+          <h3>Open REST API &amp; Interoperabilitas</h3>
+          <p style="font-size: 11px; color: #94a3b8;">Standar OpenAPI 3.0 untuk Integrasi Biro Wisata &amp; Dinas Pariwisata</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeApiModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: #cbd5e1; font-size: 12px;">
+          Sesuai tema <b style="color: #34d399;">"Engineering Interconnected Web Solutions"</b>, NusantaraPass menyediakan REST API publik agar data daya dukung kuota destinasi dapat ditarik oleh platform luar secara transparan.
+        </p>
+
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <button class="btn-nav" onclick="testApiEndpoint('all')">GET /api/v1/destinations (Semua)</button>
+          <button class="btn-nav" onclick="testApiEndpoint('pantai')">GET /api/v1/destinations?category=pantai</button>
+          <button class="btn-nav" onclick="testApiEndpoint('budaya')">GET /api/v1/destinations?category=budaya</button>
+        </div>
+
+        <div style="background: #000000; border: 1px solid #1f2937; border-radius: 12px; padding: 14px; max-height: 260px; overflow-y: auto;">
+          <pre id="apiConsoleOutput" style="font-family: monospace; font-size: 11px; color: #34d399; margin: 0; white-space: pre-wrap;">
+Klik salah satu endpoint tombol di atas untuk menguji respons JSON realtime dari sistem.
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>
+      &copy; 2026 <strong>NusantaraPass</strong>. Dikembangkan untuk <b>Web Development Competition UINIC 8.0</b> oleh HMPS Informatika UIN Sunan Kalijaga Yogyakarta.
+    </p>
+    <p style="margin-top: 6px; font-size: 11px; color: #64748b;">
+      Menjawab SDGs No. 11 (Pelestarian Warisan Budaya) &amp; SDGs No. 8.9 (Pariwisata Berkelanjutan). Ditenagai oleh Leaflet GIS, OpenStreetMap, &amp; Supabase Cloud.
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+  
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/map.js"></script>
+</body>
+</html>

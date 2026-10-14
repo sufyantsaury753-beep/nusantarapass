@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NusantaraPass — Admin &amp; Pengelola Destinasi (Cloud CMS)</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+
+<body style="background: #090d16;">
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-content">
+      <a href="../index.html" class="brand-wrapper">
+        <div class="brand-logo-box" style="background: linear-gradient(135deg, #d97706, #b45309);">⚙️</div>
+        <div class="brand-title-box">
+          <h1>NusantaraPass <span style="font-size: 11px; background: rgba(217,119,6,0.25); color: #fbbf24; border: 1px solid rgba(217,119,6,0.4); padding: 1px 8px; border-radius: 20px; font-weight: 700;">ADMIN CMS</span></h1>
+          <p>Portal Pengendali Kuota Harian &amp; Verifikasi Gerbang</p>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <span style="font-size: 12px; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); padding: 4px 10px; border-radius: 20px; font-weight: 600;">
+          🟢 Supabase Cloud Terhubung
+        </span>
+        <a href="../index.html" class="btn-nav">
+          🌐 Lihat Web Live
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-layout" style="margin-top: 24px;">
+    <!-- Admin KPI -->
+    <div class="metrics-strip" style="padding: 0; margin: 0 0 20px 0;">
+      <div class="metric-card">
+        <div class="metric-icon-box" style="background: rgba(5,150,105,0.15); color: #10b981;">📍</div>
+        <div>
+          <div class="metric-number">20 Destinasi</div>
+          <div class="metric-label">Terdaftar Aktif</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon-box" style="background: rgba(2,132,199,0.15); color: #38bdf8;">🎫</div>
+        <div>
+          <div class="metric-number">1.420 Tiket</div>
+          <div class="metric-label">Check-in Gerbang Hari Ini</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon-box" style="background: rgba(245,158,11,0.15); color: #fbbf24;">⚠️</div>
+        <div>
+          <div class="metric-number">1 Peringatan</div>
+          <div class="metric-label">Ombak Tinggi (Pangandaran)</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon-box" style="background: rgba(147,51,234,0.15); color: #c084fc;">🛂</div>
+        <div>
+          <div class="metric-number">892 Paspor</div>
+          <div class="metric-label">Stempel Terbit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Management Table -->
+    <div style="background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div>
+          <h2 style="font-size: 16px; font-weight: bold; color: white;">Manajemen Kuota Pelestarian &amp; Daya Dukung Wisata</h2>
+          <p style="font-size: 11px; color: #94a3b8;">Ubah kuota secara realtime untuk melindungi ekosistem cagar budaya dan pantai dari overtourism</p>
+        </div>
+        <button class="btn-nav btn-nav-primary" onclick="alert('Formulir tambah destinasi baru siap terhubung ke tabel Supabase.')">
+          + Tambah Objek Wisata
+        </button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+              <th style="padding: 10px;">KODE</th>
+              <th style="padding: 10px;">NAMA DESTINASI</th>
+              <th style="padding: 10px;">KATEGORI</th>
+              <th style="padding: 10px;">PROVINSI</th>
+              <th style="padding: 10px;">KUOTA HARIAN</th>
+              <th style="padding: 10px;">STATUS OPERASIONAL</th>
+              <th style="padding: 10px;">AKSI</th>
+            </tr>
+          </thead>
+          <tbody id="adminDestTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 <strong>NusantaraPass Admin CMS</strong> • UINIC 8.0 Web Development Edition</p>
+  </footer>
+
+  <script src="../assets/js/data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tbody = document.getElementById('adminDestTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = NUSANTARA_DESTINATIONS.map((d, index) => {
+        let badgeColor = '#10b981';
+        let badgeBg = 'rgba(16, 185, 129, 0.1)';
+
+        if (d.quota_status === 'hampir_penuh') {
+          badgeColor = '#f59e0b';
+          badgeBg = 'rgba(245, 158, 11, 0.1)';
+        } else if (d.quota_status === 'ditutup_cuaca') {
+          badgeColor = '#ef4444';
+          badgeBg = 'rgba(239, 68, 68, 0.1)';
+        }
+
+        return `
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2e8f0;">
+            <td style="padding: 12px 10px; font-family: monospace; color: #38bdf8;">${d.code}</td>
+            <td style="padding: 12px 10px; font-weight: bold;">${d.stamp_icon} ${d.name}</td>
+            <td style="padding: 12px 10px; text-transform: uppercase; font-size: 10px;">${d.category.replace('_', ' ')}</td>
+            <td style="padding: 12px 10px; color: #94a3b8;">${d.province}</td>
+            <td style="padding: 12px 10px;">
+              <b>${d.current_visitors}</b> / ${d.daily_quota}
+            </td>
+            <td style="padding: 12px 10px;">
+              <span style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}33; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; text-transform: uppercase;">
+                ${d.quota_status.replace('_', ' ')}
+              </span>
+            </td>
+            <td style="padding: 12px 10px;">
+              <button class="btn-nav" style="padding: 4px 8px; font-size: 11px;" onclick="toggleDestStatus('${d.id}')">
+                Ubah Kuota
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    });
+
+    function toggleDestStatus(id) {
+      const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
+      if (dest) {
+        const newQuota = prompt(`Ubah batas kuota harian untuk ${dest.name}:`, dest.daily_quota);
+        if (newQuota && !isNaN(newQuota)) {
+          dest.daily_quota = parseInt(newQuota);
+          alert(`Kuota harian untuk ${dest.name} berhasil diperbarui menjadi ${newQuota} orang/hari.`);
+          location.reload();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
