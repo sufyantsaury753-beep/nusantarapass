@@ -170,6 +170,15 @@ function initMap() {
   markersLayerGroup = L.layerGroup().addTo(mapInstance);
 
   renderMapMarkers();
+
+  // Pastikan Leaflet mengukur viewport dengan sempurna setelah layout sidebar kiri render
+  setTimeout(() => {
+    if (mapInstance) mapInstance.invalidateSize();
+  }, 200);
+
+  window.addEventListener('resize', () => {
+    if (mapInstance) mapInstance.invalidateSize();
+  });
 }
 
 function switchBasemap(type) {

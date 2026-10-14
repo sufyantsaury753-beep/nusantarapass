@@ -207,17 +207,89 @@ body::before {
 }
 
 /* ==========================================
-   METRICS KPI STRIP
+   GEOPORTAL DASHBOARD GRID (LEFT BAR + MAP)
    ========================================== */
-.metrics-strip {
-  max-width: 1380px;
-  margin: 16px auto 0;
-  padding: 0 20px;
+.geoportal-dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
+  grid-template-columns: 290px 1fr;
+  gap: 16px;
+  width: 100%;
 }
 
+.geoportal-sidebar-left {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  height: 640px;
+}
+
+.sidebar-top-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar-kpi-pill {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--accent-emerald);
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  align-self: flex-start;
+}
+
+.sidebar-top-title h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.sidebar-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  justify-content: space-around;
+}
+
+.metric-card-vertical {
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition-fast);
+}
+
+.metric-card-vertical:hover {
+  background: #ffffff;
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-subtle);
+  transform: translateX(3px);
+}
+
+.sidebar-mini-footer {
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Legacy metric-card compatibility */
 .metric-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
@@ -230,14 +302,9 @@ body::before {
   transition: var(--transition-fast);
 }
 
-.metric-card:hover {
-  box-shadow: var(--shadow-elevated);
-  transform: translateY(-2px);
-}
-
 .metric-icon-box {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -246,7 +313,7 @@ body::before {
 }
 
 .metric-number {
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
@@ -576,25 +643,35 @@ body::before {
     font-size: 11px;
   }
 
-  .metrics-strip {
+  .geoportal-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .geoportal-sidebar-left {
+    height: auto;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .sidebar-metrics-list {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 14px;
     gap: 10px;
   }
 
-  .metric-card {
-    padding: 12px;
+  .metric-card-vertical {
+    padding: 10px 12px;
     gap: 10px;
   }
 
   .metric-icon-box {
     width: 38px;
     height: 38px;
-    font-size: 16px;
   }
 
   .metric-number {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .metric-label {
@@ -608,7 +685,7 @@ body::before {
   }
 
   .map-wrapper-card {
-    height: 420px;
+    height: 440px;
     border-radius: var(--radius-md);
   }
 
@@ -628,5 +705,11 @@ body::before {
 
   .modal-body {
     padding: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .sidebar-metrics-list {
+    grid-template-columns: 1fr;
   }
 }

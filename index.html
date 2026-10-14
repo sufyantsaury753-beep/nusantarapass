@@ -51,92 +51,116 @@
     </div>
   </header>
 
-  <!-- Metrics KPI Strip -->
-  <section class="metrics-strip">
-    <div class="metric-card">
-      <div class="metric-icon-box" style="background: #e0f2fe; color: #0284c7;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
-      <div>
-        <div class="metric-number" id="kpiTotalDest">20 Destinasi</div>
-        <div class="metric-label">Terkurasi di 38 Provinsi</div>
-      </div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-icon-box" style="background: #ffedd5; color: #ea580c;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
-      </div>
-      <div>
-        <div class="metric-number" id="kpiTotalVisitors">18.250 Jiwa</div>
-        <div class="metric-label">Wisatawan Aktif Hari Ini</div>
-      </div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-icon-box" style="background: #d1fae5; color: #059669;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div>
-        <div class="metric-number" id="kpiEcoSafe">94.8% Terkendali</div>
-        <div class="metric-label">Daya Dukung Konservasi Aman</div>
-      </div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-icon-box" style="background: #fef3c7; color: #d97706;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
-      </div>
-      <div>
-        <div class="metric-number">4 Kategori</div>
-        <div class="metric-label">Bahari, Gunung, Budaya, Konservasi</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Map Section -->
+  <!-- Main Map & Dashboard Section -->
   <main class="main-layout">
-    <div class="map-wrapper-card">
-      <!-- Leaflet Map Container -->
-      <div id="map"></div>
-
-      <!-- Floating Controls: SEMUA BAR DI PINGGIR SEBELAH KIRI -->
-      <div class="map-floating-controls">
-        <!-- Basemap Switcher (Left Top) -->
-        <div class="basemap-pills-bar">
-          <button class="basemap-btn active" data-basemap="osm" onclick="switchBasemap('osm')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-            Street
-          </button>
-          <button class="basemap-btn" data-basemap="satellite" onclick="switchBasemap('satellite')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            Satelit
-          </button>
-          <button class="basemap-btn" data-basemap="topo" onclick="switchBasemap('topo')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
-            Topografi
-          </button>
+    <div class="geoportal-dashboard-grid">
+      <!-- Left Sidebar Barometer & Live KPI Metrics -->
+      <aside class="geoportal-sidebar-left">
+        <div class="sidebar-top-title">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <span class="sidebar-kpi-pill">REALTIME GEOPORTAL</span>
+            <span style="display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #059669;">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block;"></span> LIVE
+            </span>
+          </div>
+          <h3>Status &amp; Daya Dukung</h3>
+          <p style="font-size: 11px; color: #64748b; margin: 0; line-height: 1.4;">Pemantauan kuota harian &amp; carrying capacity 38 provinsi</p>
         </div>
 
-        <!-- Region Pills (Left Aligned & Swipeable on mobile) -->
-        <div class="floating-pills-bar">
-          <span style="font-size: 11px; font-weight: bold; color: #64748b; padding: 0 6px;">Wilayah:</span>
-          <button class="pill-btn region-pill active" onclick="filterRegion('all', this)">Semua (Nasional)</button>
-          <button class="pill-btn region-pill" onclick="filterRegion('Jawa', this)">Jawa</button>
-          <button class="pill-btn region-pill" onclick="filterRegion('Sumatera', this)">Sumatera</button>
-          <button class="pill-btn region-pill" onclick="filterRegion('Bali-Nusra', this)">Bali &amp; Nusa Tenggara</button>
-          <button class="pill-btn region-pill" onclick="filterRegion('Sulawesi', this)">Sulawesi</button>
-          <button class="pill-btn region-pill" onclick="filterRegion('Papua', this)">Papua</button>
-        </div>
-      </div>
+        <div class="sidebar-metrics-list">
+          <div class="metric-card-vertical">
+            <div class="metric-icon-box" style="background: #e0f2fe; color: #0284c7;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <div class="metric-number" id="kpiTotalDest">20 Destinasi</div>
+              <div class="metric-label">Terkurasi di 38 Provinsi</div>
+            </div>
+          </div>
 
-      <!-- Floating Bottom Legend (Pure SVG Dots & Text) -->
-      <div class="map-floating-legend">
-        <strong style="color: #0f172a; margin-bottom: 2px;">Kategori Geowisata Lestari:</strong>
-        <div class="legend-item"><span class="legend-dot" style="background: #0284c7;"></span> Bahari &amp; Pantai</div>
-        <div class="legend-item"><span class="legend-dot" style="background: #ea580c;"></span> Gunung &amp; Dataran Tinggi</div>
-        <div class="legend-item"><span class="legend-dot" style="background: #d97706;"></span> Cagar Budaya &amp; Sejarah</div>
-        <div class="legend-item"><span class="legend-dot" style="background: #059669;"></span> Taman Nasional &amp; Konservasi</div>
+          <div class="metric-card-vertical">
+            <div class="metric-icon-box" style="background: #ffedd5; color: #ea580c;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+            </div>
+            <div>
+              <div class="metric-number" id="kpiTotalVisitors">18.250 Jiwa</div>
+              <div class="metric-label">Wisatawan Aktif Hari Ini</div>
+            </div>
+          </div>
+
+          <div class="metric-card-vertical">
+            <div class="metric-icon-box" style="background: #d1fae5; color: #059669;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="metric-number" id="kpiEcoSafe">94.8% Terkendali</div>
+              <div class="metric-label">Daya Dukung Konservasi</div>
+            </div>
+          </div>
+
+          <div class="metric-card-vertical">
+            <div class="metric-icon-box" style="background: #fef3c7; color: #d97706;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            </div>
+            <div>
+              <div class="metric-number">4 Kategori</div>
+              <div class="metric-label">Bahari, Gunung, Budaya, Konservasi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-mini-footer">
+          <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; color: #0f172a; margin-bottom: 2px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>SDG 11 &amp; SDG 8.9 Validated</span>
+          </div>
+          <div>Sistem proteksi overtourism &amp; reservasi terpadu database PostgreSQL.</div>
+        </div>
+      </aside>
+
+      <!-- Leaflet Map Container Right Side -->
+      <div class="map-wrapper-card">
+        <!-- Leaflet Map Container -->
+        <div id="map"></div>
+
+        <!-- Floating Controls: SEMUA BAR DI PINGGIR SEBELAH KIRI -->
+        <div class="map-floating-controls">
+          <!-- Basemap Switcher (Left Top) -->
+          <div class="basemap-pills-bar">
+            <button class="basemap-btn active" data-basemap="osm" onclick="switchBasemap('osm')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+              Street
+            </button>
+            <button class="basemap-btn" data-basemap="satellite" onclick="switchBasemap('satellite')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Satelit
+            </button>
+            <button class="basemap-btn" data-basemap="topo" onclick="switchBasemap('topo')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+              Topografi
+            </button>
+          </div>
+
+          <!-- Region Pills (Left Aligned & Swipeable on mobile) -->
+          <div class="floating-pills-bar">
+            <span style="font-size: 11px; font-weight: bold; color: #64748b; padding: 0 6px;">Wilayah:</span>
+            <button class="pill-btn region-pill active" onclick="filterRegion('all', this)">Semua (Nasional)</button>
+            <button class="pill-btn region-pill" onclick="filterRegion('Jawa', this)">Jawa</button>
+            <button class="pill-btn region-pill" onclick="filterRegion('Sumatera', this)">Sumatera</button>
+            <button class="pill-btn region-pill" onclick="filterRegion('Bali-Nusra', this)">Bali &amp; Nusa Tenggara</button>
+            <button class="pill-btn region-pill" onclick="filterRegion('Sulawesi', this)">Sulawesi</button>
+            <button class="pill-btn region-pill" onclick="filterRegion('Papua', this)">Papua</button>
+          </div>
+        </div>
+
+        <!-- Floating Bottom Legend (Pure SVG Dots & Text) -->
+        <div class="map-floating-legend">
+          <strong style="color: #0f172a; margin-bottom: 2px;">Kategori Geowisata Lestari:</strong>
+          <div class="legend-item"><span class="legend-dot" style="background: #0284c7;"></span> Bahari &amp; Pantai</div>
+          <div class="legend-item"><span class="legend-dot" style="background: #ea580c;"></span> Gunung &amp; Dataran Tinggi</div>
+          <div class="legend-item"><span class="legend-dot" style="background: #d97706;"></span> Cagar Budaya &amp; Sejarah</div>
+          <div class="legend-item"><span class="legend-dot" style="background: #059669;"></span> Taman Nasional &amp; Konservasi</div>
+        </div>
       </div>
     </div>
 
