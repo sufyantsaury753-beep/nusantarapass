@@ -28,10 +28,11 @@
 
       <div class="nav-actions">
         <button id="supabaseStatusBadge" onclick="openSqlHelpModal()" style="font-size: 12px; cursor: pointer; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 6px 14px; border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-          <span>🟢 Memeriksa Database...</span>
+          <span>Memeriksa Database...</span>
         </button>
         <a href="../index.html" class="btn-nav">
-          🌐 Lihat Web Live
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Lihat Web Live
         </a>
       </div>
     </div>
@@ -41,28 +42,36 @@
     <!-- Admin KPI -->
     <div class="metrics-strip" style="padding: 0; margin: 0 0 20px 0;">
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: #ecfdf5; color: #059669;">📍</div>
+        <div class="metric-icon-box" style="background: #ecfdf5; color: #059669;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
         <div>
           <div id="kpiTotalDest" class="metric-number">20 Destinasi</div>
           <div class="metric-label">Terdaftar Aktif</div>
         </div>
       </div>
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: #e0f2fe; color: #0284c7;">🎫</div>
+        <div class="metric-icon-box" style="background: #e0f2fe; color: #0284c7;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
+        </div>
         <div>
           <div id="kpiTotalVisitors" class="metric-number">1.420 Tiket</div>
           <div class="metric-label">Kunjungan Hari Ini</div>
         </div>
       </div>
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: #fef3c7; color: #d97706;">⚠️</div>
+        <div class="metric-icon-box" style="background: #fef3c7; color: #d97706;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
         <div>
           <div id="kpiWarningCount" class="metric-number">1 Peringatan</div>
           <div class="metric-label">Status Waspada/Tinggi</div>
         </div>
       </div>
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: #f3e8ff; color: #9333ea;">🛂</div>
+        <div class="metric-icon-box" style="background: #f3e8ff; color: #9333ea;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="2" width="18" height="20" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M7 17h10"/></svg>
+        </div>
         <div>
           <div id="kpiStampCount" class="metric-number">20 Stempel</div>
           <div class="metric-label">Stempel Paspor Siap</div>
@@ -79,10 +88,12 @@
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn-nav" onclick="openSqlHelpModal()" style="border-color: #0284c7; color: #0284c7;">
-            ⚡ Status Database Supabase
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            Status Database Supabase
           </button>
           <button class="btn-nav btn-nav-primary" onclick="openAddDestModal()">
-            + Tambah Objek Wisata
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Objek Wisata
           </button>
         </div>
       </div>
@@ -112,7 +123,7 @@
   <div id="addDestModal" class="modal-overlay">
     <div class="modal-dialog" style="max-width: 600px;">
       <div class="modal-header">
-        <h3>➕ Tambah Objek Wisata Nusantara</h3>
+        <h3>Tambah Objek Wisata Nusantara</h3>
         <button class="modal-close-btn" onclick="closeAddDestModal()">&times;</button>
       </div>
       <div class="modal-body">
@@ -130,10 +141,10 @@
             <div>
               <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Kategori Wisata</label>
               <select id="destInputCategory" class="form-input" style="width: 100%; margin-top: 4px;">
-                <option value="pantai">🏖️ Bahari &amp; Pantai</option>
-                <option value="gunung">🏔️ Gunung &amp; Dataran Tinggi</option>
-                <option value="budaya">🏛️ Cagar Budaya &amp; Sejarah</option>
-                <option value="taman_nasional">🌿 Taman Nasional &amp; Konservasi</option>
+                <option value="pantai">Bahari &amp; Pantai</option>
+                <option value="gunung">Gunung &amp; Dataran Tinggi</option>
+                <option value="budaya">Cagar Budaya &amp; Sejarah</option>
+                <option value="taman_nasional">Taman Nasional &amp; Konservasi</option>
               </select>
             </div>
             <div>
@@ -179,7 +190,10 @@
 
           <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
             <button type="button" class="btn-nav" onclick="closeAddDestModal()">Batal</button>
-            <button type="submit" class="btn-nav btn-nav-primary">💾 Simpan ke Database</button>
+            <button type="submit" class="btn-nav btn-nav-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Simpan ke Database
+            </button>
           </div>
         </form>
       </div>
@@ -190,7 +204,7 @@
   <div id="sqlHelpModal" class="modal-overlay">
     <div class="modal-dialog" style="max-width: 620px;">
       <div class="modal-header">
-        <h3>⚡ Status Supabase Database Bersama</h3>
+        <h3>Status Database Supabase</h3>
         <button class="modal-close-btn" onclick="closeSqlHelpModal()">&times;</button>
       </div>
       <div class="modal-body">
@@ -276,11 +290,19 @@
           badgeBg = '#fee2e2';
         }
 
+        function getCatName(c) {
+          if (c === 'pantai') return 'Bahari & Pantai';
+          if (c === 'gunung') return 'Gunung & Dataran Tinggi';
+          if (c === 'budaya') return 'Cagar Budaya & Sejarah';
+          if (c === 'taman_nasional') return 'Taman Nasional & Konservasi';
+          return (c || '').replace('_', ' ');
+        }
+
         return `
           <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
             <td style="padding: 12px 10px; font-family: monospace; font-weight: bold; color: #0284c7;">${d.code}</td>
             <td style="padding: 12px 10px; font-weight: 700; color: #0f172a;">${d.name}</td>
-            <td style="padding: 12px 10px; text-transform: uppercase; font-size: 10px; font-weight: 700; color: #64748b;">${(d.category || '').replace('_', ' ')}</td>
+            <td style="padding: 12px 10px; font-size: 11px; font-weight: 700; color: #64748b;">${getCatName(d.category)}</td>
             <td style="padding: 12px 10px; color: #64748b;">${d.province}</td>
             <td style="padding: 12px 10px;">
               <b>${(d.current_visitors || 0).toLocaleString('id-ID')}</b> / ${(d.daily_quota || 1000).toLocaleString('id-ID')}
@@ -291,8 +313,9 @@
               </span>
             </td>
             <td style="padding: 12px 10px; text-align: center;">
-              <button class="btn-nav" style="padding: 4px 8px; font-size: 11px; min-height: 30px;" onclick="promptChangeQuota('${d.id}')">
-                ✏️ Ubah Kuota
+              <button class="btn-nav" style="padding: 4px 10px; font-size: 11px; min-height: 30px;" onclick="promptChangeQuota('${d.id}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Ubah Kuota
               </button>
             </td>
           </tr>

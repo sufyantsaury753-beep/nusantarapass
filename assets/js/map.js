@@ -105,7 +105,16 @@ function getCategoryTeardropSvg(category) {
   `;
 }
 
-// Helper SVG Icon kecil untuk UI (tanpa emoji)
+// Helper Nama Resmi Kategori Wisata
+function getCategoryDisplayName(cat) {
+  if (cat === 'pantai') return 'Bahari & Pantai';
+  if (cat === 'gunung') return 'Gunung & Dataran Tinggi';
+  if (cat === 'budaya') return 'Cagar Budaya & Sejarah';
+  if (cat === 'taman_nasional') return 'Taman Nasional & Konservasi';
+  return (cat || '').replace('_', ' ');
+}
+
+// Helper SVG Icon kecil untuk UI (tanpa emoji sama sekali)
 function getCategoryBadgeSvg(category) {
   if (category === 'pantai') {
     return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="4"/></svg>`;
@@ -215,7 +224,7 @@ function renderMapMarkers() {
         <div class="popup-img-box">
           <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
           <div style="position: absolute; top: 8px; left: 8px; background: ${catColor}; color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
-            ${getCategoryBadgeSvg(dest.category)} ${(dest.category || '').replace('_', ' ')}
+            ${getCategoryBadgeSvg(dest.category)} ${getCategoryDisplayName(dest.category)}
           </div>
         </div>
         <div class="popup-info-body">
@@ -226,7 +235,7 @@ function renderMapMarkers() {
           <div class="popup-quota-bar">
             <div style="display: flex; justify-content: space-between; font-weight: 700; color: #0f172a;">
               <span>Daya Dukung Hari Ini:</span>
-              <span style="color: ${quotaColor};">${dest.current_visitors} / ${dest.daily_quota}</span>
+              <span style="color: ${quotaColor};">${(dest.current_visitors || 0).toLocaleString('id-ID')} / ${(dest.daily_quota || 1000).toLocaleString('id-ID')}</span>
             </div>
             <div class="quota-progress-track">
               <div class="quota-progress-fill" style="width: ${quotaPercent}%; background: ${quotaColor};"></div>
@@ -237,12 +246,14 @@ function renderMapMarkers() {
             </div>
           </div>
 
-          <div style="font-size: 11px; color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd; padding: 5px 8px; border-radius: 6px; font-weight: 600;">
-            ℹ️ ${dest.wave_status || 'Normal (Aman)'}
+          <div style="font-size: 11px; color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd; padding: 5px 8px; border-radius: 6px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            ${dest.wave_status || 'Normal (Aman)'}
           </div>
 
           <button class="popup-btn-pass" onclick="openPassBookingModal('${dest.id}')">
-            Dapatkan Smart Pass (QR) &rarr;
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
+            Dapatkan Smart Pass (QR)
           </button>
         </div>
       </div>
@@ -307,7 +318,7 @@ function renderDestinationGrid() {
           <div class="dest-thumb-box">
             <img src="${dest.photo_url}" class="dest-thumb-img" alt="${dest.name}" loading="lazy" />
             <span class="dest-category-pill" style="background: ${catColor};">
-              ${getCategoryBadgeSvg(dest.category)} ${(dest.category || '').replace('_', ' ')}
+              ${getCategoryBadgeSvg(dest.category)} ${getCategoryDisplayName(dest.category)}
             </span>
             <span class="dest-quota-pill">
               Sisa: ${sisaKuota.toLocaleString('id-ID')}
@@ -318,8 +329,9 @@ function renderDestinationGrid() {
             <h3>${dest.name}</h3>
             <p class="dest-desc-text">${dest.description}</p>
             
-            <div style="font-size: 11px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px;">
-              🛡️ ${dest.eco_guidelines}
+            <div style="font-size: 11px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px; display: flex; align-items: flex-start; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>${dest.eco_guidelines}</span>
             </div>
 
             <div class="dest-footer-actions">
@@ -328,10 +340,12 @@ function renderDestinationGrid() {
               </span>
               <div style="display: flex; gap: 6px;">
                 <button class="btn-nav" onclick="zoomToDest(${dest.latitude}, ${dest.longitude})">
-                  📍 Peta
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Peta
                 </button>
                 <button class="btn-nav btn-nav-primary" onclick="openPassBookingModal('${dest.id}')">
-                  🎫 Pesan Pass
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
+                  Pesan Pass
                 </button>
               </div>
             </div>
@@ -453,7 +467,7 @@ function openPassportModal() {
     if (myPassportStamps.length === 0) {
       listEl.innerHTML = `
         <div style="text-align: center; color: #64748b; padding: 24px;">
-          <div style="font-size: 32px; margin-bottom: 8px;">🛂</div>
+          <div style="margin-bottom: 8px; color: #94a3b8;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="2" width="18" height="20" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M7 17h10"/></svg></div>
           <p style="font-weight: 700; color: #0f172a;">Belum ada stempel destinasi yang dikoleksi.</p>
           <small style="color: #94a3b8;">Pesan NusantaraPass di salah satu destinasi untuk membuka stempel resmi Anda!</small>
         </div>

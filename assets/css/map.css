@@ -3,19 +3,19 @@
    Ultra-Smooth Leaflet Styling, Custom Teardrop SVG Pin Markers, Mobile Touch Optimized
    ============================================================================== */
 
-/* Floating Top Controls Container */
+/* Floating Top Controls Container (Docked to Left Edge) */
 .map-floating-controls {
   position: absolute;
   top: 14px;
   left: 14px;
-  right: 14px;
   z-index: 1000;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-start;
+  gap: 8px;
   pointer-events: none;
+  max-width: calc(100% - 28px);
 }
 
 /* Horizontal Swipeable Island/Region Bar */
