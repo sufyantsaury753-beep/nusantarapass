@@ -9,11 +9,23 @@ let currentCategoryFilter = 'all';
 let currentRegionFilter = 'all';
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initMap();
   renderDestinationGrid();
   updateKPIStats();
   updatePassportCountBadge();
+
+  // Muat data langsung dari Supabase Cloud jika tabel sudah siap
+  if (typeof npFetchDestinations === 'function') {
+    try {
+      await npFetchDestinations();
+      renderMapMarkers();
+      renderDestinationGrid();
+      updateKPIStats();
+    } catch (err) {
+      console.log('Menggunakan data fallback lokal.');
+    }
+  }
 });
 
 function initMap() {
@@ -328,6 +340,21 @@ function generateDigitalPass() {
     localStorage.setItem('np_stamps', JSON.stringify(myPassportStamps));
     updatePassportCountBadge();
     confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+  }
+
+  // Simpan data tiket dan stempel ke Supabase Cloud
+  if (typeof npSaveVisitorPass === 'function') {
+    npSaveVisitorPass({
+      code: passToken,
+      destinationId: currentBookingDest.id,
+      visitorName: name,
+      visitorEmail: email,
+      qrToken: passToken
+    }).catch(e => console.warn('Supabase pass background save:', e));
+  }
+  if (typeof npSaveStamp === 'function') {
+    npSaveStamp(email, currentBookingDest.id, currentBookingDest.code)
+      .catch(e => console.warn('Supabase stamp background save:', e));
   }
 }
 
