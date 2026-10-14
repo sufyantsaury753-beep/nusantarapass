@@ -5,24 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NusantaraPass — Admin &amp; Pengelola Destinasi (Cloud CMS)</title>
   
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23d97706%22/><polygon points=%2265,35 56,56 35,65 44,44%22 fill=%22%23ffffff%22/></svg>" />
   <link rel="stylesheet" href="../assets/css/main.css" />
 </head>
 
-<body style="background: #090d16;">
+<body style="background: #f8fafc; color: #334155;">
   <!-- Topbar -->
   <header class="topbar">
     <div class="topbar-content">
       <a href="../index.html" class="brand-wrapper">
-        <div class="brand-logo-box" style="background: linear-gradient(135deg, #d97706, #b45309);">⚙️</div>
+        <div class="brand-logo-box" style="background: linear-gradient(135deg, #d97706, #b45309);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
         <div class="brand-title-box">
-          <h1>NusantaraPass <span style="font-size: 11px; background: rgba(217,119,6,0.25); color: #fbbf24; border: 1px solid rgba(217,119,6,0.4); padding: 1px 8px; border-radius: 20px; font-weight: 700;">ADMIN CMS</span></h1>
+          <h1>NusantaraPass <span style="font-size: 11px; background: rgba(217,119,6,0.12); color: #d97706; border: 1px solid rgba(217,119,6,0.3); padding: 2px 8px; border-radius: 20px; font-weight: 800;">ADMIN CMS</span></h1>
           <p>Portal Pengendali Kuota Harian &amp; Verifikasi Gerbang</p>
         </div>
       </a>
 
       <div class="nav-actions">
-        <button id="supabaseStatusBadge" onclick="openSqlHelpModal()" style="font-size: 12px; cursor: pointer; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); padding: 4px 12px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+        <button id="supabaseStatusBadge" onclick="openSqlHelpModal()" style="font-size: 12px; cursor: pointer; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 6px 14px; border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
           <span>🟢 Memeriksa Database...</span>
         </button>
         <a href="../index.html" class="btn-nav">
@@ -36,28 +41,28 @@
     <!-- Admin KPI -->
     <div class="metrics-strip" style="padding: 0; margin: 0 0 20px 0;">
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: rgba(5,150,105,0.15); color: #10b981;">📍</div>
+        <div class="metric-icon-box" style="background: #ecfdf5; color: #059669;">📍</div>
         <div>
           <div id="kpiTotalDest" class="metric-number">20 Destinasi</div>
           <div class="metric-label">Terdaftar Aktif</div>
         </div>
       </div>
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: rgba(2,132,199,0.15); color: #38bdf8;">🎫</div>
+        <div class="metric-icon-box" style="background: #e0f2fe; color: #0284c7;">🎫</div>
         <div>
           <div id="kpiTotalVisitors" class="metric-number">1.420 Tiket</div>
           <div class="metric-label">Kunjungan Hari Ini</div>
         </div>
       </div>
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: rgba(245,158,11,0.15); color: #fbbf24;">⚠️</div>
+        <div class="metric-icon-box" style="background: #fef3c7; color: #d97706;">⚠️</div>
         <div>
           <div id="kpiWarningCount" class="metric-number">1 Peringatan</div>
           <div class="metric-label">Status Waspada/Tinggi</div>
         </div>
       </div>
       <div class="metric-card">
-        <div class="metric-icon-box" style="background: rgba(147,51,234,0.15); color: #c084fc;">🛂</div>
+        <div class="metric-icon-box" style="background: #f3e8ff; color: #9333ea;">🛂</div>
         <div>
           <div id="kpiStampCount" class="metric-number">20 Stempel</div>
           <div class="metric-label">Stempel Paspor Siap</div>
@@ -66,14 +71,14 @@
     </div>
 
     <!-- Management Table Card -->
-    <div style="background: #111827; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+    <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 22px; box-shadow: var(--shadow-subtle);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
         <div>
-          <h2 style="font-size: 16px; font-weight: bold; color: white;">Manajemen Kuota Pelestarian &amp; Daya Dukung Wisata</h2>
-          <p style="font-size: 11px; color: #94a3b8;">Ubah kuota secara realtime untuk melindungi ekosistem cagar budaya dan pantai dari overtourism</p>
+          <h2 style="font-size: 17px; font-weight: 800; color: #0f172a;">Manajemen Kuota Pelestarian &amp; Daya Dukung Wisata</h2>
+          <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Ubah kuota secara realtime untuk melindungi ekosistem cagar budaya dan pantai dari overtourism</p>
         </div>
         <div style="display: flex; gap: 8px;">
-          <button class="btn-nav" onclick="openSqlHelpModal()" style="border-color: #3b82f6; color: #60a5fa;">
+          <button class="btn-nav" onclick="openSqlHelpModal()" style="border-color: #0284c7; color: #0284c7;">
             ⚡ Status Database Supabase
           </button>
           <button class="btn-nav btn-nav-primary" onclick="openAddDestModal()">
@@ -85,14 +90,14 @@
       <div style="overflow-x: auto;">
         <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
           <thead>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
-              <th style="padding: 10px;">KODE</th>
-              <th style="padding: 10px;">NAMA DESTINASI</th>
-              <th style="padding: 10px;">KATEGORI</th>
-              <th style="padding: 10px;">PROVINSI</th>
-              <th style="padding: 10px;">PENGUNJUNG / KUOTA</th>
-              <th style="padding: 10px;">STATUS OPERASIONAL</th>
-              <th style="padding: 10px; text-align: center;">AKSI</th>
+            <tr style="border-bottom: 2px solid #e2e8f0; color: #64748b;">
+              <th style="padding: 12px 10px;">KODE</th>
+              <th style="padding: 12px 10px;">NAMA DESTINASI</th>
+              <th style="padding: 12px 10px;">KATEGORI</th>
+              <th style="padding: 12px 10px;">PROVINSI</th>
+              <th style="padding: 12px 10px;">PENGUNJUNG / KUOTA</th>
+              <th style="padding: 12px 10px;">STATUS OPERASIONAL</th>
+              <th style="padding: 12px 10px; text-align: center;">AKSI</th>
             </tr>
           </thead>
           <tbody id="adminDestTableBody">
@@ -111,20 +116,20 @@
         <button class="modal-close-btn" onclick="closeAddDestModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 12px; color: #94a3b8; margin: 0 0 10px 0;">
+        <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">
           Data yang ditambahkan akan langsung tersimpan di tabel <code>np_destinations</code> Supabase Cloud.
         </p>
 
         <form id="addDestForm" onsubmit="handleCreateDestination(event)" style="display: flex; flex-direction: column; gap: 12px;">
           <div>
-            <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Nama Objek Wisata</label>
-            <input type="text" id="destInputName" required placeholder="Contoh: Pantai Menganti Kebumen" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;" />
+            <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Nama Objek Wisata</label>
+            <input type="text" id="destInputName" class="form-input" required placeholder="Contoh: Pantai Menganti Kebumen" style="width: 100%; margin-top: 4px;" />
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div>
-              <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Kategori Wisata</label>
-              <select id="destInputCategory" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;">
+              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Kategori Wisata</label>
+              <select id="destInputCategory" class="form-input" style="width: 100%; margin-top: 4px;">
                 <option value="pantai">🏖️ Bahari &amp; Pantai</option>
                 <option value="gunung">🏔️ Gunung &amp; Dataran Tinggi</option>
                 <option value="budaya">🏛️ Cagar Budaya &amp; Sejarah</option>
@@ -132,8 +137,8 @@
               </select>
             </div>
             <div>
-              <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Pulau / Region</label>
-              <select id="destInputRegion" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;">
+              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Pulau / Region</label>
+              <select id="destInputRegion" class="form-input" style="width: 100%; margin-top: 4px;">
                 <option value="Jawa">Jawa</option>
                 <option value="Sumatera">Sumatera</option>
                 <option value="Bali-Nusra">Bali &amp; Nusa Tenggara</option>
@@ -147,29 +152,29 @@
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div>
-              <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Provinsi</label>
-              <input type="text" id="destInputProvince" required placeholder="Contoh: Jawa Tengah" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;" />
+              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Provinsi</label>
+              <input type="text" id="destInputProvince" class="form-input" required placeholder="Contoh: Jawa Tengah" style="width: 100%; margin-top: 4px;" />
             </div>
             <div>
-              <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Batas Kuota Harian</label>
-              <input type="number" id="destInputQuota" required value="1000" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;" />
+              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Batas Kuota Harian</label>
+              <input type="number" id="destInputQuota" class="form-input" required value="1000" style="width: 100%; margin-top: 4px;" />
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div>
-              <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Latitude (Lintang)</label>
-              <input type="number" step="any" id="destInputLat" required value="-7.7712" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;" />
+              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Latitude (Lintang)</label>
+              <input type="number" step="any" id="destInputLat" class="form-input" required value="-7.7712" style="width: 100%; margin-top: 4px;" />
             </div>
             <div>
-              <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Longitude (Bujur)</label>
-              <input type="number" step="any" id="destInputLng" required value="109.4121" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;" />
+              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Longitude (Bujur)</label>
+              <input type="number" step="any" id="destInputLng" class="form-input" required value="109.4121" style="width: 100%; margin-top: 4px;" />
             </div>
           </div>
 
           <div>
-            <label style="font-size: 11px; color: #cbd5e1; font-weight: bold;">Deskripsi Singkat Objek Wisata</label>
-            <textarea id="destInputDesc" rows="2" placeholder="Keindahan tebing karst berpadu dengan pasir putih dan deburan Samudra Hindia..." style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 8px 12px; border-radius: 8px; color: white; font-size: 13px; margin-top: 4px;"></textarea>
+            <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Deskripsi Singkat Objek Wisata</label>
+            <textarea id="destInputDesc" class="form-input" rows="2" placeholder="Keindahan tebing karst berpadu dengan pasir putih dan deburan Samudra Hindia..." style="width: 100%; margin-top: 4px;"></textarea>
           </div>
 
           <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
@@ -189,17 +194,17 @@
         <button class="modal-close-btn" onclick="closeSqlHelpModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 10px; padding: 12px; margin-bottom: 14px;">
-          <h4 style="color: #34d399; font-size: 13px; margin-bottom: 4px;">✅ Coexistence Bersama Mountain Gallery (Aman 100%)</h4>
-          <p style="font-size: 12px; color: #e2e8f0; line-height: 1.5; margin: 0;">
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+          <h4 style="color: #059669; font-size: 13px; font-weight: 800; margin-bottom: 4px;">✅ Coexistence Bersama Mountain Gallery (Aman 100%)</h4>
+          <p style="font-size: 12px; color: #334155; line-height: 1.5; margin: 0;">
             NusantaraPass menggunakan database yang sama dengan <b>Mountain Gallery</b> (<code>xjpkfdalokarxmbousvj.supabase.co</code>) dengan isolasi prefix tabel <code>np_*</code> sehingga <strong>tidak bentrok dan tidak melebihi kuota 2 project gratis Supabase</strong>.
           </p>
         </div>
 
-        <div style="font-size: 12px; color: #cbd5e1; line-height: 1.6;">
+        <div style="font-size: 12px; color: #475569; line-height: 1.6;">
           <p><strong>Langkah Mudah Menjalankan Schema:</strong></p>
           <ol style="padding-left: 20px; margin: 8px 0;">
-            <li>Buka SQL Editor Supabase: <a href="https://supabase.com/dashboard/project/xjpkfdalokarxmbousvj/sql/new" target="_blank" style="color: #38bdf8; text-decoration: underline;">Buka Supabase SQL Editor</a></li>
+            <li>Buka SQL Editor Supabase: <a href="https://supabase.com/dashboard/project/xjpkfdalokarxmbousvj/sql/new" target="_blank" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Buka Supabase SQL Editor</a></li>
             <li>Buka file <code>supabase_schema.sql</code> di root folder proyek ini.</li>
             <li>Salin seluruh isinya dan tempel ke SQL Editor Supabase.</li>
             <li>Klik tombol <b>Run</b> di Supabase. Selesai!</li>
@@ -235,19 +240,18 @@
       const res = await npCheckConnection();
       if (res.connected) {
         badge.innerHTML = '<span>🟢 Supabase Terhubung (Tabel np_destinations)</span>';
-        badge.style.color = '#10b981';
-        badge.style.background = 'rgba(16,185,129,0.1)';
-        badge.style.borderColor = 'rgba(16,185,129,0.3)';
+        badge.style.color = '#059669';
+        badge.style.background = '#ecfdf5';
+        badge.style.borderColor = '#a7f3d0';
       } else {
-        badge.innerHTML = '<span>🟡 Menunggu Schema SQL (Klik untuk Bantuan)</span>';
-        badge.style.color = '#fbbf24';
-        badge.style.background = 'rgba(245,158,11,0.1)';
-        badge.style.borderColor = 'rgba(245,158,11,0.3)';
+        badge.innerHTML = '<span>🟡 Menunggu Schema SQL (Klik Bantuan)</span>';
+        badge.style.color = '#d97706';
+        badge.style.background = '#fef3c7';
+        badge.style.borderColor = '#fde68a';
       }
     }
 
     async function loadAdminData() {
-      // Ambil data live dari Supabase jika sudah ada
       if (typeof npFetchDestinations === 'function') {
         await npFetchDestinations();
       }
@@ -261,33 +265,33 @@
       if (!tbody) return;
 
       tbody.innerHTML = NUSANTARA_DESTINATIONS.map((d) => {
-        let badgeColor = '#10b981';
-        let badgeBg = 'rgba(16, 185, 129, 0.1)';
+        let badgeColor = '#059669';
+        let badgeBg = '#ecfdf5';
 
         if (d.quota_status === 'hampir_penuh') {
-          badgeColor = '#f59e0b';
-          badgeBg = 'rgba(245, 158, 11, 0.1)';
+          badgeColor = '#d97706';
+          badgeBg = '#fef3c7';
         } else if (d.quota_status === 'ditutup_cuaca') {
-          badgeColor = '#ef4444';
-          badgeBg = 'rgba(239, 68, 68, 0.1)';
+          badgeColor = '#dc2626';
+          badgeBg = '#fee2e2';
         }
 
         return `
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2e8f0;">
-            <td style="padding: 12px 10px; font-family: monospace; color: #38bdf8;">${d.code}</td>
-            <td style="padding: 12px 10px; font-weight: bold;">${d.stamp_icon || '📍'} ${d.name}</td>
-            <td style="padding: 12px 10px; text-transform: uppercase; font-size: 10px;">${(d.category || '').replace('_', ' ')}</td>
-            <td style="padding: 12px 10px; color: #94a3b8;">${d.province}</td>
+          <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
+            <td style="padding: 12px 10px; font-family: monospace; font-weight: bold; color: #0284c7;">${d.code}</td>
+            <td style="padding: 12px 10px; font-weight: 700; color: #0f172a;">${d.name}</td>
+            <td style="padding: 12px 10px; text-transform: uppercase; font-size: 10px; font-weight: 700; color: #64748b;">${(d.category || '').replace('_', ' ')}</td>
+            <td style="padding: 12px 10px; color: #64748b;">${d.province}</td>
             <td style="padding: 12px 10px;">
-              <b>${d.current_visitors || 0}</b> / ${d.daily_quota || 1000}
+              <b>${(d.current_visitors || 0).toLocaleString('id-ID')}</b> / ${(d.daily_quota || 1000).toLocaleString('id-ID')}
             </td>
             <td style="padding: 12px 10px;">
-              <span style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}33; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; text-transform: uppercase;">
+              <span style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}33; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase;">
                 ${(d.quota_status || 'tersedia').replace('_', ' ')}
               </span>
             </td>
             <td style="padding: 12px 10px; text-align: center;">
-              <button class="btn-nav" style="padding: 4px 8px; font-size: 11px;" onclick="promptChangeQuota('${d.id}')">
+              <button class="btn-nav" style="padding: 4px 8px; font-size: 11px; min-height: 30px;" onclick="promptChangeQuota('${d.id}')">
                 ✏️ Ubah Kuota
               </button>
             </td>
@@ -357,11 +361,6 @@
       const id = `dest-custom-${Date.now().toString().slice(-4)}`;
       const code = `NP-${prov.slice(0, 3).toUpperCase()}-${slug.slice(0, 3).toUpperCase()}`;
 
-      let icon = '🏖️';
-      if (cat === 'gunung') icon = '🏔️';
-      else if (cat === 'budaya') icon = '🏛️';
-      else if (cat === 'taman_nasional') icon = '🌿';
-
       const newDest = {
         id,
         code,
@@ -380,7 +379,7 @@
         eco_guidelines: 'Kawasan konservasi wisata lestari. Patuhi pedoman Sapta Pesona dan jaga kelestarian alam.',
         wave_status: 'Normal (Kondisi Aman)',
         ticket_price: 25000,
-        stamp_icon: icon
+        stamp_icon: '🧭'
       };
 
       await npInsertDestination(newDest);
