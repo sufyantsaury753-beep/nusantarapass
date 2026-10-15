@@ -32,19 +32,23 @@
 }
 
 /* ==========================================
-   CUSTOM TEARDROP LOCATION PIN MARKERS
+   CUSTOM TEARDROP LOCATION PIN MARKERS (OPTION 1)
    ========================================== */
 .dest-teardrop-pin {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), filter 0.16s ease;
   will-change: transform;
 }
 
 .dest-teardrop-pin:hover {
-  transform: scale(1.1) translateY(-3px);
+  transform: scale(1.18) translateY(-4px);
+}
+
+.dest-teardrop-pin:active {
+  transform: scale(1.04) translateY(-1px);
 }
 
 .dest-pin-leaflet {

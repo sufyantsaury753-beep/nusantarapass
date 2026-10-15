@@ -35,76 +35,63 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ==========================================
-// 1. MASTER SVG GENERATOR (TEARDROP LOCATION PIN)
+// 1. MASTER SVG GENERATOR (MODERN PRECISION TEARDROP PIN)
+// 2026 Travel-Tech & GIS Standard (30x38px, High-Contrast White Pictograms)
 // ==========================================
 function getCategoryTeardropSvg(category) {
-  let gradStart = '#10b981', gradEnd = '#047857'; // default emerald
-  let innerArt = '';
+  let pinColor = '#059669'; // default Forest Emerald
+  let glyph = '';
 
   if (category === 'pantai') {
-    gradStart = '#06b6d4';
-    gradEnd = '#0284c7';
-    innerArt = `
-      <!-- Sea waves and rising sun -->
-      <circle cx="32" cy="22" r="7.5" fill="#f59e0b"/>
-      <path d="M16 38C20 34 24 34 28 38C32 34 36 34 40 38C43 35 45 35 48 38V41H16V38Z" fill="#0284c7"/>
-      <path d="M18 33C21 30 24 30 27 33C30 30 33 30 36 33C39 30 42 30 45 33" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    pinColor = '#0284c7'; // Deep Sky / Ocean Blue
+    glyph = `
+      <!-- Precision Sea Wave & Horizon -->
+      <path d="M9 13.5c1.8-1 3.6-1 5.4 0s3.6 1 5.4 0" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <path d="M9 17c1.8-1 3.6-1 5.4 0s3.6 1 5.4 0" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <circle cx="14.5" cy="8.5" r="2.2" fill="#ffffff"/>
     `;
   } else if (category === 'gunung') {
-    gradStart = '#f97316';
-    gradEnd = '#e11d48';
-    innerArt = `
-      <!-- Twin mountain peaks with snowcaps -->
-      <path d="M16 40L28 20L35 31L40 24L48 40H16Z" fill="#ea580c"/>
-      <path d="M28 20L31.5 26.5L25 26.5Z" fill="#ffffff"/>
-      <path d="M40 24L42.8 29.5L37.5 29.5Z" fill="#ffffff"/>
+    pinColor = '#ea580c'; // Warm Terracotta Mountain
+    glyph = `
+      <!-- Minimalist Twin Peaks -->
+      <path d="M8.5 18L14 8.5L18 15.5L20 12.5L24 18H8.5Z" fill="#ffffff"/>
     `;
   } else if (category === 'budaya') {
-    gradStart = '#f59e0b';
-    gradEnd = '#d97706';
-    innerArt = `
-      <!-- Heritage Stupa Borobudur -->
-      <path d="M31 15H33V19H31V15Z" fill="#b45309"/>
-      <path d="M28 20C28 18 36 18 36 20L38 23H26L28 20Z" fill="#b45309"/>
-      <path d="M23 24H41C42 24 43 25 43 26L45 31H19L21 26C21 25 22 24 23 24Z" fill="#b45309"/>
-      <rect x="17" y="32" width="30" height="4" rx="1" fill="#ffffff" stroke="#b45309" stroke-width="1.2"/>
-      <path d="M15 37H49V41H15V37Z" fill="#b45309"/>
-      <path d="M29 37H35V41H29V37Z" fill="#ffffff"/>
+    pinColor = '#d97706'; // Ancient Ochre / Heritage Stupa
+    glyph = `
+      <!-- Heritage Stupa Architectural Silhouette -->
+      <rect x="14" y="6" width="1.8" height="2.5" rx="0.5" fill="#ffffff"/>
+      <path d="M12.5 9h5c.6 0 1 .5 1 1.2L19.5 13H10.5l1-2.8c0-.7.4-1.2 1-1.2Z" fill="#ffffff"/>
+      <rect x="9.5" y="14" width="11" height="1.8" rx="0.5" fill="#ffffff"/>
+      <path d="M8 16.5h14v2H8z" fill="#ffffff"/>
     `;
   } else {
-    // taman_nasional
-    gradStart = '#10b981';
-    gradEnd = '#047857';
-    innerArt = `
-      <!-- Conservation tree and flora -->
-      <rect x="30" y="34" width="4" height="7" rx="1" fill="#78350f"/>
-      <circle cx="32" cy="22" r="7.5" fill="#059669"/>
-      <circle cx="25" cy="27" r="6.5" fill="#059669"/>
-      <circle cx="39" cy="27" r="6.5" fill="#059669"/>
-      <circle cx="28" cy="33" r="6" fill="#047857"/>
-      <circle cx="36" cy="33" r="6" fill="#047857"/>
-      <path d="M32 20C32 25 27 28 27 28" stroke="#ffffff" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.7"/>
+    // taman_nasional & konservasi
+    pinColor = '#059669'; // Pine Forest Green
+    glyph = `
+      <!-- Minimalist Conservation Pine Tree -->
+      <path d="M14.5 5.5L9.5 14H13v3.5h3V14h3.5L14.5 5.5Z" fill="#ffffff"/>
     `;
   }
 
-  const gradId = `pinGrad_${category}`;
-
   return `
     <div class="dest-teardrop-pin">
-      <svg viewBox="0 0 64 82" width="44" height="56" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 30 38" width="30" height="38" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="${gradStart}"/>
-            <stop offset="100%" stop-color="${gradEnd}"/>
-          </linearGradient>
-          <filter id="pinShadow_${category}" x="-20%" y="-10%" width="140%" height="130%">
-            <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="rgba(15, 23, 42, 0.28)"/>
+          <filter id="pinShadow" x="-20%" y="-15%" width="140%" height="135%">
+            <feDropShadow dx="0" dy="2" stdDeviation="1.8" flood-color="rgba(15, 23, 42, 0.28)"/>
           </filter>
         </defs>
-        <path d="M32 2C18.2 2 7 13.2 7 27c0 18.8 25 53 25 53s25-34.2 25-53C57 13.2 45.8 2 32 2Z" 
-              fill="url(#${gradId})" stroke="#ffffff" stroke-width="3.5" filter="url(#pinShadow_${category})"/>
-        <circle cx="32" cy="28" r="18" fill="#ffffff"/>
-        ${innerArt}
+        <!-- Aerodynamic Precision Teardrop -->
+        <path d="M15 37 C14.2 35.5 2 21.5 2 14 A13 13 0 1 1 28 14 C28 21.5 15.8 35.5 15 37 Z" 
+              fill="${pinColor}" 
+              stroke="#ffffff" 
+              stroke-width="1.6" 
+              filter="url(#pinShadow)"/>
+        <!-- Centered High-Contrast White Vector Pictogram -->
+        <g id="glyph_${category}">
+          ${glyph}
+        </g>
       </svg>
     </div>
   `;
@@ -224,9 +211,9 @@ function renderMapMarkers() {
     const markerIcon = L.divIcon({
       className: 'dest-pin-leaflet',
       html: getCategoryTeardropSvg(dest.category),
-      iconSize: [44, 56],
-      iconAnchor: [22, 56],      // Ujung lancip tepat di titik GPS
-      popupAnchor: [0, -56],     // Popup muncul di atas pin
+      iconSize: [30, 38],
+      iconAnchor: [15, 38],      // Ujung lancip tepat di titik GPS
+      popupAnchor: [0, -38],     // Popup muncul tepat di atas pin
     });
 
     const marker = L.marker([dest.latitude, dest.longitude], { icon: markerIcon });
