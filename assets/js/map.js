@@ -231,9 +231,20 @@ function renderMapMarkers() {
 
     const marker = L.marker([dest.latitude, dest.longitude], { icon: markerIcon });
 
-    const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
-    const quotaColor = quotaPercent > 90 ? '#ef4444' : quotaPercent > 70 ? '#f59e0b' : '#10b981';
+    // Otomatis smooth zoom dan buka hierarki saat icon lokasi di klik (seperti klik filter)
+    marker.on('click', () => {
+      if (mapInstance) {
+        mapInstance.flyTo([dest.latitude, dest.longitude], 11, {
+          duration: 0.9,
+          easeLinearity: 0.25
+        });
+      }
+      openRegionKeys.add(dest.region);
+      selectedDestId = dest.id;
+      initRegionHierarchy();
+    });
 
+    // Kotak Popup Bersih & Ringkas (Gambar, Nama Wisata, Daerah, & Tombol Lihat Detail)
     const popupHtml = `
       <div class="popup-card-content">
         <div class="popup-img-box">
@@ -245,30 +256,9 @@ function renderMapMarkers() {
         <div class="popup-info-body">
           <div class="popup-title">${dest.name}</div>
           <div class="popup-meta">${dest.province} • ${dest.region}</div>
-          <div style="font-size: 11px; color: #475569; line-height: 1.4;">${dest.description}</div>
-          
-          <div class="popup-quota-bar">
-            <div style="display: flex; justify-content: space-between; font-weight: 700; color: #0f172a;">
-              <span>Daya Dukung Hari Ini:</span>
-              <span style="color: ${quotaColor};">${(dest.current_visitors || 0).toLocaleString('id-ID')} / ${(dest.daily_quota || 1000).toLocaleString('id-ID')}</span>
-            </div>
-            <div class="quota-progress-track">
-              <div class="quota-progress-fill" style="width: ${quotaPercent}%; background: ${quotaColor};"></div>
-            </div>
-            <div style="font-size: 10px; color: #64748b; display: flex; justify-content: space-between;">
-              <span style="font-weight: 600;">Status: ${(dest.quota_status || 'tersedia').replace('_', ' ').toUpperCase()}</span>
-              <span>${Math.round(quotaPercent)}% Terisi</span>
-            </div>
-          </div>
-
-          <div style="font-size: 11px; color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd; padding: 5px 8px; border-radius: 6px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            ${dest.wave_status || 'Normal (Aman)'}
-          </div>
-
-          <button class="popup-btn-pass" onclick="openPassBookingModal('${dest.id}')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
-            Dapatkan Smart Pass (QR)
+          <button class="popup-btn-pass" onclick="openDestDetailModal('${dest.id}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Lihat Detail
           </button>
         </div>
       </div>
@@ -515,7 +505,11 @@ function renderDestinationGrid() {
                 Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')}
               </span>
               <div style="display: flex; gap: 6px;">
-                <button class="btn-nav" onclick="zoomToDest(${dest.latitude}, ${dest.longitude})">
+                <button class="btn-nav" onclick="openDestDetailModal('${dest.id}')" title="Lihat info lengkap">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Detail
+                </button>
+                <button class="btn-nav" onclick="zoomToDest(${dest.latitude}, ${dest.longitude})" title="Fokus ke peta">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   Peta
                 </button>
@@ -534,7 +528,7 @@ function renderDestinationGrid() {
 
 function zoomToDest(lat, lng) {
   if (mapInstance) {
-    mapInstance.flyTo([lat, lng], 12, { duration: 1.5 });
+    mapInstance.flyTo([lat, lng], 11, { duration: 1.2 });
     window.scrollTo({ top: 120, behavior: 'smooth' });
   }
 }
@@ -558,6 +552,96 @@ function updatePassportCountBadge() {
     badge.innerText = myPassportStamps.length;
   }
 }
+
+// ==========================================
+// 4.5. MODAL: DETAIL LENGKAP DESTINASI
+// ==========================================
+function openDestDetailModal(destId) {
+  const dest = NUSANTARA_DESTINATIONS.find((d) => d.id === destId);
+  if (!dest) return;
+
+  const modal = document.getElementById('destDetailModal');
+  if (!modal) return;
+
+  const catPill = document.getElementById('detailDestCategoryPill');
+  if (catPill) {
+    catPill.innerHTML = `${getCategoryBadgeSvg(dest.category)} ${getCategoryDisplayName(dest.category)}`;
+  }
+
+  const titleEl = document.getElementById('detailDestTitle');
+  if (titleEl) titleEl.innerText = dest.name;
+
+  const metaEl = document.getElementById('detailDestMeta');
+  if (metaEl) metaEl.innerText = `${dest.province} • Wilayah ${dest.region} • Koordinat: [${dest.latitude}, ${dest.longitude}]`;
+
+  const imgEl = document.getElementById('detailDestImg');
+  if (imgEl) {
+    imgEl.src = dest.photo_url;
+    imgEl.alt = dest.name;
+  }
+
+  const descEl = document.getElementById('detailDestDesc');
+  if (descEl) descEl.innerText = dest.description;
+
+  // Quota & carrying capacity
+  const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
+  const quotaColor = quotaPercent > 90 ? '#ef4444' : quotaPercent > 70 ? '#f59e0b' : '#059669';
+
+  const numsEl = document.getElementById('detailDestQuotaNums');
+  if (numsEl) {
+    numsEl.innerText = `${(dest.current_visitors || 0).toLocaleString('id-ID')} / ${(dest.daily_quota || 1000).toLocaleString('id-ID')} Pengunjung`;
+    numsEl.style.color = quotaColor;
+  }
+
+  const barEl = document.getElementById('detailDestQuotaBar');
+  if (barEl) {
+    barEl.style.width = `${quotaPercent}%`;
+    barEl.style.background = quotaColor;
+  }
+
+  const statusEl = document.getElementById('detailDestStatusBadge');
+  if (statusEl) {
+    statusEl.innerText = `Status: ${(dest.quota_status || 'tersedia').replace('_', ' ').toUpperCase()}`;
+    statusEl.style.color = quotaColor;
+  }
+
+  const percentEl = document.getElementById('detailDestPercentText');
+  if (percentEl) percentEl.innerText = `${Math.round(quotaPercent)}% Kapasitas Terisi`;
+
+  // Weather & Price
+  const weatherEl = document.getElementById('detailDestWeather');
+  if (weatherEl) weatherEl.innerText = dest.wave_status || 'Normal (Aman & Kondusif)';
+
+  const priceEl = document.getElementById('detailDestPrice');
+  if (priceEl) priceEl.innerText = `Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')} / orang`;
+
+  // Eco guidelines
+  const guideEl = document.getElementById('detailDestGuidelines');
+  if (guideEl) guideEl.innerText = dest.eco_guidelines || 'Patuhi zona konservasi, buang sampah pada tempatnya, dan jaga kelestarian warisan budaya.';
+
+  // Book button inside detail modal
+  const bookBtn = document.getElementById('detailDestBookBtn');
+  if (bookBtn) {
+    bookBtn.onclick = () => {
+      closeDestDetailModal();
+      openPassBookingModal(dest.id);
+    };
+  }
+
+  modal.classList.add('active');
+}
+
+function closeDestDetailModal() {
+  const modal = document.getElementById('destDetailModal');
+  if (modal) modal.classList.remove('active');
+}
+
+// Close modals when clicking backdrop overlay
+window.addEventListener('click', (e) => {
+  if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('active');
+  }
+});
 
 // ==========================================
 // 5. MODAL: PASS BOOKING & QR GENERATION
