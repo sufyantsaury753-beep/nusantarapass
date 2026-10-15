@@ -31,6 +31,19 @@ function initGeoportalDetail() {
 
   if (!currentDest) return;
 
+  // Merge local overrides from Admin CMS if any
+  try {
+    const rawOverrides = localStorage.getItem('np_destinations_override');
+    if (rawOverrides) {
+      const overrides = JSON.parse(rawOverrides);
+      if (overrides[currentDest.id]) {
+        Object.assign(currentDest, overrides[currentDest.id]);
+      }
+    }
+  } catch (e) {
+    console.warn('Failed reading overrides', e);
+  }
+
   document.title = `${currentDest.name} — Geoportal Pelestarian NusantaraPass`;
 
   renderHeroHUD();
@@ -243,7 +256,20 @@ function renderVisualDocsGrid() {
     ]
   };
 
-  currentMediaList = photoCollections[cat] || photoCollections.pantai;
+  let customGallery = null;
+  try {
+    const gJson = localStorage.getItem('np_gallery_' + currentDest.id);
+    if (gJson) customGallery = JSON.parse(gJson);
+  } catch(e) {}
+
+  if (customGallery && customGallery.length > 0) {
+    currentMediaList = customGallery;
+  } else {
+    currentMediaList = photoCollections[cat] || photoCollections.pantai;
+    if (currentMediaList.length > 0 && currentDest.photo_url) {
+      currentMediaList[0] = { url: currentDest.photo_url, caption: `Lanskap Utama ${name}` };
+    }
+  }
 
   grid.innerHTML = currentMediaList.map((item, idx) => `
     <div class="doc-photo-card" onclick="openImageViewer(${idx})">

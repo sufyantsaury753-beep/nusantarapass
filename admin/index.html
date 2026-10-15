@@ -31,7 +31,7 @@
       </a>
 
       <div class="admin-topbar-right">
-        <!-- Minimalist Database Health Indicator (No AI Pill Look) -->
+        <!-- Minimalist Database Health Indicator -->
         <button id="supabaseStatusBadge" class="admin-db-status" onclick="openSqlHelpModal()" title="Status koneksi Supabase Cloud">
           <span class="status-dot-mini pending" id="dbDotIndicator"></span>
           <span id="dbStatusText">Memeriksa Database...</span>
@@ -50,7 +50,7 @@
 
   <!-- Main Management View -->
   <main class="admin-container">
-    <!-- Integrated Utilitarian Telemetry Metric Ribbon (0% Pastel AI Box) -->
+    <!-- Integrated Utilitarian Telemetry Metric Ribbon -->
     <section class="admin-metric-ribbon">
       <div class="admin-metric-cell">
         <span class="metric-cell-label">Total Destinasi Terdata</span>
@@ -78,8 +78,8 @@
     <section class="admin-card-section">
       <div class="admin-section-header">
         <div class="admin-section-info">
-          <h2>Manajemen Kuota Pelestarian &amp; Daya Dukung Kawasan</h2>
-          <p>Pengaturan ambang batas kuota harian pengunjung secara realtime untuk melindungi keutuhan cagar budaya dan cagar alam.</p>
+          <h2>Manajemen Objek Wisata &amp; Dokumentasi Media</h2>
+          <p>Ubah profil destinasi, kelola foto dokumentasi lapangan, dan atur ambang batas kuota harian daya dukung.</p>
         </div>
 
         <div class="admin-toolbar-controls">
@@ -119,12 +119,12 @@
             <tr>
               <th style="width: 100px;">KODE</th>
               <th>NAMA DESTINASI</th>
-              <th style="width: 160px;">KATEGORI</th>
-              <th style="width: 130px;">PROVINSI</th>
-              <th style="width: 140px;">PENGUNJUNG / KUOTA</th>
-              <th style="width: 130px;">BEBAN KAPASITAS</th>
-              <th style="width: 120px;">STATUS</th>
-              <th style="width: 100px; text-align: right;">AKSI</th>
+              <th style="width: 150px;">KATEGORI</th>
+              <th style="width: 120px;">PROVINSI</th>
+              <th style="width: 130px;">PENGUNJUNG / KUOTA</th>
+              <th style="width: 120px;">BEBAN KAPASITAS</th>
+              <th style="width: 110px;">STATUS</th>
+              <th style="width: 190px; text-align: right;">AKSI MANAJEMEN</th>
             </tr>
           </thead>
           <tbody id="adminDestTableBody">
@@ -134,6 +134,212 @@
       </div>
     </section>
   </main>
+
+  <!-- ==========================================
+       MODAL 1: EDIT LENGKAP & UBAH COVER DESTINASI
+       ========================================== -->
+  <div id="editDestModal" class="modal-overlay" onclick="if(event.target === this) closeEditDestModal()">
+    <div class="modal-dialog" style="max-width: 680px; max-height: 92vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3 id="editModalHeading">Edit Data Objek Wisata</h3>
+          <p style="font-size: 11.5px; color: var(--admin-text-muted); margin: 2px 0 0;">Perubahan akan disinkronkan ke Cloud Database &amp; Tampilan Web.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeEditDestModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="overflow-y: auto; max-height: calc(92vh - 120px); padding: 20px;">
+        <form id="editDestForm" onsubmit="handleSaveEditDestination(event)" style="display: flex; flex-direction: column; gap: 14px;">
+          <input type="hidden" id="editDestId" />
+
+          <!-- Row 1: Nama & Kategori -->
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px;">
+            <div>
+              <label class="form-label">Nama Objek Wisata</label>
+              <input type="text" id="editDestName" class="form-input-admin" required />
+            </div>
+            <div>
+              <label class="form-label">Kategori Wisata</label>
+              <select id="editDestCategory" class="form-input-admin">
+                <option value="pantai">Bahari &amp; Pantai</option>
+                <option value="gunung">Gunung &amp; Dataran Tinggi</option>
+                <option value="budaya">Cagar Budaya &amp; Sejarah</option>
+                <option value="taman_nasional">Taman Nasional &amp; Konservasi</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 2: Region, Provinsi & Elevasi -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px;">
+            <div>
+              <label class="form-label">Pulau / Region</label>
+              <select id="editDestRegion" class="form-input-admin">
+                <option value="Jawa">Jawa</option>
+                <option value="Sumatera">Sumatera</option>
+                <option value="Bali-Nusra">Bali &amp; Nusa Tenggara</option>
+                <option value="Kalimantan">Kalimantan</option>
+                <option value="Sulawesi">Sulawesi</option>
+                <option value="Maluku">Maluku</option>
+                <option value="Papua">Papua</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Provinsi</label>
+              <input type="text" id="editDestProvince" class="form-input-admin" required />
+            </div>
+            <div>
+              <label class="form-label">Elevasi (Mdpl)</label>
+              <input type="number" id="editDestElevation" class="form-input-admin" required />
+            </div>
+          </div>
+
+          <!-- Row 3: Koordinat GPS Peta -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label class="form-label">Latitude (Titik Lintang)</label>
+              <input type="number" step="any" id="editDestLat" class="form-input-admin" required />
+            </div>
+            <div>
+              <label class="form-label">Longitude (Titik Bujur)</label>
+              <input type="number" step="any" id="editDestLng" class="form-input-admin" required />
+            </div>
+          </div>
+
+          <!-- Row 4: Kuota, Pengunjung Saat Ini & Status -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div>
+              <label class="form-label">Batas Kuota Harian</label>
+              <input type="number" id="editDestQuota" class="form-input-admin" required />
+            </div>
+            <div>
+              <label class="form-label">Pengunjung Hari Ini</label>
+              <input type="number" id="editDestVisitors" class="form-input-admin" required />
+            </div>
+            <div>
+              <label class="form-label">Status Operasional</label>
+              <select id="editDestStatus" class="form-input-admin">
+                <option value="tersedia">Terkendali / Tersedia</option>
+                <option value="hampir_penuh">Hampir Penuh (Waspada)</option>
+                <option value="ditutup_cuaca">Kapasitas Penuh / Ditutup</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 5: Retribusi & Cuaca / BMKG -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label class="form-label">Tarif Retribusi / Tiket (Rp)</label>
+              <input type="number" id="editDestTicketPrice" class="form-input-admin" required />
+            </div>
+            <div>
+              <label class="form-label">Kondisi Alam &amp; Cuaca (BMKG)</label>
+              <input type="text" id="editDestWaveStatus" class="form-input-admin" placeholder="Contoh: Normal & Kondusif" />
+            </div>
+          </div>
+
+          <!-- Row 6: FOTO COVER UTAMA DESTINASI (DENGAN LIVE PREVIEW & UPLOAD) -->
+          <div>
+            <label class="form-label">Foto Cover Utama Destinasi</label>
+            <div class="cover-preview-container">
+              <div class="cover-preview-box">
+                <img id="editCoverPreviewImg" src="" alt="Pratinjau Cover" />
+              </div>
+              <div class="cover-control-inputs">
+                <input type="url" id="editDestPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/..." oninput="updateCoverPreview(this.value)" required />
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <label class="cover-file-btn" for="editCoverFileInput">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Pilih File Foto (HP / Laptop)
+                  </label>
+                  <input type="file" id="editCoverFileInput" accept="image/*" style="display: none;" onchange="handleCoverFileSelected(event)" />
+                  <span style="font-size: 11px; color: var(--admin-text-muted);">Mendukung JPG, PNG, WebP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 7: Deskripsi -->
+          <div>
+            <label class="form-label">Deskripsi Objek Wisata &amp; Nilai Konservasi</label>
+            <textarea id="editDestDesc" class="form-input-admin" rows="3"></textarea>
+          </div>
+
+          <!-- Actions -->
+          <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--admin-border); padding-top: 14px; margin-top: 6px;">
+            <button type="button" class="btn-admin-action btn-admin-outline" onclick="closeEditDestModal()">Batal</button>
+            <button type="submit" class="btn-admin-action btn-admin-primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: KELOLA DOKUMENTASI MEDIA & FOTO
+       ========================================== -->
+  <div id="mediaModal" class="modal-overlay" onclick="if(event.target === this) closeMediaModal()">
+    <div class="modal-dialog" style="max-width: 820px; max-height: 92vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3>Kelola Foto Dokumentasi Lapangan</h3>
+          <p id="mediaModalSubtitle" style="font-size: 11.5px; color: var(--admin-text-muted); margin: 2px 0 0;">Tambah dan hapus galeri visual untuk destinasi ini.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeMediaModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="overflow-y: auto; max-height: calc(92vh - 120px); padding: 20px;">
+        <!-- Panel Tambah Foto Baru -->
+        <div class="gallery-add-panel">
+          <div class="gallery-add-title">+ Tambah Foto Dokumentasi Baru</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label class="form-label">URL Foto / Gambar</label>
+              <input type="url" id="newPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/..." oninput="updateNewPhotoPreview(this.value)" />
+            </div>
+            <div>
+              <label class="form-label">Keterangan / Caption Foto</label>
+              <input type="text" id="newPhotoCaption" class="form-input-admin" placeholder="Contoh: Sunset dramatis di bibir tebing..." />
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label class="cover-file-btn" for="newPhotoFileInput" style="padding: 5px 10px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Unggah File dari Perangkat
+              </label>
+              <input type="file" id="newPhotoFileInput" accept="image/*" style="display: none;" onchange="handleNewPhotoFileSelected(event)" />
+              <span id="newPhotoFileStatus" style="font-size: 11px; color: var(--admin-text-muted);">Atau tempel URL langsung</span>
+            </div>
+
+            <button type="button" class="btn-admin-action btn-admin-primary" onclick="handleAddPhotoToGallery()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambahkan ke Galeri
+            </button>
+          </div>
+        </div>
+
+        <!-- Section: Galeri Foto yang Ada -->
+        <div style="margin-top: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 12.5px; font-weight: 700; color: var(--admin-text-main);">Koleksi Foto Terpasang (<span id="galleryCountBadge">0</span>)</span>
+            <span style="font-size: 11px; color: var(--admin-text-muted);">Foto ini langsung tampil di halaman detail destinasi.</span>
+          </div>
+
+          <div id="mediaGalleryGrid" class="gallery-admin-grid">
+            <!-- Diisi otomatis oleh JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 12px 20px; border-top: 1px solid var(--admin-border); display: flex; justify-content: flex-end;">
+        <button class="btn-admin-action btn-admin-primary" onclick="closeMediaModal()">Selesai</button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL: Tambah Destinasi Baru -->
   <div id="addDestModal" class="modal-overlay" onclick="if(event.target === this) closeAddDestModal()">
@@ -200,8 +406,13 @@
           </div>
 
           <div>
+            <label class="form-label">Foto Cover Utama (URL)</label>
+            <input type="url" id="destInputPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" required />
+          </div>
+
+          <div>
             <label class="form-label">Deskripsi Singkat &amp; Keunikan Ekologis</label>
-            <textarea id="destInputDesc" class="form-input-admin" rows="3" placeholder="Pusat keanekaragaman hayati dan lanskap vulkanik aktif dengan batasan daya dukung terjaga..."></textarea>
+            <textarea id="destInputDesc" class="form-input-admin" rows="2" placeholder="Pusat keanekaragaman hayati dan lanskap vulkanik aktif dengan batasan daya dukung terjaga..."></textarea>
           </div>
 
           <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; border-top: 1px solid var(--admin-border); padding-top: 14px;">
@@ -260,8 +471,53 @@
   <script>
     let filterQuery = '';
     let filterCategory = 'all';
+    let currentMediaDestId = null;
+    let currentGalleryList = [];
+
+    // Helper koleksi foto default per kategori
+    const defaultMediaCollections = {
+      pantai: [
+        { caption: 'Pemandangan Garis Pantai & Horison Laut' },
+        { url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80', caption: 'Hamparan Pasir & Sempadan Pantai' },
+        { url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80', caption: 'Ekosistem Karang Laut Bersih' },
+        { url: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80', caption: 'Lanskap Senja Pesisir Samudra' }
+      ],
+      gunung: [
+        { caption: 'Pemandangan Kaldera & Puncak Ketinggian' },
+        { url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80', caption: 'Lautan Kabut di Ketinggian' },
+        { url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', caption: 'Savana Edelweiss & Jalur Trekking' },
+        { url: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80', caption: 'Kawah Belerang & Batuan Vulkanik' }
+      ],
+      budaya: [
+        { caption: 'Kemegahan Monumen Cagar Budaya Sejarah' },
+        { url: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=800&q=80', caption: 'Pahatan Relief & Stupa Kuno' },
+        { url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80', caption: 'Pancaran Cahaya Fajar di Situs' },
+        { url: 'https://images.unsplash.com/photo-1609137144822-0a259c735d1a?auto=format&fit=crop&w=800&q=80', caption: 'Pelataran Suci Cagar Budaya' }
+      ],
+      taman_nasional: [
+        { caption: 'Lanskap Zona Inti Konservasi Hayati' },
+        { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', caption: 'Padang Rumput & Satwa Terlindungi' },
+        { url: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80', caption: 'Kanopi Hutan Konservasi Rimbun' },
+        { url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80', caption: 'Daerah Aliran Sungai Sumber Air' }
+      ]
+    };
+
+    function applyLocalOverrides() {
+      try {
+        const rawOverrides = localStorage.getItem('np_destinations_override');
+        if (rawOverrides && typeof NUSANTARA_DESTINATIONS !== 'undefined') {
+          const overrides = JSON.parse(rawOverrides);
+          NUSANTARA_DESTINATIONS.forEach(d => {
+            if (overrides[d.id]) {
+              Object.assign(d, overrides[d.id]);
+            }
+          });
+        }
+      } catch (e) {}
+    }
 
     document.addEventListener('DOMContentLoaded', async () => {
+      applyLocalOverrides();
       await checkDbStatus();
       await loadAdminData();
     });
@@ -291,9 +547,10 @@
         try {
           await npFetchDestinations();
         } catch(e) {
-          console.log('Using local fallback destinations.');
+          console.log('Menggunakan fallback data lokal.');
         }
       }
+      applyLocalOverrides();
       renderTable();
       updateKpis();
     }
@@ -405,10 +662,16 @@
               </div>
             </td>
             <td style="text-align: right;">
-              <button class="btn-table-edit" onclick="promptChangeQuota('${d.id}')" title="Ubah Kuota Harian">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                Ubah
-              </button>
+              <div class="td-actions-group">
+                <button class="btn-table-edit" onclick="openEditDestModal('${d.id}')" title="Edit Data & Foto Cover">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  Edit Data
+                </button>
+                <button class="btn-table-media" onclick="openMediaModal('${d.id}')" title="Kelola Dokumentasi Foto">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  Kelola Foto
+                </button>
+              </div>
             </td>
           </tr>
         `;
@@ -437,24 +700,236 @@
       if (stampEl) stampEl.innerText = totalDest.toLocaleString('id-ID');
     }
 
-    async function promptChangeQuota(id) {
-      const list = (typeof NUSANTARA_DESTINATIONS !== 'undefined') ? NUSANTARA_DESTINATIONS : [];
-      const dest = list.find(d => d.id === id);
+    // ==========================================
+    // LOGIKA MODAL 1: EDIT DESTINASI & COVER
+    // ==========================================
+    function openEditDestModal(id) {
+      const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
       if (!dest) return;
 
-      const newQuota = prompt(`Ubah batas kuota harian untuk ${dest.name}:`, dest.daily_quota);
-      if (newQuota !== null && !isNaN(newQuota) && newQuota.trim() !== '') {
-        const quotaVal = parseInt(newQuota);
-        if (typeof npUpdateQuota === 'function') {
-          await npUpdateQuota(dest.id, quotaVal);
-        }
-        dest.daily_quota = quotaVal;
-        renderTable();
-        updateKpis();
-        alert(`Batas kuota harian untuk ${dest.name} berhasil disesuaikan menjadi ${quotaVal.toLocaleString('id-ID')} orang/hari.`);
+      document.getElementById('editDestId').value = dest.id;
+      document.getElementById('editModalHeading').textContent = `Edit Data — ${dest.name}`;
+      document.getElementById('editDestName').value = dest.name || '';
+      document.getElementById('editDestCategory').value = dest.category || 'pantai';
+      document.getElementById('editDestRegion').value = dest.region || 'Jawa';
+      document.getElementById('editDestProvince').value = dest.province || '';
+      document.getElementById('editDestElevation').value = dest.elevation_m || 0;
+      document.getElementById('editDestLat').value = dest.latitude || 0;
+      document.getElementById('editDestLng').value = dest.longitude || 0;
+      document.getElementById('editDestQuota').value = dest.daily_quota || 1000;
+      document.getElementById('editDestVisitors').value = dest.current_visitors || 0;
+      document.getElementById('editDestStatus').value = dest.quota_status || 'tersedia';
+      document.getElementById('editDestTicketPrice').value = dest.ticket_price || 20000;
+      document.getElementById('editDestWaveStatus').value = dest.wave_status || 'Normal & Terkendali';
+      document.getElementById('editDestDesc').value = dest.description || '';
+      
+      const photoUrl = dest.photo_url || '';
+      document.getElementById('editDestPhotoUrl').value = photoUrl;
+      updateCoverPreview(photoUrl);
+
+      const m = document.getElementById('editDestModal');
+      if (m) m.classList.add('active');
+    }
+
+    function closeEditDestModal() {
+      const m = document.getElementById('editDestModal');
+      if (m) m.classList.remove('active');
+    }
+
+    function updateCoverPreview(url) {
+      const img = document.getElementById('editCoverPreviewImg');
+      if (img) {
+        img.src = url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
       }
     }
 
+    function handleCoverFileSelected(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        document.getElementById('editDestPhotoUrl').value = dataUrl;
+        updateCoverPreview(dataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function handleSaveEditDestination(e) {
+      e.preventDefault();
+      const id = document.getElementById('editDestId').value;
+      const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
+      if (!dest) return;
+
+      const updatedPayload = {
+        id: dest.id,
+        code: dest.code,
+        name: document.getElementById('editDestName').value.trim(),
+        category: document.getElementById('editDestCategory').value,
+        region: document.getElementById('editDestRegion').value,
+        province: document.getElementById('editDestProvince').value.trim(),
+        elevation_m: parseInt(document.getElementById('editDestElevation').value) || 0,
+        latitude: parseFloat(document.getElementById('editDestLat').value),
+        longitude: parseFloat(document.getElementById('editDestLng').value),
+        daily_quota: parseInt(document.getElementById('editDestQuota').value) || 1000,
+        current_visitors: parseInt(document.getElementById('editDestVisitors').value) || 0,
+        quota_status: document.getElementById('editDestStatus').value,
+        ticket_price: parseInt(document.getElementById('editDestTicketPrice').value) || 20000,
+        wave_status: document.getElementById('editDestWaveStatus').value.trim() || 'Normal & Terkendali',
+        description: document.getElementById('editDestDesc').value.trim(),
+        photo_url: document.getElementById('editDestPhotoUrl').value.trim(),
+        eco_guidelines: dest.eco_guidelines || 'Patuhi batasan daya dukung kawasan.',
+        stamp_icon: dest.stamp_icon || '🧭'
+      };
+
+      if (typeof npUpdateDestinationFull === 'function') {
+        await npUpdateDestinationFull(updatedPayload);
+      } else {
+        Object.assign(dest, updatedPayload);
+      }
+
+      closeEditDestModal();
+      renderTable();
+      updateKpis();
+      alert(`Data destinasi "${updatedPayload.name}" dan foto cover berhasil diperbarui!`);
+    }
+
+    // ==========================================
+    // LOGIKA MODAL 2: KELOLA DOKUMENTASI MEDIA FOTO
+    // ==========================================
+    function getGalleryForDest(destId) {
+      const dest = NUSANTARA_DESTINATIONS.find(d => d.id === destId);
+      if (!dest) return [];
+
+      let list = null;
+      try {
+        const raw = localStorage.getItem('np_gallery_' + destId);
+        if (raw) list = JSON.parse(raw);
+      } catch (e) {}
+
+      if (!list || list.length === 0) {
+        const defaults = defaultMediaCollections[dest.category] || defaultMediaCollections.pantai;
+        list = defaults.map((item, idx) => ({
+          url: idx === 0 ? dest.photo_url : item.url,
+          caption: idx === 0 ? `Lanskap Utama ${dest.name}` : item.caption
+        }));
+        saveGalleryForDest(destId, list);
+      }
+      return list;
+    }
+
+    function saveGalleryForDest(destId, list) {
+      try {
+        localStorage.setItem('np_gallery_' + destId, JSON.stringify(list));
+      } catch (e) {
+        console.warn('Gagal simpan galeri ke localStorage:', e);
+      }
+    }
+
+    function openMediaModal(id) {
+      const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
+      if (!dest) return;
+
+      currentMediaDestId = id;
+      currentGalleryList = getGalleryForDest(id);
+
+      document.getElementById('mediaModalSubtitle').textContent = `Destinasi: ${dest.name} (${dest.province})`;
+      document.getElementById('newPhotoUrl').value = '';
+      document.getElementById('newPhotoCaption').value = '';
+      document.getElementById('newPhotoFileStatus').textContent = 'Atau tempel URL langsung';
+
+      renderMediaGalleryGrid();
+
+      const m = document.getElementById('mediaModal');
+      if (m) m.classList.add('active');
+    }
+
+    function closeMediaModal() {
+      const m = document.getElementById('mediaModal');
+      if (m) m.classList.remove('active');
+      currentMediaDestId = null;
+    }
+
+    function renderMediaGalleryGrid() {
+      const grid = document.getElementById('mediaGalleryGrid');
+      const countBadge = document.getElementById('galleryCountBadge');
+      if (!grid) return;
+
+      if (countBadge) countBadge.textContent = currentGalleryList.length;
+
+      if (currentGalleryList.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 24px; color: var(--admin-text-muted); font-size: 12px; background: #f8fafc; border: 1px dashed var(--admin-border); border-radius: 6px;">
+            Belum ada foto dokumentasi. Gunakan formulir di atas untuk menambahkan foto pertama!
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = currentGalleryList.map((item, idx) => `
+        <div class="gallery-admin-card">
+          <img class="gallery-admin-thumb" src="${item.url}" alt="${item.caption || 'Foto Dokumentasi'}" />
+          <div class="gallery-admin-info">
+            <span class="gallery-admin-caption" title="${item.caption || ''}">${item.caption || 'Tanpa keterangan'}</span>
+            <button class="btn-delete-photo" onclick="handleDeletePhoto(${idx})">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+              Hapus Foto
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleDeletePhoto(idx) {
+      if (confirm('Apakah Anda yakin ingin menghapus foto dokumentasi ini dari galeri?')) {
+        currentGalleryList.splice(idx, 1);
+        saveGalleryForDest(currentMediaDestId, currentGalleryList);
+        renderMediaGalleryGrid();
+      }
+    }
+
+    function updateNewPhotoPreview(url) {
+      // Validasi preview jika perlu
+    }
+
+    function handleNewPhotoFileSelected(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const status = document.getElementById('newPhotoFileStatus');
+      if (status) status.textContent = `File dipilih: ${file.name}`;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('newPhotoUrl').value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleAddPhotoToGallery() {
+      const url = document.getElementById('newPhotoUrl').value.trim();
+      const caption = document.getElementById('newPhotoCaption').value.trim() || 'Foto Dokumentasi Lapangan';
+
+      if (!url) {
+        alert('Mohon masukkan URL foto atau pilih file dari perangkat terlebih dahulu.');
+        return;
+      }
+
+      currentGalleryList.push({ url, caption });
+      saveGalleryForDest(currentMediaDestId, currentGalleryList);
+      renderMediaGalleryGrid();
+
+      // Reset form
+      document.getElementById('newPhotoUrl').value = '';
+      document.getElementById('newPhotoCaption').value = '';
+      document.getElementById('newPhotoFileStatus').textContent = 'Atau tempel URL langsung';
+      document.getElementById('newPhotoFileInput').value = '';
+    }
+
+    // ==========================================
+    // MODAL TAMBAH DESTINASI BARU
+    // ==========================================
     function openAddDestModal() {
       const m = document.getElementById('addDestModal');
       if (m) m.classList.add('active');
@@ -484,6 +959,7 @@
       const quota = parseInt(document.getElementById('destInputQuota').value) || 1000;
       const lat = parseFloat(document.getElementById('destInputLat').value);
       const lng = parseFloat(document.getElementById('destInputLng').value);
+      const photoUrl = document.getElementById('destInputPhotoUrl').value.trim() || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
       const desc = document.getElementById('destInputDesc').value.trim() || 'Destinasi wisata lestari cagar alam Indonesia.';
 
       const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 15);
@@ -503,7 +979,7 @@
         daily_quota: quota,
         current_visitors: 0,
         quota_status: 'tersedia',
-        photo_url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        photo_url: photoUrl,
         description: desc,
         eco_guidelines: 'Kawasan konservasi wisata lestari. Patuhi pedoman Sapta Pesona dan kelestarian alam.',
         wave_status: 'Normal & Terkendali',

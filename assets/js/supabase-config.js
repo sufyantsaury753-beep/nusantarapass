@@ -106,6 +106,65 @@ async function npUpdateQuota(destId, newQuota, newStatus) {
   }
 }
 
+// Update seluruh atribut destinasi (identitas, cover foto, kuota, koordinat, dll)
+async function npUpdateDestinationFull(destData) {
+  if (!npClient) initNpSupabase();
+
+  // 1. Update in-memory array
+  const targetIndex = NUSANTARA_DESTINATIONS.findIndex(d => d.id === destData.id);
+  if (targetIndex !== -1) {
+    NUSANTARA_DESTINATIONS[targetIndex] = { ...NUSANTARA_DESTINATIONS[targetIndex], ...destData };
+  } else {
+    NUSANTARA_DESTINATIONS.unshift(destData);
+  }
+
+  // 2. Simpan override ke localStorage untuk persistence instan offline
+  try {
+    const rawOverrides = localStorage.getItem('np_destinations_override') || '{}';
+    const overrides = JSON.parse(rawOverrides);
+    overrides[destData.id] = destData;
+    localStorage.setItem('np_destinations_override', JSON.stringify(overrides));
+  } catch (e) {
+    console.warn('Gagal menyimpan ke localStorage override:', e);
+  }
+
+  if (!npClient) return { success: true, localOnly: true };
+
+  // 3. Update ke Supabase Cloud
+  try {
+    const payload = {
+      name: destData.name,
+      category: destData.category,
+      province: destData.province,
+      region: destData.region,
+      latitude: parseFloat(destData.latitude),
+      longitude: parseFloat(destData.longitude),
+      elevation_m: parseInt(destData.elevation_m) || 0,
+      daily_quota: parseInt(destData.daily_quota) || 1000,
+      current_visitors: parseInt(destData.current_visitors) || 0,
+      quota_status: destData.quota_status || 'tersedia',
+      photo_url: destData.photo_url,
+      description: destData.description,
+      wave_status: destData.wave_status || 'Normal & Terkendali',
+      ticket_price: parseInt(destData.ticket_price) || 20000
+    };
+
+    const { data, error } = await npClient
+      .from('np_destinations')
+      .update(payload)
+      .eq('id', destData.id)
+      .select();
+
+    if (error) {
+      console.warn("Gagal update destinasi ke Supabase:", error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
 // Tambah destinasi baru ke Supabase
 async function npInsertDestination(destData) {
   if (!npClient) initNpSupabase();

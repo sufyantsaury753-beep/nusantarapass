@@ -454,6 +454,183 @@ body.admin-body {
   border-color: #cbd5e1;
 }
 
+.btn-table-media {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0284c7;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.btn-table-media:hover {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+}
+
+.td-actions-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* ==========================================
+   COVER PHOTO DROPZONE & LIVE PREVIEW
+   ========================================== */
+.cover-preview-container {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 12px;
+  margin-top: 6px;
+}
+
+.cover-preview-box {
+  width: 140px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e2e8f0;
+  flex-shrink: 0;
+  border: 1px solid var(--admin-border);
+}
+
+.cover-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-control-inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cover-file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: var(--admin-radius);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: fit-content;
+}
+
+.cover-file-btn:hover {
+  border-color: #0f172a;
+  background: #f1f5f9;
+}
+
+/* ==========================================
+   GALLERY / MEDIA DOCUMENTATION MANAGER
+   ========================================== */
+.gallery-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-top: 10px;
+}
+
+.gallery-admin-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-admin-thumb {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  background: #e2e8f0;
+  display: block;
+}
+
+.gallery-admin-info {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.gallery-admin-caption {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.btn-delete-photo {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecdd3;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.12s ease;
+}
+
+.btn-delete-photo:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.gallery-add-panel {
+  background: #f8fafc;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 14px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gallery-add-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--admin-text-main);
+}
+
+
 /* ==========================================
    MODAL DIALOG REFINEMENT
    ========================================== */

@@ -13,7 +13,22 @@ let openRegionKeys = new Set(['Jawa']); // Default open Jawa in hierarchy tree
 let selectedDestId = null;
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
 
+function applyLocalOverrides() {
+  try {
+    const rawOverrides = localStorage.getItem('np_destinations_override');
+    if (rawOverrides && typeof NUSANTARA_DESTINATIONS !== 'undefined') {
+      const overrides = JSON.parse(rawOverrides);
+      NUSANTARA_DESTINATIONS.forEach(d => {
+        if (overrides[d.id]) {
+          Object.assign(d, overrides[d.id]);
+        }
+      });
+    }
+  } catch (e) {}
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  applyLocalOverrides();
   initMap();
   renderDestinationGrid();
   updateKPIStats();
@@ -24,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (typeof npFetchDestinations === 'function') {
     try {
       await npFetchDestinations();
+      applyLocalOverrides();
       renderMapMarkers();
       renderDestinationGrid();
       updateKPIStats();
