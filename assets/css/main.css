@@ -37,7 +37,7 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -56,6 +56,7 @@ html, body {
   font-family: var(--font-family);
   overflow-x: hidden;
   line-height: 1.5;
+  letter-spacing: -0.012em;
 }
 
 /* Subtle Ambient Background Mesh */
@@ -134,19 +135,33 @@ body::before {
 }
 
 .brand-title-box h1 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.025em;
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+}
+
+.brand-version-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
 }
 
 .brand-title-box p {
   font-size: 11px;
   color: var(--text-muted);
   font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .nav-actions {
@@ -168,16 +183,54 @@ body::before {
   transition: var(--transition-fast);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-  min-height: 40px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  min-height: 38px;
+  font-family: inherit;
 }
 
 .btn-nav:hover {
   background: #f8fafc;
   border-color: var(--border-hover);
   color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.btn-nav-outline {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.btn-nav-admin {
+  background: #0f172a;
+  border: 1px solid #0f172a;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+}
+
+.btn-nav-admin:hover {
+  background: #1e293b;
+  border-color: #1e293b;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
   transform: translateY(-1px);
 }
 
@@ -192,18 +245,6 @@ body::before {
   background: linear-gradient(135deg, #10b981, #059669);
   color: #ffffff;
   box-shadow: 0 5px 16px rgba(5, 150, 105, 0.35);
-}
-
-.btn-nav-gold {
-  background: linear-gradient(135deg, #d97706, #b45309);
-  border: none;
-  color: #ffffff;
-  box-shadow: 0 3px 12px rgba(217, 119, 6, 0.25);
-}
-
-.btn-nav-gold:hover {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #ffffff;
 }
 
 /* ==========================================
@@ -238,85 +279,87 @@ body::before {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.sidebar-kpi-pill {
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  color: var(--accent-emerald);
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  padding: 2px 7px;
-  border-radius: var(--radius-full);
-  align-self: flex-start;
+.telemetry-live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
 }
 
-.sidebar-top-title h3 {
+.live-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.live-status-text {
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.sidebar-heading {
   font-size: 14px;
   font-weight: 800;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
 /* ==========================================
-   COMPACT METRIC BADGES (2x2 Grid, Tidak Terlalu Besar)
+   UNIFIED MONOCHROMATIC TELEMETRY STRIP
+   Swiss Precision, Border-Free & High-Contrast
    ========================================== */
-.sidebar-metrics-compact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.metric-mini-card {
+.sidebar-telemetry-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: #f8fafc;
   border: 1px solid var(--border-subtle);
-  border-radius: 9px;
-  padding: 6px 8px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  transition: all 0.15s ease;
+  border-radius: 10px;
+  padding: 8px 10px;
 }
 
-.metric-mini-card:hover {
-  background: #ffffff;
-  border-color: var(--border-hover);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.metric-mini-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.metric-mini-info {
+.telemetry-stat-col {
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  align-items: center;
+  text-align: center;
+  flex: 1;
 }
 
-.metric-mini-number {
-  font-size: 12.5px;
+.telemetry-val {
+  font-size: 14px;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.15;
-  white-space: nowrap;
+  letter-spacing: -0.02em;
 }
 
-.metric-mini-label {
+.telemetry-lbl {
   font-size: 9px;
-  color: var(--text-muted);
   font-weight: 600;
-  line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 2px;
+}
+
+.telemetry-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border-subtle);
 }
 
 /* ==========================================
@@ -394,9 +437,9 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
@@ -406,12 +449,11 @@ body::before {
 
 .tree-parent-row:hover {
   background: #f1f5f9;
-  border-color: #cbd5e1;
 }
 
 .tree-region-branch.active .tree-parent-row {
   background: #ecfdf5;
-  border-color: #a7f3d0;
+  color: #065f46;
 }
 
 .tree-parent-left {
@@ -423,13 +465,15 @@ body::before {
 
 .tree-parent-title {
   font-size: 12.5px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
 .tree-region-branch.active .tree-parent-title {
   color: #065f46;
+  font-weight: 700;
 }
 
 .tree-parent-right {
@@ -441,20 +485,22 @@ body::before {
 .tree-parent-badge {
   font-size: 9.5px;
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 1.5px 6.5px;
   border-radius: var(--radius-full);
-  background: #e2e8f0;
-  color: #475569;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
 }
 
 .tree-region-branch.active .tree-parent-badge {
   background: #a7f3d0;
   color: #065f46;
+  border-color: #6ee7b7;
 }
 
 .tree-parent-chevron {
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   color: #94a3b8;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
@@ -468,13 +514,13 @@ body::before {
 /* Sub-Daftar Destinasi MENJOROK KE DALAM (Indented Tree Branch) */
 .tree-children-container {
   display: none;
-  margin-left: 16px;              /* Menjorok ke kanan dalam */
+  margin-left: 20px;              /* Indentasi nyata 20px */
   padding-left: 12px;             /* Jarak dari garis cabang */
-  border-left: 2px solid #e2e8f0; /* Garis panduan hierarki pohon */
-  margin-top: 4px;
+  border-left: 1.5px solid #cbd5e1; /* Garis panduan hierarki pohon tipis & elegan */
+  margin-top: 3px;
   margin-bottom: 6px;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   position: relative;
 }
 
@@ -493,8 +539,8 @@ body::before {
   gap: 8px;
   padding: 6px 8px;
   border-radius: 7px;
-  background: #ffffff;
-  border: 1px solid #f1f5f9;
+  background: transparent;
+  border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease;
   position: relative;
@@ -504,7 +550,7 @@ body::before {
 .tree-child-item::before {
   content: '';
   position: absolute;
-  left: -14px;
+  left: -13.5px;
   top: 50%;
   width: 12px;
   height: 1.5px;
@@ -517,7 +563,7 @@ body::before {
 
 .tree-child-item:hover {
   background: #f8fafc;
-  border-color: #cbd5e1;
+  border-color: #e2e8f0;
   transform: translateX(2px);
 }
 
@@ -945,9 +991,16 @@ body::before {
     gap: 10px;
   }
 
-  .sidebar-metrics-compact-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+  .sidebar-telemetry-strip {
+    padding: 6px 8px;
+  }
+
+  .telemetry-val {
+    font-size: 13px;
+  }
+
+  .telemetry-lbl {
+    font-size: 8.5px;
   }
 
   .sidebar-tree-scroll {
@@ -984,8 +1037,18 @@ body::before {
   }
 }
 
-@media (max-width: 520px) {
-  .sidebar-metrics-list {
-    grid-template-columns: 1fr;
+@media (max-width: 440px) {
+  .sidebar-telemetry-strip {
+    padding: 6px 4px;
+    gap: 2px;
+  }
+
+  .telemetry-val {
+    font-size: 12px;
+  }
+
+  .telemetry-lbl {
+    font-size: 8px;
+    letter-spacing: 0.2px;
   }
 }

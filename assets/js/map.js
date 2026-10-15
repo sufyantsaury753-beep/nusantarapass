@@ -544,12 +544,12 @@ function updateKPIStats() {
   const totalVisitorsEl = document.getElementById('kpiTotalVisitors');
   const safeEcoEl = document.getElementById('kpiEcoSafe');
 
-  if (totalDestEl) totalDestEl.innerText = NUSANTARA_DESTINATIONS.length + ' Destinasi';
+  if (totalDestEl) totalDestEl.innerText = NUSANTARA_DESTINATIONS.length;
   if (totalVisitorsEl) {
     const total = NUSANTARA_DESTINATIONS.reduce((acc, d) => acc + (d.current_visitors || 0), 0);
-    totalVisitorsEl.innerText = total.toLocaleString('id-ID') + ' Jiwa';
+    totalVisitorsEl.innerText = total.toLocaleString('id-ID');
   }
-  if (safeEcoEl) safeEcoEl.innerText = '94.8% Terkendali';
+  if (safeEcoEl) safeEcoEl.innerText = '94.8%';
 }
 
 function updatePassportCountBadge() {
