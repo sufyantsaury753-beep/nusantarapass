@@ -5,15 +5,19 @@
 
 let mapInstance = null;
 let markersLayerGroup = null;
+let destinationMarkers = {};
 let currentBasemap = 'osm'; // Default to Clean Light OpenStreetMap
 let currentCategoryFilter = 'all';
 let currentRegionFilter = 'all';
+let openRegionKey = 'Jawa'; // Default open Jawa in hierarchy tree
+let selectedDestId = null;
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
 
 document.addEventListener('DOMContentLoaded', async () => {
   initMap();
   renderDestinationGrid();
   updateKPIStats();
+  initRegionHierarchy();
   updatePassportCountBadge();
 
   // Muat data langsung dari Supabase Cloud jika tabel sudah siap
@@ -23,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderMapMarkers();
       renderDestinationGrid();
       updateKPIStats();
+      initRegionHierarchy();
     } catch (err) {
       console.log('Menggunakan data fallback lokal.');
     }
@@ -202,6 +207,7 @@ function switchBasemap(type) {
 function renderMapMarkers() {
   if (!markersLayerGroup) return;
   markersLayerGroup.clearLayers();
+  destinationMarkers = {};
 
   const filtered = NUSANTARA_DESTINATIONS.filter((d) => {
     const matchCat = currentCategoryFilter === 'all' || d.category === currentCategoryFilter;
@@ -270,6 +276,7 @@ function renderMapMarkers() {
 
     marker.bindPopup(popupHtml, { maxWidth: 280, closeButton: false });
     marker.addTo(markersLayerGroup);
+    destinationMarkers[dest.id] = marker;
   });
 }
 
@@ -298,6 +305,165 @@ function filterRegion(reg, el) {
 
   renderMapMarkers();
   renderDestinationGrid();
+  initRegionHierarchy();
+}
+
+// ==========================================
+// HIERARCHICAL REGION & DESTINATION TREE
+// ==========================================
+const REGIONS_HIERARCHY_CONFIG = [
+  { key: 'all', name: 'Semua (Nasional)' },
+  { key: 'Jawa', name: 'Jawa' },
+  { key: 'Sumatera', name: 'Sumatera' },
+  { key: 'Bali-Nusra', name: 'Bali & Nusa Tenggara' },
+  { key: 'Sulawesi', name: 'Sulawesi' },
+  { key: 'Papua', name: 'Papua' }
+];
+
+function initRegionHierarchy() {
+  const treeContainer = document.getElementById('sidebarRegionTree');
+  if (!treeContainer) return;
+
+  let html = '';
+
+  REGIONS_HIERARCHY_CONFIG.forEach((reg) => {
+    const isAll = reg.key === 'all';
+    const isActive = currentRegionFilter === reg.key;
+    const isOpen = openRegionKey === reg.key;
+
+    // Filter destinasi untuk wilayah ini
+    const destsInRegion = isAll
+      ? NUSANTARA_DESTINATIONS
+      : NUSANTARA_DESTINATIONS.filter((d) => d.region === reg.key);
+    
+    const count = destsInRegion.length;
+
+    // Icon SVG murni (tanpa emoji)
+    const iconSvg = isAll
+      ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
+      : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+    // Hierarki sub-daftar destinasi di bawah pulau
+    let sublistHtml = '';
+    if (!isAll && destsInRegion.length > 0) {
+      sublistHtml = `
+        <div class="region-sublist">
+          ${destsInRegion.map((dest) => {
+            const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
+            const dotColor = quotaPercent > 90 ? '#ef4444' : quotaPercent > 70 ? '#f59e0b' : '#10b981';
+            let catBg = '#e0f2fe', catColor = '#0284c7';
+            if (dest.category === 'gunung') { catBg = '#ffedd5'; catColor = '#ea580c'; }
+            if (dest.category === 'budaya') { catBg = '#fef3c7'; catColor = '#d97706'; }
+            if (dest.category === 'konservasi') { catBg = '#d1fae5'; catColor = '#059669'; }
+
+            const isSelected = selectedDestId === dest.id ? 'selected' : '';
+
+            return `
+              <div class="tree-dest-item ${isSelected}" data-dest-id="${dest.id}" onclick="focusDestination('${dest.id}')">
+                <div class="tree-dest-icon" style="background: ${catBg}; color: ${catColor};">
+                  ${getCategoryBadgeSvg(dest.category)}
+                </div>
+                <div class="tree-dest-details">
+                  <div class="tree-dest-name">${dest.name}</div>
+                  <div class="tree-dest-meta">
+                    <span>${dest.province}</span>
+                    <span>•</span>
+                    <span style="display: inline-flex; align-items: center; gap: 3px;">
+                      <span class="tree-tag-dot" style="background: ${dotColor};"></span>
+                      ${Math.round(quotaPercent)}% Kuota
+                    </span>
+                  </div>
+                </div>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    html += `
+      <div class="region-accordion-box ${isActive ? 'active' : ''} ${isOpen ? 'open' : ''}" id="regBox_${reg.key}">
+        <button class="region-header-btn" onclick="handleRegionClick('${reg.key}')" type="button">
+          <div class="region-header-left">
+            <span style="color: ${isActive ? '#059669' : '#64748b'};">${iconSvg}</span>
+            <span class="region-header-title">${reg.name}</span>
+          </div>
+          <div class="region-header-right">
+            <span class="region-header-badge">${count} Destinasi</span>
+            ${!isAll ? `<svg class="region-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>` : ''}
+          </div>
+        </button>
+        ${sublistHtml}
+      </div>
+    `;
+  });
+
+  treeContainer.innerHTML = html;
+}
+
+function handleRegionClick(regKey) {
+  if (regKey === 'all') {
+    openRegionKey = null;
+    currentRegionFilter = 'all';
+  } else {
+    // Jika diklik dan sudah terbuka, toggle
+    if (openRegionKey === regKey) {
+      openRegionKey = null;
+      currentRegionFilter = 'all';
+    } else {
+      openRegionKey = regKey;
+      currentRegionFilter = regKey;
+    }
+  }
+
+  // Fly smooth ke koordinat pulau/nasional
+  if (mapInstance) {
+    if (currentRegionFilter === 'all') mapInstance.flyTo([-2.5, 118.0], 5, { duration: 1.2 });
+    else if (currentRegionFilter === 'Jawa') mapInstance.flyTo([-7.5, 110.0], 7, { duration: 1.2 });
+    else if (currentRegionFilter === 'Sumatera') mapInstance.flyTo([0.5, 101.5], 6, { duration: 1.2 });
+    else if (currentRegionFilter === 'Bali-Nusra') mapInstance.flyTo([-8.5, 117.5], 7, { duration: 1.2 });
+    else if (currentRegionFilter === 'Sulawesi') mapInstance.flyTo([-2.0, 121.0], 6, { duration: 1.2 });
+    else if (currentRegionFilter === 'Papua') mapInstance.flyTo([-3.0, 136.0], 6, { duration: 1.2 });
+  }
+
+  renderMapMarkers();
+  renderDestinationGrid();
+  initRegionHierarchy();
+}
+
+function focusDestination(destId) {
+  selectedDestId = destId;
+  const dest = NUSANTARA_DESTINATIONS.find((d) => d.id === destId);
+  if (!dest) return;
+
+  // Pastikan wilayahnya terbuka dan aktif
+  if (currentRegionFilter !== 'all' && currentRegionFilter !== dest.region) {
+    currentRegionFilter = dest.region;
+    openRegionKey = dest.region;
+    renderMapMarkers();
+    renderDestinationGrid();
+  }
+
+  // Fly ke koordinat destinasi dengan detail zoom
+  if (mapInstance) {
+    mapInstance.flyTo([dest.latitude, dest.longitude], 12, {
+      duration: 1.0,
+      easeLinearity: 0.25
+    });
+  }
+
+  // Buka popup Leaflet pin
+  setTimeout(() => {
+    if (destinationMarkers[destId]) {
+      destinationMarkers[destId].openPopup();
+    }
+  }, 450);
+
+  // Tandai item terpilih di sidebar
+  document.querySelectorAll('.tree-dest-item').forEach((item) => {
+    item.classList.toggle('selected', item.dataset.destId === destId);
+  });
 }
 
 // ==========================================
