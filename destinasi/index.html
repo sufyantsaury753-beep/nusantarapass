@@ -76,6 +76,12 @@
             NP-00-00
           </div>
         </div>
+        <div class="hero-hud-right">
+          <div class="hud-pill attribution-pill" id="hudAttributionPill" title="Atribusi & Hak Cipta Foto Cover">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span id="heroAttributionText">Foto: Unsplash</span>
+          </div>
+        </div>
       </div>
 
       <!-- Bottom HUD Title & Metadata Overlay -->
@@ -222,7 +228,10 @@
   <div class="clean-image-viewer" id="cleanImageViewer" onclick="closeImageViewer()">
     <div class="viewer-dialog" onclick="event.stopPropagation()">
       <div class="viewer-header">
-        <span id="viewerCaption" style="font-size: 13px; font-weight: 700;"></span>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <span id="viewerCaption" style="font-size: 13px; font-weight: 700;"></span>
+          <span id="viewerAttribution" style="font-size: 11px; color: #94a3b8; font-weight: 500;"></span>
+        </div>
         <button class="viewer-close-btn" onclick="closeImageViewer()">&times;</button>
       </div>
       <div class="viewer-stage">

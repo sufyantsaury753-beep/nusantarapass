@@ -144,6 +144,7 @@ async function npUpdateDestinationFull(destData) {
       current_visitors: parseInt(destData.current_visitors) || 0,
       quota_status: destData.quota_status || 'tersedia',
       photo_url: destData.photo_url,
+      photo_attribution: destData.photo_attribution || 'Unsplash / Tim Ekspedisi',
       description: destData.description,
       wave_status: destData.wave_status || 'Normal & Terkendali',
       ticket_price: parseInt(destData.ticket_price) || 20000

@@ -74,6 +74,11 @@ function renderHeroHUD() {
     codePill.textContent = currentDest.code;
   }
 
+  const attrEl = document.getElementById('heroAttributionText');
+  if (attrEl) {
+    attrEl.textContent = `Foto: ${currentDest.photo_attribution || 'Unsplash / Tim Ekspedisi'}`;
+  }
+
   const titleEl = document.getElementById('heroDestTitle');
   if (titleEl) titleEl.textContent = currentDest.name;
 
@@ -275,7 +280,8 @@ function renderVisualDocsGrid() {
     <div class="doc-photo-card" onclick="openImageViewer(${idx})">
       <img src="${item.url}" alt="${item.caption}" loading="lazy" />
       <div class="doc-photo-overlay">
-        <span>${item.caption}</span>
+        <span class="doc-photo-overlay-caption">${item.caption}</span>
+        <span class="doc-photo-overlay-author">Foto: ${item.attribution || 'Unsplash / Kontributor'}</span>
       </div>
     </div>
   `).join('');
@@ -289,9 +295,11 @@ function openImageViewer(idx) {
   const viewer = document.getElementById('cleanImageViewer');
   const imgEl = document.getElementById('viewerImg');
   const captionEl = document.getElementById('viewerCaption');
+  const attrEl = document.getElementById('viewerAttribution');
 
   if (imgEl) imgEl.src = item.url;
   if (captionEl) captionEl.textContent = `${item.caption} — ${currentDest.name}`;
+  if (attrEl) attrEl.textContent = `Fotografer / Sumber: ${item.attribution || 'Unsplash / Kontributor Terverifikasi'}`;
 
   if (viewer) viewer.classList.add('active');
 }
