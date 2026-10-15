@@ -3,148 +3,160 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NusantaraPass — Admin &amp; Pengelola Destinasi (Cloud CMS)</title>
+  <title>Konsol Pengelola Kuota &amp; Destinasi — NusantaraPass</title>
   
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23d97706%22/><polygon points=%2265,35 56,56 35,65 44,44%22 fill=%22%23ffffff%22/></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230f172a%22/><polygon points=%2265,35 56,56 35,65 44,44%22 fill=%22%23ffffff%22/></svg>" />
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/admin.css" />
 </head>
 
-<body style="background: #f8fafc; color: #334155;">
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="topbar-content">
-      <a href="../index.html" class="brand-wrapper">
-        <div class="brand-logo-box" style="background: linear-gradient(135deg, #d97706, #b45309);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+<body class="admin-body">
+  <!-- Minimalist Executive Topbar -->
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <a href="../index.html" class="admin-brand">
+        <div class="admin-brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
           </svg>
         </div>
-        <div class="brand-title-box">
-          <h1>NusantaraPass <span style="font-size: 11px; background: rgba(217,119,6,0.12); color: #d97706; border: 1px solid rgba(217,119,6,0.3); padding: 2px 8px; border-radius: 20px; font-weight: 800;">ADMIN CMS</span></h1>
-          <p>Portal Pengendali Kuota Harian &amp; Verifikasi Gerbang</p>
+        <div class="admin-brand-text">
+          <span class="admin-brand-title">NusantaraPass</span>
+          <span class="admin-tag">CMS Console</span>
         </div>
       </a>
 
-      <div class="nav-actions">
-        <button id="supabaseStatusBadge" onclick="openSqlHelpModal()" style="font-size: 12px; cursor: pointer; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 6px 14px; border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-          <span>Memeriksa Database...</span>
+      <div class="admin-topbar-right">
+        <!-- Minimalist Database Health Indicator (No AI Pill Look) -->
+        <button id="supabaseStatusBadge" class="admin-db-status" onclick="openSqlHelpModal()" title="Status koneksi Supabase Cloud">
+          <span class="status-dot-mini pending" id="dbDotIndicator"></span>
+          <span id="dbStatusText">Memeriksa Database...</span>
         </button>
-        <a href="../index.html" class="btn-nav">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          Lihat Web Live
+
+        <a href="../index.html" class="btn-admin-action btn-admin-outline">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Kembali ke Peta
         </a>
       </div>
     </div>
   </header>
 
-  <div class="main-layout" style="margin-top: 24px;">
-    <!-- Admin KPI -->
-    <div class="metrics-strip" style="padding: 0; margin: 0 0 20px 0;">
-      <div class="metric-card">
-        <div class="metric-icon-box" style="background: #ecfdf5; color: #059669;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div>
-          <div id="kpiTotalDest" class="metric-number">20 Destinasi</div>
-          <div class="metric-label">Terdaftar Aktif</div>
-        </div>
+  <!-- Main Management View -->
+  <main class="admin-container">
+    <!-- Integrated Utilitarian Telemetry Metric Ribbon (0% Pastel AI Box) -->
+    <section class="admin-metric-ribbon">
+      <div class="admin-metric-cell">
+        <span class="metric-cell-label">Total Destinasi Terdata</span>
+        <div id="kpiTotalDest" class="metric-cell-value">20</div>
+        <span class="metric-cell-note">Tersebar di 38 Provinsi</span>
       </div>
-      <div class="metric-card">
-        <div class="metric-icon-box" style="background: #e0f2fe; color: #0284c7;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
-        </div>
-        <div>
-          <div id="kpiTotalVisitors" class="metric-number">1.420 Tiket</div>
-          <div class="metric-label">Kunjungan Hari Ini</div>
-        </div>
+      <div class="admin-metric-cell">
+        <span class="metric-cell-label">Pengunjung Hari Ini</span>
+        <div id="kpiTotalVisitors" class="metric-cell-value">18.405</div>
+        <span class="metric-cell-note">Terkonsolidasi secara live</span>
       </div>
-      <div class="metric-card">
-        <div class="metric-icon-box" style="background: #fef3c7; color: #d97706;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </div>
-        <div>
-          <div id="kpiWarningCount" class="metric-number">1 Peringatan</div>
-          <div class="metric-label">Status Waspada/Tinggi</div>
-        </div>
+      <div class="admin-metric-cell">
+        <span class="metric-cell-label">Status Waspada / Terbatas</span>
+        <div id="kpiWarningCount" class="metric-cell-value">2</div>
+        <span class="metric-cell-note">Perlu atensi daya dukung</span>
       </div>
-      <div class="metric-card">
-        <div class="metric-icon-box" style="background: #f3e8ff; color: #9333ea;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="2" width="18" height="20" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M7 17h10"/></svg>
-        </div>
-        <div>
-          <div id="kpiStampCount" class="metric-number">20 Stempel</div>
-          <div class="metric-label">Stempel Paspor Siap</div>
-        </div>
+      <div class="admin-metric-cell">
+        <span class="metric-cell-label">Stempel Paspor Siap</span>
+        <div id="kpiStampCount" class="metric-cell-value">20</div>
+        <span class="metric-cell-note">Verifikasi QR otomatis</span>
       </div>
-    </div>
+    </section>
 
-    <!-- Management Table Card -->
-    <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 22px; box-shadow: var(--shadow-subtle);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
-        <div>
-          <h2 style="font-size: 17px; font-weight: 800; color: #0f172a;">Manajemen Kuota Pelestarian &amp; Daya Dukung Wisata</h2>
-          <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Ubah kuota secara realtime untuk melindungi ekosistem cagar budaya dan pantai dari overtourism</p>
+    <!-- Table Section with Filter & Search Toolbar -->
+    <section class="admin-card-section">
+      <div class="admin-section-header">
+        <div class="admin-section-info">
+          <h2>Manajemen Kuota Pelestarian &amp; Daya Dukung Kawasan</h2>
+          <p>Pengaturan ambang batas kuota harian pengunjung secara realtime untuk melindungi keutuhan cagar budaya dan cagar alam.</p>
         </div>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn-nav" onclick="openSqlHelpModal()" style="border-color: #0284c7; color: #0284c7;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-            Status Database Supabase
-          </button>
-          <button class="btn-nav btn-nav-primary" onclick="openAddDestModal()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Tambah Objek Wisata
+
+        <div class="admin-toolbar-controls">
+          <!-- Live Search Input -->
+          <div class="admin-search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="adminSearchInput" class="admin-search-input" placeholder="Cari nama, kode, provinsi..." oninput="handleFilterChange()" />
+          </div>
+
+          <!-- Category Filter -->
+          <select id="adminCategorySelect" class="admin-select-filter" onchange="handleFilterChange()">
+            <option value="all">Semua Kategori</option>
+            <option value="pantai">Bahari &amp; Pantai</option>
+            <option value="gunung">Gunung &amp; Dataran Tinggi</option>
+            <option value="budaya">Cagar Budaya &amp; Sejarah</option>
+            <option value="taman_nasional">Taman Nasional &amp; Konservasi</option>
+          </select>
+
+          <!-- Add Destination Button -->
+          <button class="btn-admin-action btn-admin-primary" onclick="openAddDestModal()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Tambah Destinasi
           </button>
         </div>
       </div>
 
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+      <!-- High Precision Data Table -->
+      <div class="admin-table-container">
+        <table class="admin-table">
           <thead>
-            <tr style="border-bottom: 2px solid #e2e8f0; color: #64748b;">
-              <th style="padding: 12px 10px;">KODE</th>
-              <th style="padding: 12px 10px;">NAMA DESTINASI</th>
-              <th style="padding: 12px 10px;">KATEGORI</th>
-              <th style="padding: 12px 10px;">PROVINSI</th>
-              <th style="padding: 12px 10px;">PENGUNJUNG / KUOTA</th>
-              <th style="padding: 12px 10px;">STATUS OPERASIONAL</th>
-              <th style="padding: 12px 10px; text-align: center;">AKSI</th>
+            <tr>
+              <th style="width: 100px;">KODE</th>
+              <th>NAMA DESTINASI</th>
+              <th style="width: 160px;">KATEGORI</th>
+              <th style="width: 130px;">PROVINSI</th>
+              <th style="width: 140px;">PENGUNJUNG / KUOTA</th>
+              <th style="width: 130px;">BEBAN KAPASITAS</th>
+              <th style="width: 120px;">STATUS</th>
+              <th style="width: 100px; text-align: right;">AKSI</th>
             </tr>
           </thead>
           <tbody id="adminDestTableBody">
-            <!-- Diisi otomatis oleh JavaScript -->
+            <!-- Rendered dynamically -->
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <!-- MODAL: Tambah Destinasi Baru -->
-  <div id="addDestModal" class="modal-overlay">
-    <div class="modal-dialog" style="max-width: 600px;">
+  <div id="addDestModal" class="modal-overlay" onclick="if(event.target === this) closeAddDestModal()">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
       <div class="modal-header">
         <h3>Tambah Objek Wisata Nusantara</h3>
         <button class="modal-close-btn" onclick="closeAddDestModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">
-          Data yang ditambahkan akan langsung tersimpan di tabel <code>np_destinations</code> Supabase Cloud.
+        <p style="font-size: 12px; color: var(--admin-text-muted); margin: 0 0 16px 0;">
+          Data destinasi baru akan divalidasi dan disimpan langsung ke pangkalan data Supabase Cloud (<code>np_destinations</code>).
         </p>
 
-        <form id="addDestForm" onsubmit="handleCreateDestination(event)" style="display: flex; flex-direction: column; gap: 12px;">
+        <form id="addDestForm" onsubmit="handleCreateDestination(event)" style="display: flex; flex-direction: column; gap: 14px;">
           <div>
-            <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Nama Objek Wisata</label>
-            <input type="text" id="destInputName" class="form-input" required placeholder="Contoh: Pantai Menganti Kebumen" style="width: 100%; margin-top: 4px;" />
+            <label class="form-label">Nama Objek Wisata</label>
+            <input type="text" id="destInputName" class="form-input-admin" required placeholder="Contoh: Dataran Tinggi Dieng &amp; Kawah Sikidang" />
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
-              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Kategori Wisata</label>
-              <select id="destInputCategory" class="form-input" style="width: 100%; margin-top: 4px;">
+              <label class="form-label">Kategori Wisata</label>
+              <select id="destInputCategory" class="form-input-admin">
                 <option value="pantai">Bahari &amp; Pantai</option>
                 <option value="gunung">Gunung &amp; Dataran Tinggi</option>
                 <option value="budaya">Cagar Budaya &amp; Sejarah</option>
@@ -152,8 +164,8 @@
               </select>
             </div>
             <div>
-              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Pulau / Region</label>
-              <select id="destInputRegion" class="form-input" style="width: 100%; margin-top: 4px;">
+              <label class="form-label">Pulau / Region</label>
+              <select id="destInputRegion" class="form-input-admin">
                 <option value="Jawa">Jawa</option>
                 <option value="Sumatera">Sumatera</option>
                 <option value="Bali-Nusra">Bali &amp; Nusa Tenggara</option>
@@ -165,38 +177,38 @@
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
-              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Provinsi</label>
-              <input type="text" id="destInputProvince" class="form-input" required placeholder="Contoh: Jawa Tengah" style="width: 100%; margin-top: 4px;" />
+              <label class="form-label">Provinsi</label>
+              <input type="text" id="destInputProvince" class="form-input-admin" required placeholder="Contoh: Jawa Tengah" />
             </div>
             <div>
-              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Batas Kuota Harian</label>
-              <input type="number" id="destInputQuota" class="form-input" required value="1000" style="width: 100%; margin-top: 4px;" />
+              <label class="form-label">Batas Kuota Harian (Orang)</label>
+              <input type="number" id="destInputQuota" class="form-input-admin" required value="1200" />
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
-              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Latitude (Lintang)</label>
-              <input type="number" step="any" id="destInputLat" class="form-input" required value="-7.7712" style="width: 100%; margin-top: 4px;" />
+              <label class="form-label">Latitude (Lintang)</label>
+              <input type="number" step="any" id="destInputLat" class="form-input-admin" required value="-7.2050" />
             </div>
             <div>
-              <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Longitude (Bujur)</label>
-              <input type="number" step="any" id="destInputLng" class="form-input" required value="109.4121" style="width: 100%; margin-top: 4px;" />
+              <label class="form-label">Longitude (Bujur)</label>
+              <input type="number" step="any" id="destInputLng" class="form-input-admin" required value="109.9050" />
             </div>
           </div>
 
           <div>
-            <label style="font-size: 11px; color: #0f172a; font-weight: bold;">Deskripsi Singkat Objek Wisata</label>
-            <textarea id="destInputDesc" class="form-input" rows="2" placeholder="Keindahan tebing karst berpadu dengan pasir putih dan deburan Samudra Hindia..." style="width: 100%; margin-top: 4px;"></textarea>
+            <label class="form-label">Deskripsi Singkat &amp; Keunikan Ekologis</label>
+            <textarea id="destInputDesc" class="form-input-admin" rows="3" placeholder="Pusat keanekaragaman hayati dan lanskap vulkanik aktif dengan batasan daya dukung terjaga..."></textarea>
           </div>
 
-          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
-            <button type="button" class="btn-nav" onclick="closeAddDestModal()">Batal</button>
-            <button type="submit" class="btn-nav btn-nav-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-              Simpan ke Database
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; border-top: 1px solid var(--admin-border); padding-top: 14px;">
+            <button type="button" class="btn-admin-action btn-admin-outline" onclick="closeAddDestModal()">Batal</button>
+            <button type="submit" class="btn-admin-action btn-admin-primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Simpan Destinasi
             </button>
           </div>
         </form>
@@ -204,40 +216,40 @@
     </div>
   </div>
 
-  <!-- MODAL: Bantuan Setup Supabase SQL -->
-  <div id="sqlHelpModal" class="modal-overlay">
-    <div class="modal-dialog" style="max-width: 620px;">
+  <!-- MODAL: Status Database Supabase Cloud -->
+  <div id="sqlHelpModal" class="modal-overlay" onclick="if(event.target === this) closeSqlHelpModal()">
+    <div class="modal-dialog" style="max-width: 600px;" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h3>Status Database Supabase</h3>
+        <h3>Status Pangkalan Data Supabase Cloud</h3>
         <button class="modal-close-btn" onclick="closeSqlHelpModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
-          <h4 style="color: #059669; font-size: 13px; font-weight: 800; margin-bottom: 4px;">✅ Coexistence Bersama Mountain Gallery (Aman 100%)</h4>
-          <p style="font-size: 12px; color: #334155; line-height: 1.5; margin: 0;">
-            NusantaraPass menggunakan database yang sama dengan <b>Mountain Gallery</b> (<code>xjpkfdalokarxmbousvj.supabase.co</code>) dengan isolasi prefix tabel <code>np_*</code> sehingga <strong>tidak bentrok dan tidak melebihi kuota 2 project gratis Supabase</strong>.
+        <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: var(--admin-radius); padding: 14px; margin-bottom: 16px;">
+          <div style="font-size: 13px; font-weight: 700; color: var(--admin-text-main); margin-bottom: 4px;">Isolasi Data Cloud &amp; Coexistence</div>
+          <p style="font-size: 12px; color: var(--admin-text-muted); line-height: 1.6; margin: 0;">
+            NusantaraPass menggunakan database yang sama dengan <b>Mountain Gallery</b> (<code>xjpkfdalokarxmbousvj.supabase.co</code>) dengan isolasi prefix tabel <code>np_*</code> sehingga <strong>tidak terjadi konflik data dan aman dalam tier gratis</strong>.
           </p>
         </div>
 
-        <div style="font-size: 12px; color: #475569; line-height: 1.6;">
-          <p><strong>Langkah Mudah Menjalankan Schema:</strong></p>
-          <ol style="padding-left: 20px; margin: 8px 0;">
-            <li>Buka SQL Editor Supabase: <a href="https://supabase.com/dashboard/project/xjpkfdalokarxmbousvj/sql/new" target="_blank" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Buka Supabase SQL Editor</a></li>
-            <li>Buka file <code>supabase_schema.sql</code> di root folder proyek ini.</li>
-            <li>Salin seluruh isinya dan tempel ke SQL Editor Supabase.</li>
-            <li>Klik tombol <b>Run</b> di Supabase. Selesai!</li>
+        <div style="font-size: 12px; color: var(--admin-text-main); line-height: 1.6;">
+          <div style="font-weight: 700; margin-bottom: 6px;">Langkah Penyiapan Schema (Bila Belum Dijalankan):</div>
+          <ol style="padding-left: 20px; margin: 0 0 16px; color: var(--admin-text-muted);">
+            <li>Buka SQL Editor Supabase: <a href="https://supabase.com/dashboard/project/xjpkfdalokarxmbousvj/sql/new" target="_blank" style="color: #0f172a; font-weight: 700; text-decoration: underline;">Buka Supabase SQL Editor</a></li>
+            <li>Buka file <code>supabase_schema.sql</code> di direktori root proyek.</li>
+            <li>Salin seluruh skrip DDL SQL dan klik <b>Run</b> di Supabase Console.</li>
           </ol>
         </div>
 
-        <div style="margin-top: 16px; text-align: right;">
-          <button class="btn-nav btn-nav-primary" onclick="closeSqlHelpModal()">Mengerti</button>
+        <div style="text-align: right; border-top: 1px solid var(--admin-border); padding-top: 14px;">
+          <button class="btn-admin-action btn-admin-primary" onclick="closeSqlHelpModal()">Tutup</button>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="site-footer">
-    <p>&copy; 2026 <strong>NusantaraPass Admin CMS</strong> • UINIC 8.0 Web Development Edition</p>
+  <footer class="admin-footer">
+    <div>&copy; 2026 <strong>NusantaraPass Console</strong> &bull; Konsol Manajemen Pariwisata Berkelanjutan &amp; Cagar Budaya.</div>
+    <div>Sistem Geoportal Berbasis Standar GIS &amp; SDG 11 &bull; UINIC 8.0.</div>
   </footer>
 
   <!-- Scripts -->
@@ -246,80 +258,156 @@
   <script src="../assets/js/supabase-config.js"></script>
 
   <script>
+    let filterQuery = '';
+    let filterCategory = 'all';
+
     document.addEventListener('DOMContentLoaded', async () => {
       await checkDbStatus();
       await loadAdminData();
     });
 
     async function checkDbStatus() {
-      const badge = document.getElementById('supabaseStatusBadge');
-      if (!badge) return;
+      const dot = document.getElementById('dbDotIndicator');
+      const text = document.getElementById('dbStatusText');
+      if (!dot || !text) return;
 
-      const res = await npCheckConnection();
-      if (res.connected) {
-        badge.innerHTML = '<span>🟢 Supabase Terhubung (Tabel np_destinations)</span>';
-        badge.style.color = '#059669';
-        badge.style.background = '#ecfdf5';
-        badge.style.borderColor = '#a7f3d0';
-      } else {
-        badge.innerHTML = '<span>🟡 Menunggu Schema SQL (Klik Bantuan)</span>';
-        badge.style.color = '#d97706';
-        badge.style.background = '#fef3c7';
-        badge.style.borderColor = '#fde68a';
+      try {
+        const res = await npCheckConnection();
+        if (res.connected) {
+          dot.className = 'status-dot-mini connected';
+          text.textContent = 'Supabase Cloud Terhubung';
+        } else {
+          dot.className = 'status-dot-mini pending';
+          text.textContent = 'Menunggu Schema SQL';
+        }
+      } catch (err) {
+        dot.className = 'status-dot-mini pending';
+        text.textContent = 'Offline / Local Fallback';
       }
     }
 
     async function loadAdminData() {
       if (typeof npFetchDestinations === 'function') {
-        await npFetchDestinations();
+        try {
+          await npFetchDestinations();
+        } catch(e) {
+          console.log('Using local fallback destinations.');
+        }
       }
-
       renderTable();
       updateKpis();
+    }
+
+    function handleFilterChange() {
+      const searchEl = document.getElementById('adminSearchInput');
+      const catEl = document.getElementById('adminCategorySelect');
+      filterQuery = searchEl ? searchEl.value.trim().toLowerCase() : '';
+      filterCategory = catEl ? catEl.value : 'all';
+      renderTable();
+    }
+
+    function getCatDisplayName(c) {
+      if (c === 'pantai') return 'Bahari & Pantai';
+      if (c === 'gunung') return 'Gunung & Dataran Tinggi';
+      if (c === 'budaya') return 'Cagar Budaya & Sejarah';
+      if (c === 'taman_nasional') return 'Taman Nasional & Konservasi';
+      return (c || '').replace('_', ' ');
+    }
+
+    function getCategorySvgMini(category) {
+      if (category === 'pantai') {
+        return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="4"/></svg>`;
+      } else if (category === 'gunung') {
+        return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`;
+      } else if (category === 'budaya') {
+        return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>`;
+      }
+      return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 22v-7M9 15c-3 0-5-2-5-5 0-4 4-7 8-7s8 3 8 7c0 3-2 5-5 5"/></svg>`;
     }
 
     function renderTable() {
       const tbody = document.getElementById('adminDestTableBody');
       if (!tbody) return;
 
-      tbody.innerHTML = NUSANTARA_DESTINATIONS.map((d) => {
-        let badgeColor = '#059669';
-        let badgeBg = '#ecfdf5';
+      const list = (typeof NUSANTARA_DESTINATIONS !== 'undefined') ? NUSANTARA_DESTINATIONS : [];
 
-        if (d.quota_status === 'hampir_penuh') {
-          badgeColor = '#d97706';
-          badgeBg = '#fef3c7';
-        } else if (d.quota_status === 'ditutup_cuaca') {
-          badgeColor = '#dc2626';
-          badgeBg = '#fee2e2';
-        }
+      const filtered = list.filter(d => {
+        const matchCategory = (filterCategory === 'all' || d.category === filterCategory);
+        const q = filterQuery;
+        const matchQuery = !q || 
+          d.name.toLowerCase().includes(q) || 
+          d.code.toLowerCase().includes(q) || 
+          d.province.toLowerCase().includes(q) ||
+          d.region.toLowerCase().includes(q);
+        return matchCategory && matchQuery;
+      });
 
-        function getCatName(c) {
-          if (c === 'pantai') return 'Bahari & Pantai';
-          if (c === 'gunung') return 'Gunung & Dataran Tinggi';
-          if (c === 'budaya') return 'Cagar Budaya & Sejarah';
-          if (c === 'taman_nasional') return 'Taman Nasional & Konservasi';
-          return (c || '').replace('_', ' ');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 36px 16px; color: var(--admin-text-muted);">
+              Tidak ada objek wisata yang sesuai dengan filter pencarian.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((d) => {
+        const visitors = d.current_visitors || 0;
+        const quota = d.daily_quota || 1000;
+        const percent = Math.min(Math.round((visitors / quota) * 100), 100);
+
+        let barClass = '';
+        let statusKey = d.quota_status || 'tersedia';
+        let statusLabel = 'Terkendali';
+
+        if (statusKey === 'hampir_penuh' || percent > 75) {
+          barClass = 'warning';
+          statusKey = 'hampir_penuh';
+          statusLabel = 'Hampir Penuh';
+        } else if (statusKey === 'ditutup_cuaca' || percent >= 100) {
+          barClass = 'critical';
+          statusKey = 'ditutup_cuaca';
+          statusLabel = 'Kapasitas Penuh';
         }
 
         return `
-          <tr style="border-bottom: 1px solid #f1f5f9; color: #334155;">
-            <td style="padding: 12px 10px; font-family: monospace; font-weight: bold; color: #0284c7;">${d.code}</td>
-            <td style="padding: 12px 10px; font-weight: 700; color: #0f172a;">${d.name}</td>
-            <td style="padding: 12px 10px; font-size: 11px; font-weight: 700; color: #64748b;">${getCatName(d.category)}</td>
-            <td style="padding: 12px 10px; color: #64748b;">${d.province}</td>
-            <td style="padding: 12px 10px;">
-              <b>${(d.current_visitors || 0).toLocaleString('id-ID')}</b> / ${(d.daily_quota || 1000).toLocaleString('id-ID')}
+          <tr>
+            <td class="td-code">${d.code}</td>
+            <td>
+              <div class="td-dest-name">${d.name}</div>
+              <div style="font-size: 10.5px; color: var(--admin-text-muted);">${d.region} &bull; Elevasi ${d.elevation_m || 0} Mdpl</div>
             </td>
-            <td style="padding: 12px 10px;">
-              <span style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}33; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase;">
-                ${(d.quota_status || 'tersedia').replace('_', ' ')}
+            <td>
+              <span class="td-category-tag">
+                ${getCategorySvgMini(d.category)}
+                <span>${getCatDisplayName(d.category)}</span>
               </span>
             </td>
-            <td style="padding: 12px 10px; text-align: center;">
-              <button class="btn-nav" style="padding: 4px 10px; font-size: 11px; min-height: 30px;" onclick="promptChangeQuota('${d.id}')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                Ubah Kuota
+            <td style="color: var(--admin-text-muted);">${d.province}</td>
+            <td>
+              <span style="font-weight: 700; color: var(--admin-text-main);">${visitors.toLocaleString('id-ID')}</span>
+              <span style="color: var(--admin-text-subtle);"> / ${quota.toLocaleString('id-ID')}</span>
+            </td>
+            <td>
+              <div class="td-quota-bar-wrapper">
+                <div class="td-quota-bar-track">
+                  <div class="td-quota-bar-fill ${barClass}" style="width: ${percent}%;"></div>
+                </div>
+                <div style="font-size: 10.5px; color: var(--admin-text-muted); font-weight: 600;">${percent}% Terisi</div>
+              </div>
+            </td>
+            <td>
+              <div class="status-indicator-clean ${statusKey}">
+                <span class="indicator-dot"></span>
+                <span>${statusLabel}</span>
+              </div>
+            </td>
+            <td style="text-align: right;">
+              <button class="btn-table-edit" onclick="promptChangeQuota('${d.id}')" title="Ubah Kuota Harian">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Ubah
               </button>
             </td>
           </tr>
@@ -328,28 +416,42 @@
     }
 
     function updateKpis() {
-      const totalDest = NUSANTARA_DESTINATIONS.length;
-      const totalVisitors = NUSANTARA_DESTINATIONS.reduce((acc, d) => acc + (d.current_visitors || 0), 0);
-      const warnings = NUSANTARA_DESTINATIONS.filter(d => d.quota_status === 'ditutup_cuaca' || d.quota_status === 'hampir_penuh').length;
+      const list = (typeof NUSANTARA_DESTINATIONS !== 'undefined') ? NUSANTARA_DESTINATIONS : [];
+      const totalDest = list.length;
+      const totalVisitors = list.reduce((acc, d) => acc + (d.current_visitors || 0), 0);
+      const warnings = list.filter(d => {
+        const pct = ((d.current_visitors || 0) / (d.daily_quota || 1000)) * 100;
+        return d.quota_status === 'ditutup_cuaca' || d.quota_status === 'hampir_penuh' || pct > 75;
+      }).length;
 
-      document.getElementById('kpiTotalDest').innerText = `${totalDest} Destinasi`;
-      document.getElementById('kpiTotalVisitors').innerText = `${totalVisitors.toLocaleString('id-ID')} Pengunjung`;
-      document.getElementById('kpiWarningCount').innerText = `${warnings} Terbatas / Waspada`;
-      document.getElementById('kpiStampCount').innerText = `${totalDest} Stempel Paspor`;
+      const destEl = document.getElementById('kpiTotalDest');
+      if (destEl) destEl.innerText = totalDest.toLocaleString('id-ID');
+
+      const visEl = document.getElementById('kpiTotalVisitors');
+      if (visEl) visEl.innerText = totalVisitors.toLocaleString('id-ID');
+
+      const warnEl = document.getElementById('kpiWarningCount');
+      if (warnEl) warnEl.innerText = warnings.toString();
+
+      const stampEl = document.getElementById('kpiStampCount');
+      if (stampEl) stampEl.innerText = totalDest.toLocaleString('id-ID');
     }
 
     async function promptChangeQuota(id) {
-      const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
+      const list = (typeof NUSANTARA_DESTINATIONS !== 'undefined') ? NUSANTARA_DESTINATIONS : [];
+      const dest = list.find(d => d.id === id);
       if (!dest) return;
 
       const newQuota = prompt(`Ubah batas kuota harian untuk ${dest.name}:`, dest.daily_quota);
       if (newQuota !== null && !isNaN(newQuota) && newQuota.trim() !== '') {
         const quotaVal = parseInt(newQuota);
-        const res = await npUpdateQuota(dest.id, quotaVal);
+        if (typeof npUpdateQuota === 'function') {
+          await npUpdateQuota(dest.id, quotaVal);
+        }
         dest.daily_quota = quotaVal;
         renderTable();
         updateKpis();
-        alert(`✅ Batas kuota harian untuk ${dest.name} berhasil diperbarui menjadi ${quotaVal} orang/hari.`);
+        alert(`Batas kuota harian untuk ${dest.name} berhasil disesuaikan menjadi ${quotaVal.toLocaleString('id-ID')} orang/hari.`);
       }
     }
 
@@ -382,7 +484,7 @@
       const quota = parseInt(document.getElementById('destInputQuota').value) || 1000;
       const lat = parseFloat(document.getElementById('destInputLat').value);
       const lng = parseFloat(document.getElementById('destInputLng').value);
-      const desc = document.getElementById('destInputDesc').value.trim() || 'Destinasi wisata lestari Indonesia.';
+      const desc = document.getElementById('destInputDesc').value.trim() || 'Destinasi wisata lestari cagar alam Indonesia.';
 
       const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 15);
       const id = `dest-custom-${Date.now().toString().slice(-4)}`;
@@ -403,18 +505,23 @@
         quota_status: 'tersedia',
         photo_url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
         description: desc,
-        eco_guidelines: 'Kawasan konservasi wisata lestari. Patuhi pedoman Sapta Pesona dan jaga kelestarian alam.',
-        wave_status: 'Normal (Kondisi Aman)',
+        eco_guidelines: 'Kawasan konservasi wisata lestari. Patuhi pedoman Sapta Pesona dan kelestarian alam.',
+        wave_status: 'Normal & Terkendali',
         ticket_price: 25000,
         stamp_icon: '🧭'
       };
 
-      await npInsertDestination(newDest);
+      if (typeof npInsertDestination === 'function') {
+        await npInsertDestination(newDest);
+      } else {
+        NUSANTARA_DESTINATIONS.unshift(newDest);
+      }
+
       closeAddDestModal();
       document.getElementById('addDestForm').reset();
       renderTable();
       updateKpis();
-      alert(`🎉 Destinasi "${name}" berhasil didaftarkan ke NusantaraPass!`);
+      alert(`Destinasi "${name}" berhasil didaftarkan ke NusantaraPass.`);
     }
   </script>
 </body>
