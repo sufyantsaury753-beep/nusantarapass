@@ -58,7 +58,7 @@ function renderHeroHUD() {
 
   const codePill = document.getElementById('hudCodePill');
   if (codePill) {
-    codePill.textContent = `KODE RESMI: ${currentDest.code} • 38 PROVINSI`;
+    codePill.textContent = currentDest.code;
   }
 
   const titleEl = document.getElementById('heroDestTitle');
@@ -67,13 +67,16 @@ function renderHeroHUD() {
   const metaEl = document.getElementById('heroDestMeta');
   if (metaEl) {
     const elevText = currentDest.elevation_m > 50 
-      ? `• Elevasi ${currentDest.elevation_m.toLocaleString('id-ID')} Mdpl`
-      : `• Elevasi ${currentDest.elevation_m} Mdpl (Pesisir Bahari)`;
+      ? `Elevasi ${currentDest.elevation_m.toLocaleString('id-ID')} Mdpl`
+      : `Elevasi ${currentDest.elevation_m} Mdpl (Pesisir)`;
     metaEl.innerHTML = `
-      <span>📍 ${currentDest.province}</span>
-      <span>• Wilayah Regional ${currentDest.region}</span>
+      <span>${currentDest.province}</span>
+      <span class="meta-sep">&bull;</span>
+      <span>Wilayah ${currentDest.region}</span>
+      <span class="meta-sep">&bull;</span>
       <span>${elevText}</span>
-      <span>• GPS: [${currentDest.latitude}, ${currentDest.longitude}]</span>
+      <span class="meta-sep">&bull;</span>
+      <span>GPS: [${currentDest.latitude}, ${currentDest.longitude}]</span>
     `;
   }
 }
@@ -84,62 +87,54 @@ function renderNarrativeContent() {
   if (narrativeEl) {
     narrativeEl.innerHTML = `
       <p style="margin-bottom: 12px;">${currentDest.description}</p>
-      <p style="color: #475569; font-size: 13px;">
+      <p style="color: #475569; font-size: 13.5px;">
         Kawasan ini telah tercatat dalam sistem pangkalan data nasional <b>NusantaraPass</b> sebagai salah satu objek wisata cagar alam dan budaya prioritas. Pengendalian daya dukung lingkungan (<i>carrying capacity</i>) diberlakukan secara ketat guna menjaga kelestarian ekosistem dan batuan situs bersejarah dari ancaman kerusakan akibat lonjakan wisatawan tanpa kendali.
       </p>
     `;
   }
 }
 
-// 3. Render SDG 11 & SDG 8.9 Conservation Protocols
+// 3. Render Conservation & Tourism Guidelines (Swiss Clean Grid)
 function renderSDGConservationRules() {
   const rulesGrid = document.getElementById('sdgRulesGrid');
   if (!rulesGrid) return;
 
   const cat = currentDest.category;
   let specificRule = 'Patuhi batas jalur aman dan dilarang menyalakan api unggun sembarangan.';
-  if (cat === 'pantai') specificRule = 'Gunakan sunscreen ramah terumbu karang (reef-safe) dan dilarang menginjak karang hidup.';
-  if (cat === 'budaya') specificRule = 'Dilarang memanjat, mencorat-coret, atau menyentuh batuan cagar budaya bernilai sejarah luhur.';
+  if (cat === 'pantai') specificRule = 'Gunakan tabir surya ramah terumbu karang (reef-safe) dan dilarang menginjak karang hidup.';
+  if (cat === 'budaya') specificRule = 'Dilarang memanjat, mencoret, atau menyentuh batuan cagar budaya bernilai sejarah.';
   if (cat === 'taman_nasional') specificRule = 'Jaga jarak aman dari satwa liar yang dilindungi dan dilarang memberi makanan sembarangan.';
 
   rulesGrid.innerHTML = `
-    <div class="sdg-rule-item">
-      <div class="sdg-rule-icon">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div>
-        <strong style="display:block; color:#14532d; font-size:11.5px;">Batas Daya Dukung:</strong>
-        Maksimal kuota ${currentDest.daily_quota.toLocaleString('id-ID')} pengunjung/hari guna mencegah overtourism.
+    <div class="guideline-item">
+      <span class="guideline-index">01</span>
+      <div class="guideline-body">
+        <h4>Daya Dukung Lingkungan</h4>
+        <p>Batas kuota harian maksimum ${currentDest.daily_quota.toLocaleString('id-ID')} pengunjung untuk mencegah degradasi kawasan.</p>
       </div>
     </div>
 
-    <div class="sdg-rule-item">
-      <div class="sdg-rule-icon">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div>
-        <strong style="display:block; color:#14532d; font-size:11.5px;">Kebijakan Nol Sampah Plastik:</strong>
-        Wajib membawa botol minum isi ulang dan membawa pulang seluruh sampah anorganik.
+    <div class="guideline-item">
+      <span class="guideline-index">02</span>
+      <div class="guideline-body">
+        <h4>Pengelolaan Sampah</h4>
+        <p>Wajib membawa kembali seluruh sampah anorganik dan dianjurkan menggunakan wadah guna ulang.</p>
       </div>
     </div>
 
-    <div class="sdg-rule-item">
-      <div class="sdg-rule-icon">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      </div>
-      <div>
-        <strong style="display:block; color:#14532d; font-size:11.5px;">Protokol Zona Konservasi:</strong>
-        ${specificRule}
+    <div class="guideline-item">
+      <span class="guideline-index">03</span>
+      <div class="guideline-body">
+        <h4>Zona Perlindungan</h4>
+        <p>${specificRule}</p>
       </div>
     </div>
 
-    <div class="sdg-rule-item">
-      <div class="sdg-rule-icon">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-      <div>
-        <strong style="display:block; color:#14532d; font-size:11.5px;">Kontribusi Pelestarian:</strong>
-        Retribusi tiket digunakan untuk perawatan berkala cagar alam-budaya bersama dinas daerah.
+    <div class="guideline-item">
+      <span class="guideline-index">04</span>
+      <div class="guideline-body">
+        <h4>Retribusi Konservasi</h4>
+        <p>Retribusi tiket disalurkan langsung untuk program konservasi habitat dan pemeliharaan cagar alam-budaya.</p>
       </div>
     </div>
   `;
@@ -151,13 +146,13 @@ function renderTelemetryKiosk() {
   const quotaRemaining = Math.max(0, currentDest.daily_quota - currentDest.current_visitors);
 
   let statusClass = 'aman';
-  let statusLabel = 'AMAN TERKENDALI';
+  let statusLabel = 'Terkendali';
   if (quotaPercent > 85) {
     statusClass = 'penuh';
-    statusLabel = 'HAMPIR PENUH';
+    statusLabel = 'Kapasitas Penuh';
   } else if (quotaPercent > 65) {
     statusClass = 'waspada';
-    statusLabel = 'PERINGATAN KUOTA';
+    statusLabel = 'Mendekati Batas';
   }
 
   const statusBadge = document.getElementById('kioskStatusBadge');
@@ -178,18 +173,18 @@ function renderTelemetryKiosk() {
   const progressBar = document.getElementById('capacityProgressBar');
   if (progressBar) {
     progressBar.style.width = `${quotaPercent}%`;
-    progressBar.style.background = statusClass === 'penuh' ? '#e11d48' : statusClass === 'waspada' ? '#d97706' : '#059669';
+    progressBar.style.background = statusClass === 'penuh' ? '#b91c1c' : statusClass === 'waspada' ? '#b45309' : '#0f172a';
   }
 
   const progressPercentText = document.getElementById('capacityPercentText');
   if (progressPercentText) {
-    progressPercentText.textContent = `${Math.round(quotaPercent)}% Terisi dari Kapasitas Harian`;
+    progressPercentText.textContent = `${Math.round(quotaPercent)}% Terisi dari Kapasitas`;
   }
 
   // Weather / Marine Status
   const envStatusText = document.getElementById('envStatusText');
   if (envStatusText) {
-    envStatusText.textContent = currentDest.wave_status || 'Normal (Aman & Kondusif)';
+    envStatusText.textContent = currentDest.wave_status || 'Normal & Kondusif';
   }
 
   // Ticket Price
@@ -354,16 +349,16 @@ function openPassportModal() {
           : null;
         if (!d) return '';
         return `
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 6px rgba(15,23,42,0.04);">
-            <div style="width: 44px; height: 44px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px;">
               ${d.stamp_icon || '🧭'}
             </div>
             <div style="flex: 1;">
-              <h4 style="font-size: 13px; font-weight: 800; color: #0f172a;">${d.name}</h4>
-              <div style="font-size: 11px; color: #64748b;">${d.province} • Terverifikasi</div>
+              <h4 style="font-size: 13px; font-weight: 700; color: #0f172a;">${d.name}</h4>
+              <div style="font-size: 11px; color: #64748b;">${d.province}</div>
             </div>
-            <span style="font-size: 10px; font-weight: 800; color: #059669; background: #d1fae5; padding: 4px 8px; border-radius: 6px;">
-              CAP RESMI
+            <span style="font-size: 10.5px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 3px 8px; border-radius: 6px;">
+              Terkoleksi
             </span>
           </div>
         `;

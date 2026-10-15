@@ -1,10 +1,10 @@
 /* =========================================================
-   NUSANTARAPASS — BESPOKE DESTINATION GEOPORTAL DETAIL DESIGN
-   Original Swiss GIS Precision, Apple HIG & Clean Modern Aesthetic
+   NUSANTARAPASS — BESPOKE DESTINATION GEOPORTAL
+   Swiss GIS Precision, Apple HIG & Human-Crafted Luxury Editorial
    ========================================================= */
 
 :root {
-  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --bg-page: #f8fafc;
   --surface-card: #ffffff;
   --text-primary: #0f172a;
@@ -14,18 +14,19 @@
   --border-strong: #cbd5e1;
   --accent-emerald: #059669;
   --accent-navy: #0f172a;
+  --accent-navy-hover: #1e293b;
   --accent-cyan: #0284c7;
   --accent-amber: #d97706;
   --accent-rose: #e11d48;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
-  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
-  --shadow-lg: 0 16px 36px -6px rgba(15, 23, 42, 0.12);
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-card: 0 2px 8px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.16);
+  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -39,21 +40,22 @@ body {
   background-color: var(--bg-page);
   color: var(--text-secondary);
   line-height: 1.6;
-  letter-spacing: -0.012em;
+  letter-spacing: -0.015em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .geoportal-detail-wrapper {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 16px 20px 50px;
+  padding: 20px 24px 60px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 /* ==========================================
-   TOPBAR NAVIGATION & BREADCRUMB
+   TOPBAR NAVIGATION
    ========================================== */
 .geoportal-topbar {
   background: #ffffff;
@@ -65,15 +67,16 @@ body {
   justify-content: space-between;
   box-shadow: var(--shadow-sm);
   position: sticky;
-  top: 12px;
+  top: 16px;
   z-index: 50;
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .brand-link {
@@ -84,14 +87,15 @@ body {
 }
 
 .brand-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 9px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
   background: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
+  flex-shrink: 0;
 }
 
 .brand-title-group h1 {
@@ -99,18 +103,18 @@ body {
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .brand-title-group p {
   font-size: 10.5px;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .topbar-nav-divider {
   width: 1px;
-  height: 24px;
+  height: 22px;
   background: var(--border-subtle);
 }
 
@@ -118,9 +122,9 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .breadcrumbs a {
@@ -148,10 +152,10 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 12px;
+  padding: 7px 13px;
   border-radius: var(--radius-sm);
-  font-size: 11.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   transition: var(--transition);
@@ -165,6 +169,21 @@ body {
   border-color: var(--border-strong);
 }
 
+.badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #ecfdf5;
+  color: #059669;
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .btn-topbar-admin {
   background: #0f172a;
   color: #ffffff;
@@ -173,12 +192,12 @@ body {
 
 .btn-topbar-admin:hover {
   background: #1e293b;
+  border-color: #1e293b;
   color: #ffffff;
 }
 
 /* ==========================================
-   ORIGINAL CINEMATIC HERO SHOWCASE
-   Wide Landscape Banner with Precision HUD
+   CINEMATIC HERO SHOWCASE BANNER
    ========================================== */
 .hero-showcase {
   position: relative;
@@ -203,24 +222,23 @@ body {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(15, 23, 42, 0.45) 0%,
-    rgba(15, 23, 42, 0.1) 40%,
-    rgba(15, 23, 42, 0.85) 100%
+    rgba(15, 23, 42, 0.4) 0%,
+    rgba(15, 23, 42, 0.05) 45%,
+    rgba(15, 23, 42, 0.88) 100%
   );
   pointer-events: none;
 }
 
-/* Top Floating HUD Badges */
+/* Top HUD Badges (Clean & Non-AI) */
 .hero-hud-top {
   position: absolute;
   top: 20px;
   left: 24px;
   right: 24px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   z-index: 2;
-  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -240,84 +258,61 @@ body {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
 .hud-pill.category-pill {
   background: #ffffff;
   color: #0f172a;
   border: none;
-  font-weight: 800;
-}
-
-.hud-pill-right {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(10px);
-  color: #a7f3d0;
-  font-size: 11px;
   font-weight: 700;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-}
-
-.live-dot-pulse {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
-  animation: pulseGreen 1.8s infinite;
-}
-
-@keyframes pulseGreen {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
-  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 /* Bottom Title Overlay */
 .hero-content-bottom {
   position: absolute;
-  bottom: 24px;
-  left: 24px;
-  right: 24px;
+  bottom: 26px;
+  left: 28px;
+  right: 28px;
   z-index: 2;
   color: #ffffff;
 }
 
 .hero-dest-title {
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 800;
   line-height: 1.15;
-  letter-spacing: -0.025em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .hero-dest-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 6px;
+  gap: 8px;
+  margin-top: 8px;
   font-size: 13px;
   color: #e2e8f0;
-  font-weight: 600;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.meta-sep {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
 }
 
 /* ==========================================
    MAIN DUAL-COLUMN CONTENT GRID
-   65% Narrative Heritage : 35% Live Telemetry Kiosk
+   65% Narrative Heritage : 35% Telemetry Kiosk
    ========================================== */
 .geoportal-main-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
-  gap: 20px;
+  gap: 24px;
   align-items: start;
 }
 
@@ -325,18 +320,18 @@ body {
 .narrative-col {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .content-surface-card {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 26px 28px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .card-header-clean {
@@ -344,78 +339,103 @@ body {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 12px;
+  padding-bottom: 14px;
 }
 
-.card-title-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-title-group h2 {
+.card-header-clean h2 {
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
+.section-subtext {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+.hint-text {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
 .narrative-body-text {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
-/* Sustainability / SDG Card */
-.sdg-conservation-box {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: var(--radius-md);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.narrative-body-text p:not(:last-child) {
+  margin-bottom: 12px;
 }
 
-.sdg-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 800;
-  color: #166534;
-}
-
-.sdg-rules-grid {
+/* Modern Swiss Conservation Guidelines (No AI Clichés) */
+.conservation-rules-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 16px;
+  padding-top: 4px;
 }
 
-.sdg-rule-item {
-  background: #ffffff;
-  border: 1px solid #dcfce7;
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
+.guideline-item {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  font-size: 12px;
-  color: #14532d;
-  line-height: 1.45;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
 }
 
-.sdg-rule-icon {
-  color: #059669;
+.guideline-item:hover {
+  background: #ffffff;
+  border-color: var(--border-strong);
+}
+
+.guideline-index {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: 2px;
+}
+
+.guideline-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.guideline-body h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.guideline-body p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 /* Photo Documentation Grid */
 .visual-docs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 .doc-photo-card {
@@ -432,23 +452,23 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.35s ease;
 }
 
 .doc-photo-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .doc-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.75) 100%);
+  background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.8) 100%);
   display: flex;
   align-items: flex-end;
-  padding: 8px 10px;
+  padding: 10px 12px;
   color: #ffffff;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -458,26 +478,25 @@ body {
 }
 
 /* ==========================================
-   RIGHT COLUMN: TELEMETRY & SMART PASS KIOSK
+   RIGHT COLUMN: TELEMETRY & KIOSK
    ========================================== */
 .telemetry-kiosk-col {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   position: sticky;
-  top: 74px;
+  top: 76px;
 }
 
-/* Carrying Capacity Card */
 .kiosk-card {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 22px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .kiosk-card-header {
@@ -486,49 +505,46 @@ body {
   align-items: center;
 }
 
-.kiosk-card-title {
-  font-size: 13.5px;
-  font-weight: 800;
+.kiosk-heading {
+  font-size: 14px;
+  font-weight: 700;
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  letter-spacing: -0.015em;
 }
 
 .status-badge-chip {
-  font-size: 10.5px;
-  font-weight: 800;
-  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
-  text-transform: uppercase;
 }
 
 .status-badge-chip.aman {
-  background: #ecfdf5;
-  color: #059669;
-  border: 1px solid #a7f3d0;
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid var(--border-subtle);
 }
 
 .status-badge-chip.waspada {
   background: #fffbeb;
-  color: #d97706;
+  color: #b45309;
   border: 1px solid #fde68a;
 }
 
 .status-badge-chip.penuh {
   background: #fef2f2;
-  color: #e11d48;
+  color: #b91c1c;
   border: 1px solid #fecdd3;
 }
 
-/* Telemetry 3-Column Metrics */
+/* Telemetry 3-Column Strip */
 .telemetry-metrics-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   background: #f8fafc;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 10px 6px;
+  padding: 12px 8px;
   text-align: center;
 }
 
@@ -536,7 +552,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
 }
 
 .telemetry-col-item:not(:last-child) {
@@ -544,15 +560,15 @@ body {
 }
 
 .metric-number-bold {
-  font-size: 14.5px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
 }
 
 .metric-label-micro {
-  font-size: 9px;
-  font-weight: 700;
+  font-size: 9.5px;
+  font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -562,72 +578,121 @@ body {
 .capacity-progress-box {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .capacity-progress-track {
   width: 100%;
-  height: 8px;
+  height: 6px;
   background: #e2e8f0;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .capacity-progress-bar {
   height: 100%;
-  background: #059669;
-  border-radius: 4px;
-  transition: width 0.6s ease;
+  background: #0f172a;
+  border-radius: 3px;
+  transition: width 0.5s ease;
 }
 
-/* Weather & Marine Mini Row */
-.gis-environment-strip {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: var(--radius-md);
-  padding: 10px 14px;
+.capacity-status-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  font-size: 12px;
-  color: #0369a1;
+  align-items: center;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-.env-meta-left {
+.capacity-subnote {
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* Weather & Marine Info Row (Understated) */
+.env-condition-card {
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
+}
+
+.env-condition-label {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .env-status-text {
+  font-size: 12.5px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
-/* Pass Booking Kiosk */
+/* Ticket Price Box */
 .kiosk-ticket-price-box {
   background: #f8fafc;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.price-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
 .price-val-large {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
-  color: #059669;
+  color: var(--text-primary);
+}
+
+.price-unit {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.kiosk-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
 }
 
 .btn-issue-pass {
   background: #0f172a;
   color: #ffffff;
   border: none;
-  padding: 13px 18px;
-  border-radius: 11px;
-  font-size: 13px;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
   font-weight: 700;
   cursor: pointer;
   width: 100%;
@@ -635,34 +700,70 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
   transition: var(--transition);
 }
 
 .btn-issue-pass:hover {
   background: #1e293b;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.3);
 }
 
-/* Digital Stamp Preview Card */
-.stamp-preview-card {
+/* Result QR Pass Card */
+.pass-result-card {
   background: #f8fafc;
-  border: 1px dashed var(--border-strong);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px;
+  padding: 16px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.pass-result-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+  margin-bottom: 10px;
+}
+
+.pass-qr-frame {
+  display: inline-block;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.pass-token-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pass-help-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* Passport Stamp Preview Card */
+.stamp-preview-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .stamp-badge-circle {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: #ecfdf5;
-  border: 1.5px solid #10b981;
-  color: #059669;
+  background: #f8fafc;
+  border: 1px solid var(--border-strong);
+  color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -670,18 +771,18 @@ body {
 }
 
 .stamp-preview-info h4 {
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .stamp-preview-info p {
-  font-size: 10.5px;
+  font-size: 11.5px;
   color: var(--text-muted);
 }
 
 /* ==========================================
-   IMAGE VIEWER MODAL (ORIGINAL CLEAN LIGHTBOX)
+   IMAGE VIEWER MODAL (BESPOKE LIGHTBOX)
    ========================================== */
 .clean-image-viewer {
   position: fixed;
@@ -716,7 +817,7 @@ body {
 }
 
 .viewer-close-btn {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   border: none;
   color: #ffffff;
   width: 32px;
@@ -727,6 +828,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: var(--transition);
+}
+
+.viewer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .viewer-stage img {
@@ -735,6 +841,146 @@ body {
   object-fit: contain;
   border-radius: var(--radius-md);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================
+   PASSPORT BOOKLET MODAL (FIX FOOTER LEAK)
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modalSlideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(12px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.modal-header p {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.modal-close-btn {
+  background: #f1f5f9;
+  border: none;
+  color: #64748b;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.passport-meta-banner {
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.passport-meta-sub {
+  font-size: 10px;
+  color: #059669;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.passport-meta-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.btn-download-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-download-pdf:hover {
+  background: #1e293b;
+}
+
+.passport-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.passport-stamps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
 }
 
 /* ==========================================
@@ -777,16 +1023,20 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .sdg-rules-grid {
+  .conservation-rules-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 600px) {
+  .geoportal-detail-wrapper {
+    padding: 12px 14px 40px;
+  }
+
   .geoportal-topbar {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 12px;
   }
 
   .topbar-left {

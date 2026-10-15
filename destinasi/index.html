@@ -26,7 +26,7 @@
       <div class="topbar-left">
         <a class="brand-link" href="../index.html">
           <div class="brand-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
           </div>
           <div class="brand-title-group">
             <h1>NusantaraPass</h1>
@@ -52,7 +52,7 @@
         </a>
         <button class="btn-topbar" onclick="openPassportModal()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="2" width="18" height="20" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M7 17h10"/></svg>
-          Paspor Saya (<span id="passportBadgeCount" style="color: #059669; font-weight: 800;">0</span>)
+          Paspor Saya <span class="badge-count" id="passportBadgeCount">0</span>
         </button>
         <a class="btn-topbar btn-topbar-admin" href="../admin/index.html">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -66,20 +66,15 @@
       <img id="heroShowcaseBg" class="hero-showcase-bg" src="" alt="Lanskap Destinasi" />
       <div class="hero-showcase-gradient"></div>
 
-      <!-- Top HUD Telemetry Badges -->
+      <!-- Top HUD Clean Badges -->
       <div class="hero-hud-top">
         <div class="hero-hud-left">
           <div class="hud-pill category-pill" id="hudCategoryPill">
             <span>Kategori</span>
           </div>
           <div class="hud-pill" id="hudCodePill">
-            KODE: NP-00-00
+            NP-00-00
           </div>
-        </div>
-
-        <div class="hud-pill-right">
-          <span class="live-dot-pulse"></span>
-          <span>Pemantauan Daya Dukung 38 Provinsi</span>
         </div>
       </div>
 
@@ -97,43 +92,27 @@
         <!-- Card 1: Heritage Profile & Value -->
         <article class="content-surface-card">
           <div class="card-header-clean">
-            <div class="card-title-group">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-              <h2>Profil &amp; Nilai Signifikansi Cagar Budaya/Alam</h2>
-            </div>
+            <h2>Tentang Destinasi</h2>
           </div>
           <div class="narrative-body-text" id="narrativeBodyText"></div>
         </article>
 
-        <!-- Card 2: SDG 11 & SDG 8.9 Sustainable Tourism Protocols -->
-        <article class="content-surface-card" style="border-left: 3px solid #059669;">
+        <!-- Card 2: Conservation Protocols (Clean Swiss Grid) -->
+        <article class="content-surface-card">
           <div class="card-header-clean">
-            <div class="card-title-group">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <h2>Protokol Ekowisata Berkelanjutan (SDG 11 &amp; SDG 8.9)</h2>
+            <div>
+              <h2>Panduan Konservasi &amp; Etika Kunjungan</h2>
+              <p class="section-subtext">Ketentuan pelestarian lingkungan dan cagar budaya nasional bagi setiap pengunjung.</p>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 3px 8px; border-radius: 6px;">
-              Pelestarian Warisan Terverifikasi
-            </span>
           </div>
-
-          <div class="sdg-conservation-box">
-            <div class="sdg-header">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-              <span>Pedoman Wajib Bagi Pengunjung &amp; Wisatawan Nusantara:</span>
-            </div>
-            <div class="sdg-rules-grid" id="sdgRulesGrid"></div>
-          </div>
+          <div class="conservation-rules-grid" id="sdgRulesGrid"></div>
         </article>
 
         <!-- Card 3: Visual Field Documentation Grid -->
         <article class="content-surface-card">
           <div class="card-header-clean">
-            <div class="card-title-group">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <h2>Dokumentasi Lanskap &amp; Cagar Alam</h2>
-            </div>
-            <span style="font-size: 11px; color: #64748b;">Klik foto untuk memperbesar</span>
+            <h2>Dokumentasi Lanskap &amp; Cagar Alam</h2>
+            <span class="hint-text">Klik foto untuk memperbesar</span>
           </div>
           <div class="visual-docs-grid" id="visualDocsGrid"></div>
         </article>
@@ -144,11 +123,8 @@
         <!-- Kiosk Card 1: Carrying Capacity Barometer -->
         <div class="kiosk-card">
           <div class="kiosk-card-header">
-            <div class="kiosk-card-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span>Daya Dukung Lingkungan</span>
-            </div>
-            <span class="status-badge-chip aman" id="kioskStatusBadge">AMAN</span>
+            <span class="kiosk-heading">Daya Dukung Lingkungan</span>
+            <span class="status-badge-chip aman" id="kioskStatusBadge">Terkendali</span>
           </div>
 
           <!-- 3-Column Telemetry Strip -->
@@ -162,7 +138,7 @@
               <span class="metric-label-micro">Terdaftar</span>
             </div>
             <div class="telemetry-col-item">
-              <span class="metric-number-bold" style="color: #059669;" id="metricRemainingQuota">0</span>
+              <span class="metric-number-bold" id="metricRemainingQuota">0</span>
               <span class="metric-label-micro">Sisa Kuota</span>
             </div>
           </div>
@@ -171,49 +147,36 @@
             <div class="capacity-progress-track">
               <div class="capacity-progress-bar" id="capacityProgressBar" style="width: 50%;"></div>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b;">
+            <div class="capacity-status-row">
               <span id="capacityPercentText">0% Terisi</span>
-              <span>SDG 8.9 Monitored</span>
+              <span class="capacity-subnote">Monitoring Aktif</span>
             </div>
           </div>
         </div>
 
-        <!-- Kiosk Card 2: Environmental & Meteorology GIS -->
-        <div class="gis-environment-strip">
-          <div class="env-meta-left">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            <div>
-              <div style="font-size: 9.5px; text-transform: uppercase; font-weight: 700; color: #0284c7;">Status Alam &amp; BMKG</div>
-              <div class="env-status-text" id="envStatusText">Normal (Aman)</div>
-            </div>
-          </div>
-          <span style="font-size: 10px; font-weight: 800; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 6px;">
-            Terpantau
-          </span>
+        <!-- Environmental & BMKG Info Strip -->
+        <div class="env-condition-card">
+          <span class="env-condition-label">Kondisi Alam &amp; Cuaca (BMKG)</span>
+          <span class="env-status-text" id="envStatusText">Normal &amp; Kondusif</span>
         </div>
 
-        <!-- Kiosk Card 3: Smart Pass (QR) Issuance -->
+        <!-- Kiosk Card 2: Smart Pass (QR) Issuance -->
         <div class="kiosk-card">
           <div class="kiosk-card-header">
-            <div class="kiosk-card-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
-              <span>Tiket Konservasi &amp; Pass</span>
-            </div>
+            <span class="kiosk-heading">Penerbitan Tiket &amp; Pass</span>
           </div>
 
           <div class="kiosk-ticket-price-box">
             <div>
-              <div style="font-size: 10.5px; color: #64748b; font-weight: 600;">Retribusi Pelestarian:</div>
+              <div class="price-label">Retribusi Konservasi:</div>
               <div class="price-val-large" id="kioskTicketPrice">Rp 20.000</div>
             </div>
-            <span style="font-size: 10px; color: #059669; font-weight: 700; background: #ecfdf5; padding: 3px 8px; border-radius: 6px;">
-              Per Orang
-            </span>
+            <span class="price-unit">per pengunjung</span>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <input type="text" id="kioskVisitorName" class="form-input" style="padding: 9px 12px; font-size: 12px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%;" placeholder="Nama lengkap wisatawan..." value="Sufyan Tsauri" />
-            <input type="email" id="kioskVisitorEmail" class="form-input" style="padding: 9px 12px; font-size: 12px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%;" placeholder="Email aktif..." value="sufyantsaury753@gmail.com" />
+          <div class="kiosk-form-group">
+            <input type="text" id="kioskVisitorName" class="form-input" placeholder="Nama lengkap wisatawan..." value="Sufyan Tsauri" />
+            <input type="email" id="kioskVisitorEmail" class="form-input" placeholder="Email aktif..." value="sufyantsaury753@gmail.com" />
           </div>
 
           <button class="btn-issue-pass" onclick="issueDirectPass()">
@@ -222,28 +185,26 @@
           </button>
 
           <!-- Result QR Box -->
-          <div id="kioskPassResultBox" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; text-align: center; margin-top: 4px;">
-            <div style="font-size: 11px; font-weight: 800; color: #059669; margin-bottom: 8px;">
-              TIKET RESMI BERHASIL DITERBITKAN &amp; STEMPEL TERSIMPAN!
-            </div>
-            <div id="kioskQrCodeContainer" style="display: inline-block; padding: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px;"></div>
-            <div id="kioskPassTokenText" style="font-family: monospace; font-size: 11px; font-weight: 800; color: #0284c7;"></div>
-            <p style="font-size: 10px; color: #64748b; margin-top: 6px;">
+          <div id="kioskPassResultBox" style="display: none;" class="pass-result-card">
+            <div class="pass-result-badge">TIKET RESMI BERHASIL DITERBITKAN</div>
+            <div id="kioskQrCodeContainer" class="pass-qr-frame"></div>
+            <div id="kioskPassTokenText" class="pass-token-code"></div>
+            <p class="pass-help-text">
               Tunjukkan QR Code ini pada petugas gerbang untuk verifikasi izin masuk.
             </p>
           </div>
         </div>
 
-        <!-- Kiosk Card 4: Digital Passport Stamp Seal -->
+        <!-- Kiosk Card 3: Digital Passport Stamp Seal -->
         <div class="stamp-preview-card">
           <div class="stamp-badge-circle">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
           <div class="stamp-preview-info" style="flex: 1;">
             <h4>Stempel Paspor Resmi</h4>
             <p id="stampSealName">Nama Destinasi</p>
           </div>
-          <button class="btn-topbar" onclick="openPassportModal()" style="padding: 5px 9px; font-size: 10.5px;">
+          <button class="btn-topbar" onclick="openPassportModal()" style="padding: 6px 12px; font-size: 11px;">
             Buku Paspor
           </button>
         </div>
@@ -270,33 +231,33 @@
     </div>
   </div>
 
-  <!-- Passport Booklet Modal & PDF -->
-  <div class="modal-overlay" id="passportModal">
-    <div class="modal-dialog" style="max-width: 580px; background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow-lg); border: 1px solid #e2e8f0;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">
+  <!-- Passport Booklet Modal & PDF (Fixed Overlay - Hidden by default) -->
+  <div class="modal-overlay" id="passportModal" onclick="if(event.target === this) closePassportModal()">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
+      <div class="modal-header">
         <div>
-          <h3 style="font-size: 16px; font-weight: 800; color: #0f172a;">Paspor Jelajah Nusantara</h3>
-          <p style="font-size: 11px; color: #64748b;">Buku Koleksi Stempel Resmi &amp; Sertifikat Pelestari Budaya</p>
+          <h3>Paspor Jelajah Nusantara</h3>
+          <p>Buku Koleksi Stempel Resmi &amp; Sertifikat Pelestari Budaya</p>
         </div>
-        <button class="viewer-close-btn" style="background: #f1f5f9; color: #64748b;" onclick="closePassportModal()">&times;</button>
+        <button class="modal-close-btn" onclick="closePassportModal()">&times;</button>
       </div>
 
-      <div style="background: linear-gradient(135deg, #ecfdf5, #f0fdf4); border: 1px solid #a7f3d0; padding: 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;">
+      <div class="passport-meta-banner">
         <div>
-          <div style="font-size: 10.5px; color: #059669; font-weight: 800;">PASPOR DIGITAL TERVALIDASI</div>
-          <div style="font-size: 13.5px; font-weight: 800; color: #0f172a;">Pemegang: Sufyan Tsauri</div>
+          <div class="passport-meta-sub">Paspor Digital Tervalidasi</div>
+          <div class="passport-meta-name">Pemegang: Sufyan Tsauri</div>
         </div>
-        <button class="btn-topbar" style="background: #059669; color: white; border-color: #059669;" onclick="downloadPassportPDF()">
+        <button class="btn-download-pdf" onclick="downloadPassportPDF()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Unduh Paspor (PDF)
         </button>
       </div>
 
-      <div style="font-size: 12px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">
+      <div class="passport-section-title">
         Daftar Stempel Destinasi yang Berhasil Dikoleksi:
       </div>
 
-      <div id="passportStampsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;"></div>
+      <div id="passportStampsList" class="passport-stamps-list"></div>
     </div>
   </div>
 
