@@ -378,77 +378,81 @@ body::before {
   background: #94a3b8;
 }
 
-/* Region Accordion Item */
-.region-accordion-box {
-  border: 1px solid var(--border-subtle);
-  border-radius: 9px;
-  background: #ffffff;
-  overflow: hidden;
-  transition: all 0.16s ease;
+/* ==========================================
+   TRUE INDENTED HIERARCHICAL TREE (Menjorok ke Dalam)
+   ========================================== */
+.tree-region-branch {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  transition: all 0.15s ease;
 }
 
-.region-accordion-box.active {
-  border-color: #059669;
-  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.08);
-}
-
-.region-header-btn {
+/* Parent Row (Level 1: Pulau / Nasional) */
+.tree-parent-row {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
   background: #f8fafc;
-  border: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
   transition: all 0.15s ease;
   font-family: inherit;
 }
 
-.region-header-btn:hover {
+.tree-parent-row:hover {
   background: #f1f5f9;
+  border-color: #cbd5e1;
 }
 
-.region-accordion-box.active .region-header-btn {
+.tree-region-branch.active .tree-parent-row {
   background: #ecfdf5;
+  border-color: #a7f3d0;
 }
 
-.region-header-left {
+.tree-parent-left {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   min-width: 0;
 }
 
-.region-header-title {
-  font-size: 12px;
+.tree-parent-title {
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--text-primary);
   white-space: nowrap;
 }
 
-.region-header-right {
+.tree-region-branch.active .tree-parent-title {
+  color: #065f46;
+}
+
+.tree-parent-right {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.region-header-badge {
+.tree-parent-badge {
   font-size: 9.5px;
   font-weight: 700;
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background: #e2e8f0;
   color: #475569;
 }
 
-.region-accordion-box.active .region-header-badge {
+.tree-region-branch.active .tree-parent-badge {
   background: #a7f3d0;
   color: #065f46;
 }
 
-.region-chevron {
+.tree-parent-chevron {
   width: 13px;
   height: 13px;
   color: #94a3b8;
@@ -456,50 +460,74 @@ body::before {
   flex-shrink: 0;
 }
 
-.region-accordion-box.open .region-chevron {
+.tree-region-branch.open .tree-parent-chevron {
   transform: rotate(90deg);
   color: #059669;
 }
 
-/* Hierarchical Sublist of Destinations */
-.region-sublist {
+/* Sub-Daftar Destinasi MENJOROK KE DALAM (Indented Tree Branch) */
+.tree-children-container {
   display: none;
-  padding: 4px 6px 6px;
-  background: #ffffff;
+  margin-left: 16px;              /* Menjorok ke kanan dalam */
+  padding-left: 12px;             /* Jarak dari garis cabang */
+  border-left: 2px solid #e2e8f0; /* Garis panduan hierarki pohon */
+  margin-top: 4px;
+  margin-bottom: 6px;
   flex-direction: column;
-  gap: 3px;
-  border-top: 1px solid #f1f5f9;
+  gap: 4px;
+  position: relative;
 }
 
-.region-accordion-box.open .region-sublist {
+.tree-region-branch.open .tree-children-container {
   display: flex;
 }
 
-/* Destination Tree Node Item */
-.tree-dest-item {
+.tree-region-branch.active .tree-children-container {
+  border-left-color: #10b981;     /* Garis pohon hijau saat pulau aktif */
+}
+
+/* Destinasi Anak (Child Item dalam Hierarki) */
+.tree-child-item {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 6px 8px;
   border-radius: 7px;
   background: #ffffff;
-  border: 1px solid transparent;
+  border: 1px solid #f1f5f9;
   cursor: pointer;
   transition: all 0.15s ease;
+  position: relative;
 }
 
-.tree-dest-item:hover {
+/* Garis horizontal penghubung dari garis cabang ke item */
+.tree-child-item::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 12px;
+  height: 1.5px;
+  background: #cbd5e1;
+}
+
+.tree-region-branch.active .tree-child-item::before {
+  background: #86efac;
+}
+
+.tree-child-item:hover {
   background: #f8fafc;
-  border-color: #e2e8f0;
+  border-color: #cbd5e1;
   transform: translateX(2px);
 }
 
-.tree-dest-item.selected {
+.tree-child-item.selected {
   background: #f0fdf4;
   border-color: #86efac;
+  box-shadow: 0 1px 4px rgba(16, 185, 129, 0.12);
 }
 
-.tree-dest-icon {
+.tree-child-icon {
   width: 24px;
   height: 24px;
   border-radius: 6px;
@@ -509,12 +537,12 @@ body::before {
   flex-shrink: 0;
 }
 
-.tree-dest-details {
+.tree-child-details {
   flex: 1;
   min-width: 0;
 }
 
-.tree-dest-name {
+.tree-child-name {
   font-size: 11.5px;
   font-weight: 700;
   color: var(--text-primary);
@@ -524,7 +552,7 @@ body::before {
   line-height: 1.2;
 }
 
-.tree-dest-meta {
+.tree-child-meta {
   font-size: 9.5px;
   color: var(--text-muted);
   white-space: nowrap;

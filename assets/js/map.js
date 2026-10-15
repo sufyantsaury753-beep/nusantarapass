@@ -9,7 +9,7 @@ let destinationMarkers = {};
 let currentBasemap = 'osm'; // Default to Clean Light OpenStreetMap
 let currentCategoryFilter = 'all';
 let currentRegionFilter = 'all';
-let openRegionKey = 'Jawa'; // Default open Jawa in hierarchy tree
+let openRegionKeys = new Set(['Jawa']); // Default open Jawa in hierarchy tree
 let selectedDestId = null;
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
 
@@ -329,7 +329,7 @@ function initRegionHierarchy() {
   REGIONS_HIERARCHY_CONFIG.forEach((reg) => {
     const isAll = reg.key === 'all';
     const isActive = currentRegionFilter === reg.key;
-    const isOpen = openRegionKey === reg.key;
+    const isOpen = openRegionKeys.has(reg.key);
 
     // Filter destinasi untuk wilayah ini
     const destsInRegion = isAll
@@ -343,11 +343,11 @@ function initRegionHierarchy() {
       ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
       : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
 
-    // Hierarki sub-daftar destinasi di bawah pulau
-    let sublistHtml = '';
+    // Hierarki sub-daftar destinasi (MENJOROK KE KANAN DALAM) di bawah pulau
+    let childrenHtml = '';
     if (!isAll && destsInRegion.length > 0) {
-      sublistHtml = `
-        <div class="region-sublist">
+      childrenHtml = `
+        <div class="tree-children-container">
           ${destsInRegion.map((dest) => {
             const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
             const dotColor = quotaPercent > 90 ? '#ef4444' : quotaPercent > 70 ? '#f59e0b' : '#10b981';
@@ -359,13 +359,13 @@ function initRegionHierarchy() {
             const isSelected = selectedDestId === dest.id ? 'selected' : '';
 
             return `
-              <div class="tree-dest-item ${isSelected}" data-dest-id="${dest.id}" onclick="focusDestination('${dest.id}')">
-                <div class="tree-dest-icon" style="background: ${catBg}; color: ${catColor};">
+              <div class="tree-child-item ${isSelected}" data-dest-id="${dest.id}" onclick="focusDestination('${dest.id}')">
+                <div class="tree-child-icon" style="background: ${catBg}; color: ${catColor};">
                   ${getCategoryBadgeSvg(dest.category)}
                 </div>
-                <div class="tree-dest-details">
-                  <div class="tree-dest-name">${dest.name}</div>
-                  <div class="tree-dest-meta">
+                <div class="tree-child-details">
+                  <div class="tree-child-name">${dest.name}</div>
+                  <div class="tree-child-meta">
                     <span>${dest.province}</span>
                     <span>•</span>
                     <span style="display: inline-flex; align-items: center; gap: 3px;">
@@ -383,18 +383,18 @@ function initRegionHierarchy() {
     }
 
     html += `
-      <div class="region-accordion-box ${isActive ? 'active' : ''} ${isOpen ? 'open' : ''}" id="regBox_${reg.key}">
-        <button class="region-header-btn" onclick="handleRegionClick('${reg.key}')" type="button">
-          <div class="region-header-left">
+      <div class="tree-region-branch ${isActive ? 'active' : ''} ${isOpen ? 'open' : ''}" id="regBranch_${reg.key}">
+        <button class="tree-parent-row" onclick="handleRegionClick('${reg.key}')" type="button">
+          <div class="tree-parent-left">
             <span style="color: ${isActive ? '#059669' : '#64748b'};">${iconSvg}</span>
-            <span class="region-header-title">${reg.name}</span>
+            <span class="tree-parent-title">${reg.name}</span>
           </div>
-          <div class="region-header-right">
-            <span class="region-header-badge">${count} Destinasi</span>
-            ${!isAll ? `<svg class="region-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>` : ''}
+          <div class="tree-parent-right">
+            <span class="tree-parent-badge">${count} Destinasi</span>
+            ${!isAll ? `<svg class="tree-parent-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>` : ''}
           </div>
         </button>
-        ${sublistHtml}
+        ${childrenHtml}
       </div>
     `;
   });
@@ -404,17 +404,16 @@ function initRegionHierarchy() {
 
 function handleRegionClick(regKey) {
   if (regKey === 'all') {
-    openRegionKey = null;
+    openRegionKeys.clear();
     currentRegionFilter = 'all';
   } else {
-    // Jika diklik dan sudah terbuka, toggle
-    if (openRegionKey === regKey) {
-      openRegionKey = null;
-      currentRegionFilter = 'all';
+    // Toggle status buka cabang wilayah
+    if (openRegionKeys.has(regKey)) {
+      openRegionKeys.delete(regKey);
     } else {
-      openRegionKey = regKey;
-      currentRegionFilter = regKey;
+      openRegionKeys.add(regKey);
     }
+    currentRegionFilter = regKey;
   }
 
   // Fly smooth ke koordinat pulau/nasional
@@ -437,13 +436,15 @@ function focusDestination(destId) {
   const dest = NUSANTARA_DESTINATIONS.find((d) => d.id === destId);
   if (!dest) return;
 
-  // Pastikan wilayahnya terbuka dan aktif
+  // Pastikan cabang wilayahnya terbuka di hierarki
+  openRegionKeys.add(dest.region);
   if (currentRegionFilter !== 'all' && currentRegionFilter !== dest.region) {
     currentRegionFilter = dest.region;
-    openRegionKey = dest.region;
     renderMapMarkers();
     renderDestinationGrid();
   }
+
+  initRegionHierarchy();
 
   // Fly ke koordinat destinasi dengan detail zoom
   if (mapInstance) {
@@ -461,7 +462,7 @@ function focusDestination(destId) {
   }, 450);
 
   // Tandai item terpilih di sidebar
-  document.querySelectorAll('.tree-dest-item').forEach((item) => {
+  document.querySelectorAll('.tree-child-item').forEach((item) => {
     item.classList.toggle('selected', item.dataset.destId === destId);
   });
 }
