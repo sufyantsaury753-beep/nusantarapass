@@ -244,22 +244,30 @@ function renderMapMarkers() {
       initRegionHierarchy();
     });
 
-    // Kotak Popup Bersih & Ringkas (Gambar, Nama Wisata, Daerah, & Tombol Lihat Detail)
+    // Kotak Popup Bersih & Ringkas Bergaya Mountain Gallery (Pill Elevasi, Nama, Lokasi, Tombol Buka Galeri)
+    const elevOrCat = dest.elevation_m > 50 
+      ? `${dest.elevation_m.toLocaleString('id-ID')} Mdpl`
+      : getCategoryDisplayName(dest.category);
+
     const popupHtml = `
       <div class="popup-card-content">
         <div class="popup-img-box">
           <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
-          <div style="position: absolute; top: 8px; left: 8px; background: ${catColor}; color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
-            ${getCategoryBadgeSvg(dest.category)} ${getCategoryDisplayName(dest.category)}
+          <div class="popup-pill-tag">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 19L9 8L14 15L17 11L21 19H3Z"/></svg>
+            ${elevOrCat}
           </div>
         </div>
         <div class="popup-info-body">
           <div class="popup-title">${dest.name}</div>
-          <div class="popup-meta">${dest.province} • ${dest.region}</div>
-          <button class="popup-btn-pass" onclick="openDestDetailModal('${dest.id}')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            Lihat Detail
-          </button>
+          <div class="popup-location">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>${dest.province}, ${dest.region}</span>
+          </div>
+          <a href="galeri/index.html?id=${dest.id}" class="popup-btn-gallery">
+            <span>Buka Galeri</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
         </div>
       </div>
     `;
@@ -505,10 +513,10 @@ function renderDestinationGrid() {
                 Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')}
               </span>
               <div style="display: flex; gap: 6px;">
-                <button class="btn-nav" onclick="openDestDetailModal('${dest.id}')" title="Lihat info lengkap">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  Detail
-                </button>
+                <a href="galeri/index.html?id=${dest.id}" class="btn-nav" title="Buka Galeri & Detail">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  Galeri
+                </a>
                 <button class="btn-nav" onclick="zoomToDest(${dest.latitude}, ${dest.longitude})" title="Fokus ke peta">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   Peta
