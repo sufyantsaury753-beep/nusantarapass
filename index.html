@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NusantaraPass — Platform Geoportal Interkoneksi &amp; Paspor Wisata Berkelanjutan Indonesia</title>
+  <title>NusantaraPass — Platform Geoportal &amp; Paspor Wisata Berkelanjutan Indonesia</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23059669%22/><polygon points=%2265,35 56,56 35,65 44,44%22 fill=%22%23ffffff%22/></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230f172a%22/><polygon points=%2265,35 56,56 35,65 44,44%22 fill=%22%23ffffff%22/></svg>" />
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -16,246 +16,190 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Custom CSS (Clean White Modern & GIS Styling) -->
+  <!-- Custom CSS (Senior Human Product Design System) -->
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/map.css" />
 </head>
 
 <body>
-  <!-- Topbar Header (Tanpa Ticker Banner Atas) -->
+  <!-- Topbar Header (Minimal Editorial Navigation) -->
   <header class="topbar">
-    <div class="topbar-content">
-      <a href="index.html" class="brand-wrapper">
-        <div class="brand-logo-box">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <circle cx="12" cy="12" r="10"/>
-            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="white"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
           </svg>
-        </div>
-        <div class="brand-title-box">
-          <h1>NusantaraPass <span class="brand-version-pill">v1.0 • Geoportal</span></h1>
-          <p>Smart Interconnected Geotourism &amp; Heritage Passport</p>
+        </span>
+        <div class="brand-text">
+          <span class="brand-title">NusantaraPass</span>
+          <span class="brand-subtitle">Smart Geotourism &amp; Heritage</span>
         </div>
       </a>
 
-      <!-- Action Buttons with Pure SVG Icons -->
-      <div class="nav-actions">
-        <button class="btn-nav btn-nav-passport" onclick="openPassportModal()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="2" width="18" height="20" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M7 17h10"/></svg>
-          <span>Paspor Saya</span>
-          <span class="badge-count" id="passportBadgeCount">0</span>
+      <!-- Functional Top Navigation (No Floating Card Clutter) -->
+      <nav class="top-nav" aria-label="Navigasi Utama">
+        <button class="nav-item" onclick="openPassportModal()">
+          <span>Paspor</span>
+          <span class="nav-badge" id="passportBadgeCount">0</span>
         </button>
-        <button class="btn-nav btn-nav-outline" onclick="openApiModal()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          <span>REST API Docs</span>
+        <button class="nav-item" onclick="openApiModal()">
+          <span>API</span>
         </button>
-        <a href="admin/index.html" class="btn-nav btn-nav-admin">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Dashboard Admin</span>
+        <a href="admin/index.html" class="nav-item nav-item-admin">
+          <span>Admin</span>
         </a>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <!-- Main Map & Dashboard Section -->
+  <!-- Main Geographic Exploration Layout -->
   <main class="main-layout">
     <div class="geoportal-dashboard-grid">
-      <!-- Left Sidebar Barometer & Live KPI Metrics -->
+      <!-- Left Sidebar: Clean & Utilitarian Geographic Explorer -->
       <aside class="geoportal-sidebar-left">
-        <!-- Telemetry Status Header -->
-        <div class="sidebar-top-title">
-          <div class="telemetry-live-indicator">
-            <span class="live-pulse-dot"></span>
-            <span class="live-status-text">Pemantauan Kuota 38 Provinsi</span>
-          </div>
-          <h3 class="sidebar-heading">Status &amp; Daya Dukung</h3>
-        </div>
-
-        <!-- Unified Monochromatic Telemetry Strip (Sleek Swiss Precision) -->
-        <div class="sidebar-telemetry-strip">
-          <div class="telemetry-stat-col">
-            <div class="telemetry-val" id="kpiTotalDest">20</div>
-            <div class="telemetry-lbl">Destinasi</div>
-          </div>
-          <div class="telemetry-divider"></div>
-          <div class="telemetry-stat-col">
-            <div class="telemetry-val" id="kpiTotalVisitors">18.405</div>
-            <div class="telemetry-lbl">Wisatawan</div>
-          </div>
-          <div class="telemetry-divider"></div>
-          <div class="telemetry-stat-col">
-            <div class="telemetry-val" id="kpiEcoSafe">94.8%</div>
-            <div class="telemetry-lbl">Aman</div>
-          </div>
-          <div class="telemetry-divider"></div>
-          <div class="telemetry-stat-col">
-            <div class="telemetry-val">4</div>
-            <div class="telemetry-lbl">Kategori</div>
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+          <div class="sidebar-brand-row">
+            <span class="sidebar-title">Eksplorasi Wilayah</span>
+            <span class="sidebar-meta">38 Provinsi</span>
           </div>
         </div>
 
-        <!-- Hierarchical Island / Region & Destination Explorer (Directory Tree View) -->
-        <div class="sidebar-tree-section">
+        <!-- Compact Information Summary (Pure Typography & Whitespace, No Card Clutter) -->
+        <div class="sidebar-kpi-row">
+          <div class="kpi-unit">
+            <span class="kpi-val" id="kpiTotalDest">20</span>
+            <span class="kpi-txt">Destinasi</span>
+          </div>
+          <div class="kpi-unit">
+            <span class="kpi-val" id="kpiTotalVisitors">18.405</span>
+            <span class="kpi-txt">Wisatawan</span>
+          </div>
+          <div class="kpi-unit">
+            <span class="kpi-val" id="kpiEcoSafe">95%</span>
+            <span class="kpi-txt">Kapasitas</span>
+          </div>
+          <div class="kpi-unit">
+            <span class="kpi-val">4</span>
+            <span class="kpi-txt">Kategori</span>
+          </div>
+        </div>
+
+        <!-- Hierarchical Region & Destination Explorer (Utilitarian List Pattern) -->
+        <div class="sidebar-explorer">
           <div class="sidebar-tree-header">
-            <span class="sidebar-tree-title">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-              Wilayah &amp; Destinasi
-            </span>
-            <span class="sidebar-tree-help">Pilih untuk navigasi</span>
+            <span class="sidebar-tree-title">Daftar Destinasi</span>
+            <span class="sidebar-tree-help">Pilih untuk fokus peta</span>
           </div>
 
-          <!-- Dynamic Directory Tree Container (Menjorok ke Dalam) -->
+          <!-- Dynamic Destination Tree Container -->
           <div class="sidebar-tree-scroll" id="sidebarRegionTree">
             <!-- Rendered dynamically by map.js -->
           </div>
         </div>
-
-        <div class="sidebar-mini-footer">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 5px; font-weight: 700; color: #0f172a;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>SDG 11 &amp; 8.9 Validated</span>
-            </div>
-            <span style="font-size: 10px; color: #059669; font-weight: 600;">Supabase Realtime</span>
-          </div>
-        </div>
       </aside>
 
-      <!-- Leaflet Map Container Right Side -->
+      <!-- Leaflet Map Container (The Primary Hero Experience) -->
       <div class="map-wrapper-card">
-        <!-- Leaflet Map Container -->
+        <!-- Map Canvas -->
         <div id="map"></div>
 
-        <!-- Floating Controls: Basemap Switcher (Clean, Docked to Top-Left) -->
+        <!-- Minimal Layer Control (Docked Top-Left) -->
         <div class="map-floating-controls">
-          <div class="basemap-pills-bar">
-            <button class="basemap-btn active" data-basemap="osm" onclick="switchBasemap('osm')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-              Street
-            </button>
-            <button class="basemap-btn" data-basemap="satellite" onclick="switchBasemap('satellite')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              Satelit
-            </button>
-            <button class="basemap-btn" data-basemap="topo" onclick="switchBasemap('topo')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
-              Topografi
-            </button>
+          <div class="map-layer-control">
+            <button class="layer-btn active" data-basemap="osm" onclick="switchBasemap('osm')">Street</button>
+            <button class="layer-btn" data-basemap="satellite" onclick="switchBasemap('satellite')">Satelit</button>
+            <button class="layer-btn" data-basemap="topo" onclick="switchBasemap('topo')">Topografi</button>
           </div>
         </div>
 
-        <!-- Floating Bottom Legend (Pure SVG Dots & Text) -->
-        <div class="map-floating-legend">
-          <strong style="color: #0f172a; margin-bottom: 2px;">Kategori Geowisata Lestari:</strong>
-          <div class="legend-item"><span class="legend-dot" style="background: #0284c7;"></span> Bahari &amp; Pantai</div>
-          <div class="legend-item"><span class="legend-dot" style="background: #ea580c;"></span> Gunung &amp; Dataran Tinggi</div>
-          <div class="legend-item"><span class="legend-dot" style="background: #d97706;"></span> Cagar Budaya &amp; Sejarah</div>
-          <div class="legend-item"><span class="legend-dot" style="background: #059669;"></span> Taman Nasional &amp; Konservasi</div>
+        <!-- Minimal Geographic Legend (Docked Bottom-Left) -->
+        <div class="map-legend-panel">
+          <span class="legend-header">Kategori</span>
+          <div class="legend-list">
+            <div class="legend-row"><span class="legend-dot dot-pantai"></span> Bahari &amp; Pantai</div>
+            <div class="legend-row"><span class="legend-dot dot-gunung"></span> Gunung &amp; Dataran Tinggi</div>
+            <div class="legend-row"><span class="legend-dot dot-budaya"></span> Cagar Budaya</div>
+            <div class="legend-row"><span class="legend-dot dot-konservasi"></span> Taman Nasional</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Category Filter Bar for Grid (4 Kategori Resmi dengan SVG) -->
-    <div class="section-title-bar">
-      <div>
-        <h2>Katalog Eksplorasi 38 Provinsi</h2>
-        <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Pilih objek wisata untuk memesan Smart Pass atau klaim stempel paspor</p>
+    <!-- Editorial Exploration Catalog Section -->
+    <section class="catalog-section">
+      <div class="catalog-toolbar">
+        <div>
+          <h2 class="catalog-heading">Katalog Eksplorasi 38 Provinsi</h2>
+          <p class="catalog-lead">Destinasi cagar alam &amp; budaya prioritas nasional dengan pemantauan kapasitas daya dukung.</p>
+        </div>
+
+        <!-- Clean Segmented Category Tabs -->
+        <div class="catalog-filter-tabs">
+          <button class="filter-tab active" onclick="filterCategory('all', this)">Semua</button>
+          <button class="filter-tab" onclick="filterCategory('pantai', this)">Bahari &amp; Pantai</button>
+          <button class="filter-tab" onclick="filterCategory('gunung', this)">Gunung &amp; Dataran Tinggi</button>
+          <button class="filter-tab" onclick="filterCategory('budaya', this)">Cagar Budaya</button>
+          <button class="filter-tab" onclick="filterCategory('taman_nasional', this)">Taman Nasional</button>
+        </div>
       </div>
 
-      <div class="floating-pills-bar" style="position: static; box-shadow: none;">
-        <button class="pill-btn cat-pill active" onclick="filterCategory('all', this)">Semua Kategori</button>
-        <button class="pill-btn cat-pill" onclick="filterCategory('pantai', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="4"/></svg>
-          Bahari &amp; Pantai
-        </button>
-        <button class="pill-btn cat-pill" onclick="filterCategory('gunung', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
-          Gunung &amp; Dataran Tinggi
-        </button>
-        <button class="pill-btn cat-pill" onclick="filterCategory('budaya', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
-          Cagar Budaya &amp; Sejarah
-        </button>
-        <button class="pill-btn cat-pill" onclick="filterCategory('taman_nasional', this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-7M9 15c-3 0-5-2-5-5 0-4 4-7 8-7s8 3 8 7c0 3-2 5-5 5"/></svg>
-          Taman Nasional &amp; Konservasi
-        </button>
-      </div>
-    </div>
-
-    <!-- Destinations Grid -->
-    <div class="destinations-grid" id="destinationsGrid"></div>
+      <!-- Destinations Grid (Clean Travel-Tech Cards) -->
+      <div class="destinations-grid" id="destinationsGrid"></div>
+    </section>
   </main>
 
   <!-- ==========================================
-       MODAL 0: DETAIL LENGKAP DESTINASI (AIRBNB/APPLE GIS SHEET)
+       MODAL: DETAIL DESTINASI
        ========================================== -->
-  <div class="modal-overlay" id="destDetailModal">
-    <div class="modal-dialog" style="max-width: 580px;">
+  <div class="modal-overlay" id="destDetailModal" onclick="if(event.target === this) closeDestDetailModal()">
+    <div class="modal-dialog" style="max-width: 580px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <span id="detailDestCategoryPill" style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #059669; background: #ecfdf5; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 4px;"></span>
-          <h3 id="detailDestTitle" style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0;"></h3>
-          <p id="detailDestMeta" style="font-size: 11.5px; color: #64748b; margin: 2px 0 0;"></p>
+          <h3 id="detailDestTitle" style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;"></h3>
+          <p id="detailDestMeta" style="font-size: 12px; color: #64748b; margin-top: 2px;"></p>
         </div>
         <button class="modal-close-btn" onclick="closeDestDetailModal()">&times;</button>
       </div>
-      <div class="modal-body" style="padding: 20px; gap: 14px;">
-        <div style="position: relative; width: 100%; height: 210px; border-radius: 12px; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 12px rgba(15,23,42,0.06);">
+      <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="position: relative; width: 100%; height: 210px; border-radius: 8px; overflow: hidden; background: #e2e8f0;">
           <img id="detailDestImg" src="" alt="" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
 
-        <div style="font-size: 12.5px; color: #334155; line-height: 1.6;" id="detailDestDesc"></div>
+        <div style="font-size: 13px; color: #334155; line-height: 1.6;" id="detailDestDesc"></div>
 
-        <!-- Telemetri Kuota & Daya Dukung -->
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: #0f172a;">
-            <span style="display: flex; align-items: center; gap: 5px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Daya Dukung Lingkungan (Carrying Capacity):
-            </span>
-            <span id="detailDestQuotaNums" style="font-weight: 800; color: #059669;"></span>
+        <!-- Telemetri Kuota -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #0f172a;">
+            <span>Daya Dukung Lingkungan (Carrying Capacity):</span>
+            <span id="detailDestQuotaNums" style="font-weight: 700;"></span>
           </div>
-          <div class="quota-progress-track" style="height: 8px;">
-            <div id="detailDestQuotaBar" class="quota-progress-fill" style="width: 40%; background: #059669;"></div>
+          <div class="quota-progress-track" style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+            <div id="detailDestQuotaBar" class="quota-progress-fill" style="width: 40%; height: 100%; background: #0f172a; transition: width 0.4s ease;"></div>
           </div>
           <div style="font-size: 11px; color: #64748b; display: flex; justify-content: space-between;">
-            <span id="detailDestStatusBadge" style="font-weight: 700;"></span>
+            <span id="detailDestStatusBadge" style="font-weight: 600;"></span>
             <span id="detailDestPercentText"></span>
           </div>
         </div>
 
-        <!-- Kondisi Cuaca / Suhu / Maritim & Eco Guidelines -->
+        <!-- Kondisi Cuaca & Retribusi -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 12px; font-size: 11.5px; color: #0369a1; display: flex; align-items: center; gap: 8px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            <div>
-              <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #0284c7;">Status Cuaca &amp; Alam</div>
-              <div id="detailDestWeather" style="font-weight: 700; color: #0f172a;"></div>
-            </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 11.5px;">
+            <div style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">Kondisi Cuaca (BMKG)</div>
+            <div id="detailDestWeather" style="font-weight: 700; color: #0f172a; margin-top: 2px;"></div>
           </div>
-          <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 10px 12px; font-size: 11.5px; color: #065f46; display: flex; align-items: center; gap: 8px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><path d="M20 6L9 17l-5-5"/></svg>
-            <div>
-              <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #059669;">Retribusi Konservasi</div>
-              <div id="detailDestPrice" style="font-weight: 800; color: #065f46;"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Panduan Ramah Lingkungan (SDG) -->
-        <div style="font-size: 11.5px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 10px; display: flex; align-items: flex-start; gap: 8px;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" style="flex-shrink: 0; margin-top: 1px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <div>
-            <b style="color: #0f172a;">Pedoman Wisata Berkelanjutan:</b>
-            <span id="detailDestGuidelines"></span>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 11.5px;">
+            <div style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">Retribusi Konservasi</div>
+            <div id="detailDestPrice" style="font-weight: 700; color: #0f172a; margin-top: 2px;"></div>
           </div>
         </div>
 
         <!-- Modal Action Footer -->
-        <div style="display: flex; gap: 10px; margin-top: 4px;">
-          <button class="btn-nav btn-nav-primary" id="detailDestBookBtn" style="flex: 1; justify-content: center; padding: 12px; font-size: 13px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
+        <div style="display: flex; gap: 10px; margin-top: 6px;">
+          <button class="btn-card-primary" id="detailDestBookBtn" style="flex: 1; justify-content: center; padding: 10px; font-size: 13px;">
             Dapatkan Smart Pass (QR)
           </button>
         </div>
@@ -264,45 +208,43 @@
   </div>
 
   <!-- ==========================================
-       MODAL 1: BOOKING & SMART QR PASS
+       MODAL: TIKET & SMART PASS (QR)
        ========================================== -->
-  <div class="modal-overlay" id="bookingModal">
-    <div class="modal-dialog">
+  <div class="modal-overlay" id="bookingModal" onclick="if(event.target === this) closeBookingModal()">
+    <div class="modal-dialog" style="max-width: 480px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <h3>Pesan Tiket NusantaraPass</h3>
-          <p id="bookingDestTitle" style="font-size: 11px; color: #059669; font-weight: 700;"></p>
+          <h3 style="font-size: 16px; font-weight: 700; color: #0f172a;">Pesan Tiket NusantaraPass</h3>
+          <p id="bookingDestTitle" style="font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;"></p>
         </div>
         <button class="modal-close-btn" onclick="closeBookingModal()">&times;</button>
       </div>
-      <div class="modal-body">
-        <p id="bookingDestPrice" style="font-size: 13px; font-weight: 700; color: #0f172a; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px;"></p>
+      <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+        <p id="bookingDestPrice" style="font-size: 13px; font-weight: 600; color: #0f172a; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 6px;"></p>
         
-        <div class="form-group">
-          <label>Nama Lengkap Wisatawan:</label>
-          <input type="text" id="visitorNameInput" class="form-input" placeholder="Masukkan nama sesuai KTP/KTM..." value="Sufyan Tsauri" />
+        <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 11.5px; font-weight: 600; color: #334155;">Nama Lengkap:</label>
+          <input type="text" id="visitorNameInput" class="form-input" placeholder="Masukkan nama wisatawan..." value="Sufyan Tsauri" />
         </div>
 
-        <div class="form-group">
-          <label>Email Aktif:</label>
+        <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 11.5px; font-weight: 600; color: #334155;">Email Aktif:</label>
           <input type="email" id="visitorEmailInput" class="form-input" placeholder="email@contoh.com" value="sufyantsaury753@gmail.com" />
         </div>
 
-        <button class="btn-nav btn-nav-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 13px;" onclick="generateDigitalPass()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Terbitkan Smart Pass (QR) Sekarang
+        <button class="btn-card-primary" style="width: 100%; justify-content: center; padding: 11px; font-size: 13px;" onclick="generateDigitalPass()">
+          Terbitkan Smart Pass (QR)
         </button>
 
         <!-- QR Display Area -->
-        <div id="bookingQrArea" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; text-align: center;">
-          <div style="font-size: 11px; color: #059669; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            TIKET SMART PASS BERHASIL DITERBITKAN &amp; STEMPEL TERSIMPAN!
+        <div id="bookingQrArea" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; text-align: center;">
+          <div style="font-size: 11.5px; color: #059669; font-weight: 700; margin-bottom: 8px;">
+            TIKET BERHASIL DITERBITKAN
           </div>
-          <div id="qrcodeContainer" style="display: inline-block; padding: 12px; background: white; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 10px;"></div>
-          <div id="passTokenText" style="font-family: monospace; font-size: 13px; font-weight: 800; color: #0284c7;"></div>
-          <p style="font-size: 11px; color: #64748b; margin-top: 8px;">
-            Tunjukkan kode QR ini ke petugas gerbang konservasi saat berkunjung.
+          <div id="qrcodeContainer" style="display: inline-block; padding: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px;"></div>
+          <div id="passTokenText" style="font-family: monospace; font-size: 12px; font-weight: 700; color: #0f172a;"></div>
+          <p style="font-size: 11px; color: #64748b; margin-top: 6px;">
+            Tunjukkan kode QR ini ke petugas gerbang izin masuk.
           </p>
         </div>
       </div>
@@ -310,63 +252,62 @@
   </div>
 
   <!-- ==========================================
-       MODAL 2: PASPOR JELAJAH NUSANTARA & PDF
+       MODAL: BUKU PASPOR JELAJAH NUSANTARA
        ========================================== -->
-  <div class="modal-overlay" id="passportModal">
-    <div class="modal-dialog">
+  <div class="modal-overlay" id="passportModal" onclick="if(event.target === this) closePassportModal()">
+    <div class="modal-dialog" style="max-width: 540px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <h3>Paspor Jelajah Nusantara</h3>
-          <p style="font-size: 11px; color: #64748b;">Buku Koleksi Stempel Resmi &amp; Sertifikat Pelestari Budaya</p>
+          <h3 style="font-size: 16px; font-weight: 700; color: #0f172a;">Paspor Jelajah Nusantara</h3>
+          <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Buku Koleksi Stempel Resmi &amp; Pelestari Budaya</p>
         </div>
         <button class="modal-close-btn" onclick="closePassportModal()">&times;</button>
       </div>
-      <div class="modal-body">
-        <div style="background: linear-gradient(135deg, #ecfdf5, #f0fdf4); border: 1px solid #a7f3d0; padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
           <div>
-            <div style="font-size: 11px; color: #059669; font-weight: 800;">PASPOR DIGITAL TERVALIDASI</div>
-            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemegang: Sufyan Tsauri</div>
+            <div style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700;">Paspor Digital Tervalidasi</div>
+            <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-top: 2px;">Pemegang: Sufyan Tsauri</div>
           </div>
-          <button class="btn-nav btn-nav-primary" onclick="downloadPassportPDF()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Unduh Buku Paspor (PDF)
+          <button class="btn-card-primary" onclick="downloadPassportPDF()" style="padding: 7px 12px; font-size: 12px;">
+            Unduh Paspor (PDF)
           </button>
         </div>
 
-        <div style="font-size: 12px; font-weight: 800; color: #0f172a; margin-top: 6px;">
-          Daftar Stempel Destinasi yang Berhasil Dikoleksi:
+        <div style="font-size: 12px; font-weight: 700; color: #0f172a;">
+          Daftar Stempel Destinasi Terkoleksi:
         </div>
 
-        <div id="passportStampsList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        <div id="passportStampsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;"></div>
       </div>
     </div>
   </div>
 
   <!-- ==========================================
-       MODAL 3: OPEN REST API SANDBOX
+       MODAL: OPEN REST API SANDBOX
        ========================================== -->
-  <div class="modal-overlay" id="apiModal">
-    <div class="modal-dialog" style="max-width: 720px;">
+  <div class="modal-overlay" id="apiModal" onclick="if(event.target === this) closeApiModal()">
+    <div class="modal-dialog" style="max-width: 680px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <h3>Open REST API &amp; Interoperabilitas</h3>
-          <p style="font-size: 11px; color: #64748b;">Standar OpenAPI 3.0 untuk Integrasi Biro Wisata &amp; Dinas Pariwisata</p>
+          <h3 style="font-size: 16px; font-weight: 700; color: #0f172a;">Open REST API &amp; Interoperabilitas</h3>
+          <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Standar OpenAPI 3.0 untuk Integrasi Biro Wisata &amp; Dinas Pariwisata</p>
         </div>
         <button class="modal-close-btn" onclick="closeApiModal()">&times;</button>
       </div>
-      <div class="modal-body">
-        <p style="color: #475569; font-size: 12px; line-height: 1.5;">
-          Sesuai tema <b style="color: #059669;">"Engineering Interconnected Web Solutions"</b>, NusantaraPass menyediakan REST API publik agar data daya dukung kuota destinasi dapat ditarik oleh platform luar secara transparan.
+      <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+        <p style="color: #475569; font-size: 12.5px; line-height: 1.55;">
+          NusantaraPass menyediakan REST API publik agar data daya dukung kuota destinasi dapat ditarik oleh platform luar secara transparan.
         </p>
 
         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-          <button class="btn-nav" onclick="testApiEndpoint('all')">GET /api/v1/destinations (Semua)</button>
-          <button class="btn-nav" onclick="testApiEndpoint('pantai')">GET /api/v1/destinations?category=pantai</button>
-          <button class="btn-nav" onclick="testApiEndpoint('budaya')">GET /api/v1/destinations?category=budaya</button>
+          <button class="filter-tab" onclick="testApiEndpoint('all')">GET /api/v1/destinations (Semua)</button>
+          <button class="filter-tab" onclick="testApiEndpoint('pantai')">GET ?category=pantai</button>
+          <button class="filter-tab" onclick="testApiEndpoint('budaya')">GET ?category=budaya</button>
         </div>
 
-        <div style="background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 14px; max-height: 260px; overflow-y: auto;">
-          <pre id="apiConsoleOutput" style="font-family: monospace; font-size: 11px; color: #34d399; margin: 0; white-space: pre-wrap;">
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; max-height: 240px; overflow-y: auto;">
+          <pre id="apiConsoleOutput" style="font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; color: #38bdf8; margin: 0; white-space: pre-wrap;">
 Klik salah satu endpoint tombol di atas untuk menguji respons JSON realtime dari sistem.
           </pre>
         </div>
@@ -374,17 +315,17 @@ Klik salah satu endpoint tombol di atas untuk menguji respons JSON realtime dari
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Site Footer (Minimal & Editorial) -->
   <footer class="site-footer">
-    <p>
-      &copy; 2026 <strong>NusantaraPass</strong>. Dikembangkan untuk <b>Web Development Competition UINIC 8.0</b> oleh HMPS Informatika UIN Sunan Kalijaga Yogyakarta.
-    </p>
-    <p style="margin-top: 6px; font-size: 11px; color: #64748b;">
-      Menjawab SDGs No. 11 (Pelestarian Warisan Budaya) &amp; SDGs No. 8.9 (Pariwisata Berkelanjutan). Ditenagai oleh Leaflet GIS, OpenStreetMap, &amp; Supabase Cloud.
-    </p>
+    <div class="footer-inner">
+      <p>&copy; 2026 <strong>NusantaraPass</strong> &bull; Platform Geoportal Interkoneksi Pariwisata Berkelanjutan 38 Provinsi.</p>
+      <p style="margin-top: 4px; font-size: 11.5px; color: #94a3b8;">
+        Karya Inovasi Web Development UINIC 8.0 &bull; SDG 11 Pelestarian Cagar Budaya &amp; SDG 8.9 Ekowisata Berkelanjutan.
+      </p>
+    </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- External & System Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

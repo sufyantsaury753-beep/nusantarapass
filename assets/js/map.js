@@ -196,7 +196,7 @@ function switchBasemap(type) {
 
   mapInstance._basemaps[type].addTo(mapInstance);
 
-  document.querySelectorAll('.basemap-btn').forEach((btn) => {
+  document.querySelectorAll('.layer-btn, .basemap-btn').forEach((btn) => {
     btn.classList.toggle('active', btn.dataset.basemap === type);
   });
 }
@@ -244,35 +244,37 @@ function renderMapMarkers() {
       initRegionHierarchy();
     });
 
-    // Kotak Popup Bersih & Ringkas Bergaya Mountain Gallery (Pill Elevasi, Nama, Lokasi, Tombol Buka Galeri)
-    const elevOrCat = dest.elevation_m > 50 
-      ? `${dest.elevation_m.toLocaleString('id-ID')} Mdpl`
+    // Compact Geographic Information Panel (Apple Maps / ArcGIS Standards)
+    const elevText = dest.elevation_m > 50 
+      ? `${dest.elevation_m.toLocaleString('id-ID')} mdpl`
       : getCategoryDisplayName(dest.category);
 
+    const shortDesc = (dest.description || '').length > 100 
+      ? dest.description.slice(0, 100) + '...'
+      : dest.description;
+
     const popupHtml = `
-      <div class="popup-card-content">
-        <div class="popup-img-box">
+      <div class="map-popup-panel">
+        <div class="popup-photo-frame">
           <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
-          <div class="popup-pill-tag">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 19L9 8L14 15L17 11L21 19H3Z"/></svg>
-            ${elevOrCat}
-          </div>
         </div>
-        <div class="popup-info-body">
-          <div class="popup-title">${dest.name}</div>
-          <div class="popup-location">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>${dest.province} • ${dest.region}</span>
+        <div class="popup-body">
+          <h4 class="popup-title">${dest.name}</h4>
+          <div class="popup-meta">
+            <span>${dest.province}</span>
+            <span>&middot;</span>
+            <span>${elevText}</span>
           </div>
-          <a href="destinasi/index.html?id=${dest.id}" class="popup-btn-detail">
+          <p class="popup-excerpt">${shortDesc}</p>
+          <a href="destinasi/index.html?id=${dest.id}" class="popup-action-link">
             <span>Lihat Detail</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </a>
         </div>
       </div>
     `;
 
-    marker.bindPopup(popupHtml, { maxWidth: 280, closeButton: false });
+    marker.bindPopup(popupHtml, { maxWidth: 260, closeButton: false });
     marker.addTo(markersLayerGroup);
     destinationMarkers[dest.id] = marker;
   });
@@ -280,7 +282,7 @@ function renderMapMarkers() {
 
 function filterCategory(cat, el) {
   currentCategoryFilter = cat;
-  document.querySelectorAll('.cat-pill').forEach((btn) => btn.classList.remove('active'));
+  document.querySelectorAll('.filter-tab, .cat-pill').forEach((btn) => btn.classList.remove('active'));
   if (el) el.classList.add('active');
   renderMapMarkers();
   renderDestinationGrid();
@@ -329,50 +331,41 @@ function initRegionHierarchy() {
     const isActive = currentRegionFilter === reg.key;
     const isOpen = openRegionKeys.has(reg.key);
 
-    // Filter destinasi untuk wilayah ini
     const destsInRegion = isAll
       ? NUSANTARA_DESTINATIONS
       : NUSANTARA_DESTINATIONS.filter((d) => d.region === reg.key);
     
     const count = destsInRegion.length;
 
-    // Icon SVG murni (tanpa emoji)
-    const iconSvg = isAll
-      ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
-      : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-
-    // Hierarki sub-daftar destinasi (MENJOROK KE KANAN DALAM) di bawah pulau
     let childrenHtml = '';
     if (!isAll && destsInRegion.length > 0) {
       childrenHtml = `
-        <div class="tree-children-container">
+        <div class="region-children">
           ${destsInRegion.map((dest) => {
             const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
-            const dotColor = quotaPercent > 90 ? '#ef4444' : quotaPercent > 70 ? '#f59e0b' : '#10b981';
-            let catBg = '#e0f2fe', catColor = '#0284c7';
-            if (dest.category === 'gunung') { catBg = '#ffedd5'; catColor = '#ea580c'; }
-            if (dest.category === 'budaya') { catBg = '#fef3c7'; catColor = '#d97706'; }
-            if (dest.category === 'konservasi') { catBg = '#d1fae5'; catColor = '#059669'; }
+            let statusClass = 'status-normal';
+            let statusText = `Kuota ${Math.round(quotaPercent)}%`;
+            if (quotaPercent > 90) {
+              statusClass = 'status-critical';
+            } else if (quotaPercent > 70) {
+              statusClass = 'status-warning';
+            }
 
             const isSelected = selectedDestId === dest.id ? 'selected' : '';
 
             return `
-              <div class="tree-child-item ${isSelected}" data-dest-id="${dest.id}" onclick="focusDestination('${dest.id}')">
-                <div class="tree-child-icon" style="background: ${catBg}; color: ${catColor};">
+              <div class="dest-item ${isSelected}" data-dest-id="${dest.id}" onclick="focusDestination('${dest.id}')">
+                <div class="dest-item-icon">
                   ${getCategoryBadgeSvg(dest.category)}
                 </div>
-                <div class="tree-child-details">
-                  <div class="tree-child-name">${dest.name}</div>
-                  <div class="tree-child-meta">
+                <div class="dest-item-info">
+                  <div class="dest-item-title">${dest.name}</div>
+                  <div class="dest-item-sub">
                     <span>${dest.province}</span>
-                    <span>•</span>
-                    <span style="display: inline-flex; align-items: center; gap: 3px;">
-                      <span class="tree-tag-dot" style="background: ${dotColor};"></span>
-                      ${Math.round(quotaPercent)}% Kuota
-                    </span>
+                    <span class="dest-item-sep">&middot;</span>
+                    <span class="${statusClass}">${statusText}</span>
                   </div>
                 </div>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
               </div>
             `;
           }).join('')}
@@ -381,15 +374,14 @@ function initRegionHierarchy() {
     }
 
     html += `
-      <div class="tree-region-branch ${isActive ? 'active' : ''} ${isOpen ? 'open' : ''}" id="regBranch_${reg.key}">
-        <button class="tree-parent-row" onclick="handleRegionClick('${reg.key}')" type="button">
-          <div class="tree-parent-left">
-            <span style="color: ${isActive ? '#059669' : '#64748b'};">${iconSvg}</span>
-            <span class="tree-parent-title">${reg.name}</span>
+      <div class="region-group ${isActive ? 'active' : ''} ${isOpen ? 'open' : ''}" id="regBranch_${reg.key}">
+        <button class="region-row" onclick="handleRegionClick('${reg.key}')" type="button">
+          <div class="region-name-wrap">
+            <span class="region-name">${reg.name}</span>
           </div>
-          <div class="tree-parent-right">
-            <span class="tree-parent-badge">${count} Destinasi</span>
-            ${!isAll ? `<svg class="tree-parent-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>` : ''}
+          <div class="region-side">
+            <span class="region-count">${count}</span>
+            ${!isAll ? `<svg class="region-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>` : ''}
           </div>
         </button>
         ${childrenHtml}
@@ -405,7 +397,6 @@ function handleRegionClick(regKey) {
     openRegionKeys.clear();
     currentRegionFilter = 'all';
   } else {
-    // Toggle status buka cabang wilayah
     if (openRegionKeys.has(regKey)) {
       openRegionKeys.delete(regKey);
     } else {
@@ -414,7 +405,6 @@ function handleRegionClick(regKey) {
     currentRegionFilter = regKey;
   }
 
-  // Fly smooth ke koordinat pulau/nasional
   if (mapInstance) {
     if (currentRegionFilter === 'all') mapInstance.flyTo([-2.5, 118.0], 5, { duration: 1.2 });
     else if (currentRegionFilter === 'Jawa') mapInstance.flyTo([-7.5, 110.0], 7, { duration: 1.2 });
@@ -434,7 +424,6 @@ function focusDestination(destId) {
   const dest = NUSANTARA_DESTINATIONS.find((d) => d.id === destId);
   if (!dest) return;
 
-  // Pastikan cabang wilayahnya terbuka di hierarki
   openRegionKeys.add(dest.region);
   if (currentRegionFilter !== 'all' && currentRegionFilter !== dest.region) {
     currentRegionFilter = dest.region;
@@ -444,7 +433,6 @@ function focusDestination(destId) {
 
   initRegionHierarchy();
 
-  // Fly ke koordinat destinasi dengan detail zoom
   if (mapInstance) {
     mapInstance.flyTo([dest.latitude, dest.longitude], 12, {
       duration: 1.0,
@@ -452,15 +440,13 @@ function focusDestination(destId) {
     });
   }
 
-  // Buka popup Leaflet pin
   setTimeout(() => {
     if (destinationMarkers[destId]) {
       destinationMarkers[destId].openPopup();
     }
   }, 450);
 
-  // Tandai item terpilih di sidebar
-  document.querySelectorAll('.tree-child-item').forEach((item) => {
+  document.querySelectorAll('.dest-item, .tree-child-item').forEach((item) => {
     item.classList.toggle('selected', item.dataset.destId === destId);
   });
 }
@@ -480,55 +466,45 @@ function renderDestinationGrid() {
 
   grid.innerHTML = filtered
     .map((dest) => {
-      let catColor = '#059669';
-      if (dest.category === 'pantai') catColor = '#0284c7';
-      if (dest.category === 'gunung') catColor = '#ea580c';
-      if (dest.category === 'budaya') catColor = '#d97706';
-
-      const sisaKuota = Math.max(0, (dest.daily_quota || 1000) - (dest.current_visitors || 0));
+      const quotaPercent = Math.min(((dest.current_visitors || 0) / (dest.daily_quota || 1000)) * 100, 100);
+      let statusClass = 'status-normal';
+      if (quotaPercent > 90) statusClass = 'status-critical';
+      else if (quotaPercent > 70) statusClass = 'status-warning';
 
       return `
-        <div class="dest-card">
-          <div class="dest-thumb-box">
-            <img src="${dest.photo_url}" class="dest-thumb-img" alt="${dest.name}" loading="lazy" />
-            <span class="dest-category-pill" style="background: ${catColor};">
-              ${getCategoryBadgeSvg(dest.category)} ${getCategoryDisplayName(dest.category)}
-            </span>
-            <span class="dest-quota-pill">
-              Sisa: ${sisaKuota.toLocaleString('id-ID')}
-            </span>
+        <article class="dest-card">
+          <div class="dest-card-media">
+            <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
           </div>
-          <div class="dest-body">
-            <div class="dest-location-text">${dest.province} • ${dest.region}</div>
-            <h3>${dest.name}</h3>
-            <p class="dest-desc-text">${dest.description}</p>
+          <div class="dest-card-content">
+            <div class="dest-card-header">
+              <span class="dest-card-loc">${dest.province} &middot; ${dest.region}</span>
+              <span class="dest-card-cat">${getCategoryDisplayName(dest.category)}</span>
+            </div>
+            <h3 class="dest-card-title">${dest.name}</h3>
+            <p class="dest-card-desc">${dest.description}</p>
             
-            <div style="font-size: 11px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px; display: flex; align-items: flex-start; gap: 6px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>${dest.eco_guidelines}</span>
+            <div class="dest-card-telemetry">
+              <span class="telemetry-label">Kapasitas Harian</span>
+              <span class="telemetry-val ${statusClass}">${(dest.current_visitors || 0).toLocaleString('id-ID')} / ${(dest.daily_quota || 1000).toLocaleString('id-ID')} (${Math.round(quotaPercent)}%)</span>
             </div>
 
-            <div class="dest-footer-actions">
-              <span style="font-size: 14px; font-weight: 800; color: #059669;">
-                Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')}
-              </span>
-              <div style="display: flex; gap: 6px;">
-                <a href="destinasi/index.html?id=${dest.id}" class="btn-nav" title="Lihat detail lengkap">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <div class="dest-card-footer">
+              <div class="dest-card-price">
+                <span class="price-val">Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')}</span>
+                <span class="price-unit">/ orang</span>
+              </div>
+              <div class="dest-card-actions">
+                <a href="destinasi/index.html?id=${dest.id}" class="btn-card-secondary">
                   Lihat Detail
                 </a>
-                <button class="btn-nav" onclick="zoomToDest(${dest.latitude}, ${dest.longitude})" title="Fokus ke peta">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Peta
-                </button>
-                <button class="btn-nav btn-nav-primary" onclick="openPassBookingModal('${dest.id}')">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h.01M18 12h.01M12 6v12"/></svg>
-                  Pesan Pass
+                <button class="btn-card-primary" onclick="openPassBookingModal('${dest.id}')">
+                  Pesan Tiket
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </article>
       `;
     })
     .join('');
@@ -746,16 +722,16 @@ function openPassportModal() {
           const d = NUSANTARA_DESTINATIONS.find((dest) => dest.id === id);
           if (!d) return '';
           return `
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 6px rgba(15,23,42,0.04);">
-              <div style="width: 44px; height: 44px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
+              <div style="width: 36px; height: 36px; border-radius: 4px; background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 ${getCategoryBadgeSvg(d.category)}
               </div>
               <div style="flex: 1;">
-                <h4 style="font-size: 13px; font-weight: 800; color: #0f172a;">${d.name}</h4>
-                <div style="font-size: 11px; color: #64748b;">${d.province} • Terverifikasi</div>
+                <h4 style="font-size: 13px; font-weight: 700; color: #0f172a;">${d.name}</h4>
+                <div style="font-size: 11px; color: #64748b;">${d.province}</div>
               </div>
-              <span style="font-size: 10px; font-weight: 800; color: #059669; background: #d1fae5; padding: 4px 8px; border-radius: 6px;">
-                CAP RESMI
+              <span style="font-size: 10.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; padding: 2px 7px; border-radius: 4px;">
+                Terkoleksi
               </span>
             </div>
           `;
