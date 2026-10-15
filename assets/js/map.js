@@ -261,12 +261,12 @@ function renderMapMarkers() {
         <div class="popup-info-body">
           <div class="popup-title">${dest.name}</div>
           <div class="popup-location">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>${dest.province}, ${dest.region}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>${dest.province} • ${dest.region}</span>
           </div>
-          <a href="galeri/index.html?id=${dest.id}" class="popup-btn-gallery">
-            <span>Buka Galeri</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <a href="destinasi/index.html?id=${dest.id}" class="popup-btn-detail">
+            <span>Lihat Detail</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </a>
         </div>
       </div>
@@ -513,9 +513,9 @@ function renderDestinationGrid() {
                 Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')}
               </span>
               <div style="display: flex; gap: 6px;">
-                <a href="galeri/index.html?id=${dest.id}" class="btn-nav" title="Buka Galeri & Detail">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                  Galeri
+                <a href="destinasi/index.html?id=${dest.id}" class="btn-nav" title="Lihat detail lengkap">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Lihat Detail
                 </a>
                 <button class="btn-nav" onclick="zoomToDest(${dest.latitude}, ${dest.longitude})" title="Fokus ke peta">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
