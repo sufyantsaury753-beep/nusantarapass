@@ -56,19 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ==========================================
 function getCategoryPremiumPinSvg(dest, isSelected = false) {
   const cat = (typeof dest === 'string') ? dest : (dest && dest.category) || 'pantai';
-  
-  // Smart carrying capacity indicator
-  let statusDotColor = '#10b981'; // Normal / Aman (Emerald)
-  if (dest && typeof dest === 'object') {
-    const visitors = dest.current_visitors || 0;
-    const quota = dest.daily_quota || 1000;
-    const pct = (visitors / quota) * 100;
-    if (dest.quota_status === 'ditutup_cuaca' || pct >= 100) {
-      statusDotColor = '#ef4444'; // Critical / Ditutup (Coral Red)
-    } else if (dest.quota_status === 'hampir_penuh' || pct > 75) {
-      statusDotColor = '#f59e0b'; // Warning / Hampir Penuh (Amber)
-    }
-  }
 
   // Multi-stop jewel gradients for each category
   const gradDefs = `
@@ -151,8 +138,6 @@ function getCategoryPremiumPinSvg(dest, isSelected = false) {
           <g>
             ${glyph}
           </g>
-          <!-- Integrated Smart Carrying Capacity Live Indicator -->
-          <circle cx="26" cy="6.5" r="2.8" fill="${statusDotColor}" stroke="#ffffff" stroke-width="1"/>
         </svg>
       </div>
     </div>
