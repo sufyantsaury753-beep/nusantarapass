@@ -254,3 +254,58 @@ async function npSaveStamp(visitorEmail, destinationId, stampCode) {
     return null;
   }
 }
+
+// Check-in Wisatawan & Mutasi Realtime Kuota Pengunjung
+async function npCheckinVisitor(destId) {
+  if (!npClient) initNpSupabase();
+
+  const dest = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
+    ? NUSANTARA_DESTINATIONS.find(d => d.id === destId)
+    : null;
+
+  if (!dest) return { success: false, reason: "Destinasi tidak ditemukan" };
+
+  const newVisitors = (dest.current_visitors || 0) + 1;
+  dest.current_visitors = newVisitors;
+
+  const quota = dest.daily_quota || 1000;
+  const pct = (newVisitors / quota) * 100;
+  if (pct >= 100) {
+    dest.quota_status = 'ditutup_cuaca';
+  } else if (pct > 75) {
+    dest.quota_status = 'hampir_penuh';
+  }
+
+  // Simpan override ke localStorage untuk persistensi instan
+  try {
+    const raw = localStorage.getItem('np_destinations_override') || '{}';
+    const overrides = JSON.parse(raw);
+    overrides[destId] = {
+      ...(overrides[destId] || {}),
+      current_visitors: newVisitors,
+      quota_status: dest.quota_status
+    };
+    localStorage.setItem('np_destinations_override', JSON.stringify(overrides));
+  } catch (e) {}
+
+  if (!npClient) return { success: true, localOnly: true, current_visitors: newVisitors };
+
+  try {
+    const { data, error } = await npClient
+      .from('np_destinations')
+      .update({
+        current_visitors: newVisitors,
+        quota_status: dest.quota_status
+      })
+      .eq('id', destId)
+      .select('id, name, daily_quota, current_visitors, quota_status');
+
+    if (error) {
+      console.warn("Update kuota Supabase gagal, fallback lokal:", error.message);
+      return { success: true, localOnly: true, current_visitors: newVisitors };
+    }
+    return { success: true, data: data && data[0], current_visitors: newVisitors };
+  } catch (err) {
+    return { success: true, localOnly: true, current_visitors: newVisitors };
+  }
+}

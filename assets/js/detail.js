@@ -309,8 +309,8 @@ function closeImageViewer() {
   if (viewer) viewer.classList.remove('active');
 }
 
-// 7. Direct Smart Pass (QR) Issuance
-function issueDirectPass() {
+// 7. Direct Smart Pass (QR) Issuance & Live Quota Mutation
+async function issueDirectPass() {
   const nameInput = document.getElementById('kioskVisitorName');
   const emailInput = document.getElementById('kioskVisitorEmail');
   const passBox = document.getElementById('kioskPassResultBox');
@@ -321,6 +321,17 @@ function issueDirectPass() {
   const email = (emailInput && emailInput.value.trim()) || 'wisatawan@nusantarapass.id';
   const passToken = `NP-PASS-${currentDest.code}-${Date.now().toString().slice(-6)}`;
 
+  // 1. Mutasi Pengurangan Kuota Real-Time ke Supabase Cloud
+  if (typeof npCheckinVisitor === 'function') {
+    try {
+      await npCheckinVisitor(currentDest.id);
+      renderKioskMetrics(); // Perbarui tampilan HUD kapasitas & sisa kuota secara instan
+    } catch (e) {
+      console.warn("Gagal mutasi kuota live:", e);
+    }
+  }
+
+  // 2. Render QR Code
   if (qrContainer) {
     qrContainer.innerHTML = '';
     new QRCode(qrContainer, {
@@ -333,10 +344,16 @@ function issueDirectPass() {
     });
   }
 
-  if (tokenText) tokenText.textContent = `TOKEN: ${passToken}`;
-  if (passBox) passBox.style.display = 'block';
+  if (tokenText) tokenText.textContent = `TOKEN VERIFIKASI: ${passToken}`;
+  if (passBox) {
+    passBox.style.display = 'block';
+    const badgeEl = passBox.querySelector('.pass-result-badge');
+    if (badgeEl) {
+      badgeEl.innerHTML = 'TIKET RESMI DITERBITKAN &bull; KUOTA BERKURANG REAL-TIME';
+    }
+  }
 
-  // Automatically record stamp claim
+  // 3. Rekam Stempel Digital Paspor
   if (!myPassportStamps.includes(currentDest.id)) {
     myPassportStamps.push(currentDest.id);
     localStorage.setItem('np_stamps', JSON.stringify(myPassportStamps));
@@ -346,7 +363,7 @@ function issueDirectPass() {
     }
   }
 
-  // Supabase background save if configured
+  // 4. Simpan Tiket ke Database Supabase
   if (typeof npSaveVisitorPass === 'function') {
     npSaveVisitorPass({
       code: passToken,
