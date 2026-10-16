@@ -9,8 +9,10 @@
 > **Karya Kompetisi:** Web Development Competition UINIC 8.0 (UIN Sunan Kalijaga Yogyakarta, Tahun 2026)  
 > **Tema Utama:** *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*  
 > **Sub-Tema:** Sosial Budaya & Lingkungan (Pariwisata Berkelanjutan & Pelestarian Cagar Alam-Budaya)  
-> **Kategori:** Individu (Solo Developer)  
-> **Akses Demo Langsung:** 🌐 **[https://sufyantsaury753-beep.github.io/nusantarapass/](https://sufyantsaury753-beep.github.io/nusantarapass/)**
+> **Kategori:** Individu / Tim (Web Development)  
+> **Akses Demo Langsung:** 🌐 **[https://sufyantsaury753-beep.github.io/nusantarapass/](https://sufyantsaury753-beep.github.io/nusantarapass/)**  
+> **Dokumen Proposal Resmi (PDF 22 Halaman):** 📄 **[`docs/UINIC8#2026_WEBDEV_TimNusantaraDigital_Universitas.pdf`](./docs/UINIC8%232026_WEBDEV_TimNusantaraDigital_Universitas.pdf)** | **[Versi HTML Interaktif](./docs/PROPOSAL_UINIC_8.0.html)**  
+> **Laporan Pengujian Pengguna (SUS Score 84.83 - Grade A):** 📊 **[`docs/USER_TESTING_SUS.md`](./docs/USER_TESTING_SUS.md)**
 
 ---
 
