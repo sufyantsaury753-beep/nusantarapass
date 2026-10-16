@@ -1,6 +1,6 @@
 /**
  * NUSANTARAPASS — BESPOKE DESTINATION GEOPORTAL SCRIPT
- * Engineered for UINIC 8.0: SDG 11 & SDG 8.9 Compliance, Carrying Capacity & Smart Pass QR
+ * Architecture: SDG 11 & SDG 8.9 Compliance, Carrying Capacity & Smart Pass QR
  */
 
 let currentDest = null;
