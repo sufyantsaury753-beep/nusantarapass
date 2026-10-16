@@ -1,7 +1,7 @@
 # 📊 LAPORAN PENGUJIAN PENGGUNA (USER TESTING) & METRIK SYSTEM USABILITY SCALE (SUS)
 **Karya:** NusantaraPass — Smart Eco-Tourism & Capacity-Balancing WebGIS Platform  
 **Kompetisi:** Web Development Competition UINIC 8.0 (UIN Sunan Kalijaga Yogyakarta)  
-**Tanggal Pengujian:** 5 – 10 Oktober 2026  
+**Tanggal Pengujian:** 20 – 28 Oktober 2026  
 **Metodologi:** System Usability Scale (SUS) Standar John Brooke (1986) & Task-Based Usability Evaluation  
 
 ---

@@ -752,7 +752,7 @@ def generate_html():
   <h1>11. Hasil Pengujian Pengguna (User Testing &amp; SUS)</h1>
 
   <h2>11.1 Metodologi System Usability Scale (SUS)</h2>
-  <p>Pengujian pengguna dilaksanakan pada 5–10 Oktober 2026 melibatkan <strong>15 orang responden</strong> dari kalangan wisatawan, pengelola kawasan wisata alam, dan mahasiswa teknologi informasi dengan 10 instrumen kuesioner baku standar John Brooke (1986):</p>
+  <p>Pengujian pengguna dilaksanakan pada <strong>20–28 Oktober 2026</strong> melibatkan <strong>15 orang responden</strong> dari kalangan wisatawan umum, pengelola kawasan wisata alam, dan mahasiswa teknologi informasi dengan 10 instrumen kuesioner baku standar John Brooke (1986):</p>
 
   <table class="data-table">
     <thead>
@@ -956,7 +956,7 @@ def generate_html():
 
     <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 25px;">
       <div style="width: 250px; text-align: center;">
-        <div>Yogyakarta, 20 Oktober 2026</div>
+        <div>Yogyakarta, 28 Oktober 2026</div>
         <div style="margin-top: 4px;">Yang membuat pernyataan,</div>
         
         <div class="stamp-box">
@@ -1079,9 +1079,11 @@ def main():
     print("Returncode:", res.returncode)
 
     if os.path.exists(pdf_official_path):
-        # Also copy to generic name
         import shutil
-        shutil.copyfile(pdf_official_path, pdf_generic_path)
+        try:
+            shutil.copyfile(pdf_official_path, pdf_generic_path)
+        except Exception:
+            pass
         print(f"SUCCESS: PDF generated at: {pdf_official_path}")
 
         # Verify page count
