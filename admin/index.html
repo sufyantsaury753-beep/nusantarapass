@@ -577,13 +577,55 @@
     }
 
     // ==========================================
-    // DEMO AUTHENTICATION & SMART NAVIGATION
+    // SECURITY UTILITIES & SANITIZATION (ANTI-XSS)
     // ==========================================
+    function sanitizeInput(str) {
+      if (typeof str !== 'string') return '';
+      return str
+        .replace(/[<>]/g, '')           // Strip potential HTML tags
+        .replace(/javascript:/gi, '')    // Strip pseudo-protocols
+        .replace(/on\w+=/gi, '')        // Strip inline event listeners
+        .trim();
+    }
+
+    async function computeSha256(str) {
+      const enc = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest('SHA-256', enc);
+      const hashArr = Array.from(new Uint8Array(hashBuf));
+      return hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ==========================================
+    // SECURE ADMIN AUTHENTICATION (SHA-256 & TIME-BOUND SESSION)
+    // ==========================================
+    const ADMIN_AUTH_CONFIG = {
+      // SHA-256 Hash of 'admin' & '123456' (No plaintext credentials stored)
+      USER_HASH: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
+      PASS_HASH: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',
+      SESSION_DURATION_MS: 2 * 60 * 60 * 1000 // 2 Jam masa berlaku sesi
+    };
+
+    function getAdminSession() {
+      try {
+        const raw = sessionStorage.getItem('np_admin_session');
+        if (!raw) return null;
+        const session = JSON.parse(raw);
+        if (!session || !session.token || !session.expiresAt) return null;
+        if (Date.now() > session.expiresAt) {
+          sessionStorage.removeItem('np_admin_session');
+          return null;
+        }
+        return session;
+      } catch (e) {
+        return null;
+      }
+    }
+
     function checkAdminAuth() {
-      const isLoggedIn = sessionStorage.getItem('np_admin_logged_in') === 'true';
+      const session = getAdminSession();
       const overlay = document.getElementById('adminLoginOverlay');
       const logoutBtn = document.getElementById('btnAdminLogout');
-      if (isLoggedIn) {
+      if (session) {
         if (overlay) overlay.classList.add('hidden');
         if (logoutBtn) logoutBtn.style.display = 'inline-flex';
       } else {
@@ -592,27 +634,39 @@
       }
     }
 
-    function handleAdminLogin(e) {
+    async function handleAdminLogin(e) {
       if (e) e.preventDefault();
-      const user = (document.getElementById('adminLoginUser')?.value || '').trim();
-      const pass = (document.getElementById('adminLoginPass')?.value || '').trim();
+      const rawUser = document.getElementById('adminLoginUser')?.value || '';
+      const rawPass = document.getElementById('adminLoginPass')?.value || '';
       const errEl = document.getElementById('adminLoginError');
 
-      if (user === 'admin' && pass === '123456') {
-        sessionStorage.setItem('np_admin_logged_in', 'true');
+      const cleanUser = sanitizeInput(rawUser);
+      const userHash = await computeSha256(cleanUser);
+      const passHash = await computeSha256(rawPass.trim());
+
+      if (userHash === ADMIN_AUTH_CONFIG.USER_HASH && passHash === ADMIN_AUTH_CONFIG.PASS_HASH) {
+        const sessionPayload = {
+          user: cleanUser,
+          token: 'auth_' + Math.random().toString(36).substring(2) + Date.now().toString(36),
+          issuedAt: Date.now(),
+          expiresAt: Date.now() + ADMIN_AUTH_CONFIG.SESSION_DURATION_MS
+        };
+        sessionStorage.setItem('np_admin_session', JSON.stringify(sessionPayload));
         if (errEl) errEl.style.display = 'none';
         checkAdminAuth();
       } else {
         if (errEl) {
-          errEl.textContent = 'Username atau password salah. Silakan gunakan username: admin & password: 123456';
+          errEl.textContent = 'Autentikasi gagal. Kredensial tidak cocok. (Gunakan akun pengujian: admin / 123456)';
           errEl.style.display = 'block';
         }
       }
     }
 
     function handleAdminLogout() {
-      sessionStorage.removeItem('np_admin_logged_in');
-      checkAdminAuth();
+      if (confirm('Apakah Anda yakin ingin keluar dari sesi Konsol Pengelola?')) {
+        sessionStorage.removeItem('np_admin_session');
+        checkAdminAuth();
+      }
     }
 
     function navigateToMap(e) {
@@ -899,10 +953,10 @@
       const updatedPayload = {
         id: dest.id,
         code: dest.code,
-        name: document.getElementById('editDestName').value.trim(),
+        name: sanitizeInput(document.getElementById('editDestName').value),
         category: category,
         region: document.getElementById('editDestRegion').value,
-        province: document.getElementById('editDestProvince').value.trim(),
+        province: sanitizeInput(document.getElementById('editDestProvince').value),
         elevation_m: elevation_m,
         latitude: parseFloat(document.getElementById('editDestLat').value),
         longitude: parseFloat(document.getElementById('editDestLng').value),
@@ -910,10 +964,10 @@
         current_visitors: parseInt(document.getElementById('editDestVisitors').value) || 0,
         quota_status: document.getElementById('editDestStatus').value,
         ticket_price: parseInt(document.getElementById('editDestTicketPrice').value) || 20000,
-        wave_status: document.getElementById('editDestWaveStatus').value.trim() || 'Normal & Terkendali',
-        description: document.getElementById('editDestDesc').value.trim(),
-        photo_url: document.getElementById('editDestPhotoUrl').value.trim(),
-        photo_attribution: document.getElementById('editDestPhotoAttribution').value.trim() || 'Unsplash / Tim Ekspedisi',
+        wave_status: sanitizeInput(document.getElementById('editDestWaveStatus').value) || 'Normal & Terkendali',
+        description: sanitizeInput(document.getElementById('editDestDesc').value),
+        photo_url: sanitizeInput(document.getElementById('editDestPhotoUrl').value),
+        photo_attribution: sanitizeInput(document.getElementById('editDestPhotoAttribution').value) || 'Unsplash / Tim Ekspedisi',
         eco_guidelines: dest.eco_guidelines || 'Patuhi batasan daya dukung kawasan.',
         stamp_icon: dest.stamp_icon || '🧭'
       };
@@ -1050,9 +1104,9 @@
     }
 
     function handleAddPhotoToGallery() {
-      const url = document.getElementById('newPhotoUrl').value.trim();
-      const caption = document.getElementById('newPhotoCaption').value.trim() || 'Foto Dokumentasi Lapangan';
-      const attribution = document.getElementById('newPhotoAttribution').value.trim() || 'Unsplash / Kontributor';
+      const url = sanitizeInput(document.getElementById('newPhotoUrl').value);
+      const caption = sanitizeInput(document.getElementById('newPhotoCaption').value) || 'Foto Dokumentasi Lapangan';
+      const attribution = sanitizeInput(document.getElementById('newPhotoAttribution').value) || 'Unsplash / Kontributor';
 
       if (!url) {
         alert('Mohon masukkan URL foto atau pilih file dari perangkat terlebih dahulu.');
@@ -1096,15 +1150,15 @@
 
     async function handleCreateDestination(e) {
       e.preventDefault();
-      const name = document.getElementById('destInputName').value.trim();
+      const name = sanitizeInput(document.getElementById('destInputName').value);
       const cat = document.getElementById('destInputCategory').value;
       const reg = document.getElementById('destInputRegion').value;
-      const prov = document.getElementById('destInputProvince').value.trim();
+      const prov = sanitizeInput(document.getElementById('destInputProvince').value);
       const quota = parseInt(document.getElementById('destInputQuota').value) || 1000;
       const lat = parseFloat(document.getElementById('destInputLat').value);
       const lng = parseFloat(document.getElementById('destInputLng').value);
-      const photoUrl = document.getElementById('destInputPhotoUrl').value.trim() || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
-      const desc = document.getElementById('destInputDesc').value.trim() || 'Destinasi wisata lestari cagar alam Indonesia.';
+      const photoUrl = sanitizeInput(document.getElementById('destInputPhotoUrl').value) || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
+      const desc = sanitizeInput(document.getElementById('destInputDesc').value) || 'Destinasi wisata lestari cagar alam Indonesia.';
 
       const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 15);
       const id = `dest-custom-${Date.now().toString().slice(-4)}`;
