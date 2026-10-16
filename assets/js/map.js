@@ -795,7 +795,7 @@ function downloadPassportPDF() {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
-    format: 'a5', // Passport booklet size standard
+    format: 'a5', // Standard A5 single-sheet passport card (148 x 210 mm)
   });
 
   const today = new Date().toLocaleDateString('id-ID', {
@@ -803,85 +803,166 @@ function downloadPassportPDF() {
     month: 'long',
     year: 'numeric',
   });
+  const passSerial = Date.now().toString().slice(-8);
 
-  // Cover Page
-  doc.setFillColor(15, 60, 35); // Islamic Green / Garuda Heritage Green
+  // Background Parchment
+  doc.setFillColor(252, 252, 250);
   doc.rect(0, 0, 148, 210, 'F');
 
-  doc.setTextColor(212, 175, 55); // Gold
+  // Double Border Frame (Heritage Green & Gold)
+  doc.setDrawColor(15, 60, 35);
+  doc.setLineWidth(0.8);
+  doc.rect(6, 6, 136, 198);
+
+  doc.setDrawColor(212, 175, 55);
+  doc.setLineWidth(0.35);
+  doc.rect(8, 8, 132, 194);
+
+  // Header Banner (Deep Heritage Green)
+  doc.setFillColor(15, 60, 35);
+  doc.roundedRect(10, 10, 128, 34, 2, 2, 'F');
+
+  // Geometric Golden Compass Rose Emblem (Vector, no broken emoji)
+  doc.setFillColor(212, 175, 55);
+  doc.circle(74, 18, 4.5, 'F');
+  doc.setFillColor(15, 60, 35);
+  doc.circle(74, 18, 2, 'F');
+
+  doc.setTextColor(212, 175, 55);
   doc.setFont('times', 'bold');
-  doc.setFontSize(18);
-  doc.text('REPUBLIK INDONESIA', 74, 45, { align: 'center' });
-
-  doc.setFontSize(22);
-  doc.text('PASPOR JELAJAH NUSANTARA', 74, 60, { align: 'center' });
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  doc.setTextColor(255, 255, 255);
-  doc.text('SISTEM PASPOR WISATA BERKELANJUTAN & PELAJAR BUDAYA', 74, 70, { align: 'center' });
-
-  doc.setFontSize(40);
-  doc.text('🇮🇩', 74, 110, { align: 'center' });
-
   doc.setFontSize(11);
-  doc.text('NusantaraPass • UINIC 8.0 WebDev Edition', 74, 170, { align: 'center' });
-  doc.text(`Tanggal Terbit: ${today}`, 74, 178, { align: 'center' });
+  doc.text('REPUBLIK INDONESIA', 74, 26, { align: 'center' });
 
-  // Page 2: Identity & Stamps
-  doc.addPage();
-  doc.setFillColor(248, 250, 252);
-  doc.rect(0, 0, 148, 210, 'F');
-
-  doc.setTextColor(15, 23, 42);
-  doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
-  doc.text('LEMBAR STEMPEL DESTINASI RESMI', 14, 20);
+  doc.setTextColor(255, 255, 255);
+  doc.text('PASPOR JELAJAH NUSANTARA', 74, 33, { align: 'center' });
 
-  doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  doc.text('Setiap stempel membuktikan kontribusi terhadap pariwisata berkelanjutan.', 14, 26);
+  doc.setFontSize(7.5);
+  doc.setTextColor(187, 247, 208);
+  doc.text('DOKUMEN RESMI PERJALANAN WISATA & PELESTARIAN BUDAYA', 74, 39, { align: 'center' });
 
-  let y = 35;
-  const stamps = myPassportStamps.length > 0 ? myPassportStamps : ['dest-pgr-01', 'dest-bbd-11', 'dest-ppd-06'];
+  // Traveler & Passport Identification Box
+  doc.setFillColor(241, 245, 249);
+  doc.setDrawColor(203, 213, 225);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(10, 47, 128, 29, 2, 2, 'FD');
+
+  // Column Left
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 116, 139);
+  doc.text('NOMOR PASPOR DIGITAL', 15, 53);
+  doc.setFont('courier', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(15, 23, 42);
+  doc.text(`NP-${passSerial}`, 15, 57.5);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 116, 139);
+  doc.text('KATEGORI PEMEGANG', 15, 64);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text('Wisatawan Ramah Lingkungan', 15, 68.5);
+
+  // Column Right
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 116, 139);
+  doc.text('TANGGAL PENERBITAN', 78, 53);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text(today, 78, 57.5);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 116, 139);
+  doc.text('STATUS OTORISASI', 78, 64);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(5, 150, 105);
+  doc.text('VERIFIED ECO-TRAVELER', 78, 68.5);
+
+  // Section Header: Stamps
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text('LEMBAR STEMPEL DESTINASI RESMI', 12, 83);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100, 116, 139);
+  doc.text('Setiap stempel membuktikan kontribusi terhadap pariwisata berkelanjutan.', 12, 87.5);
+
+  // Stamped Destinations (Limit to 3 so exactly 1 page is guaranteed)
+  const stamps = (myPassportStamps.length > 0 ? myPassportStamps : ['dest-pgr-01', 'dest-bbd-11', 'dest-ppd-06']).slice(0, 3);
+  let y = 91;
 
   stamps.forEach((id, index) => {
-    const d = NUSANTARA_DESTINATIONS.find((dest) => dest.id === id);
-    if (!d) return;
+    const d = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
+      ? NUSANTARA_DESTINATIONS.find((dest) => dest.id === id)
+      : null;
+    const destName = d ? d.name : 'Destinasi Nusantara';
+    const destProv = d ? d.province : 'Indonesia';
+    const destCat = d ? d.category.toUpperCase() : 'EKOWISATA';
 
     doc.setDrawColor(203, 213, 225);
     doc.setFillColor(255, 255, 255);
-    doc.roundedRect(14, y, 120, 24, 2, 2, 'FD');
+    doc.setLineWidth(0.3);
+    doc.roundedRect(10, y, 128, 23, 2, 2, 'FD');
 
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
+    doc.setFontSize(9.5);
     doc.setTextColor(15, 23, 42);
-    doc.text(`${index + 1}. ${d.name}`, 20, y + 8);
+    doc.text(`${index + 1}. ${destName}`, 15, y + 7.5);
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(7.5);
     doc.setTextColor(100, 116, 139);
-    doc.text(`Wilayah: ${d.province} | Kategori: ${d.category.toUpperCase()}`, 20, y + 14);
-    doc.text(`Terverifikasi Kuota Ramah Lingkungan pada: ${today}`, 20, y + 19);
+    doc.text(`Wilayah: ${destProv} | Kategori: ${destCat}`, 15, y + 13.5);
+    doc.text(`Terverifikasi Kuota Ramah Lingkungan pada: ${today}`, 15, y + 18.5);
+
+    // Official Stamp Badge
+    doc.setDrawColor(5, 150, 105);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(98, y + 3.5, 34, 16, 1.5, 1.5, 'D');
 
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
+    doc.setFontSize(7);
     doc.setTextColor(5, 150, 105);
-    doc.text('CAP VERIFIKASI', 100, y + 13);
+    doc.text('CAP RESMI', 115, y + 9.5, { align: 'center' });
+    doc.setFontSize(6.5);
+    doc.text('TERVERIFIKASI', 115, y + 15, { align: 'center' });
 
-    y += 28;
-    if (y > 180) {
-      doc.addPage();
-      y = 20;
-    }
+    y += 25;
   });
 
-  // Footer Certificate Text
-  doc.setFontSize(8);
-  doc.setTextColor(148, 163, 184);
-  doc.text('Dokumen Paspor Digital resmi di-generate oleh sistem NusantaraPass.', 14, 202);
+  // Footer & Security Verification Zone (NO doc.addPage!)
+  doc.setDrawColor(212, 175, 55);
+  doc.setLineWidth(0.4);
+  doc.line(10, 171, 138, 171);
 
-  doc.save(`PASPOR_NUSANTARA_${Date.now().toString().slice(-6)}.pdf`);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(15, 60, 35);
+  doc.text('PLATFORM GEOPORTAL NUSANTARAPASS INDONESIA', 74, 176.5, { align: 'center' });
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.8);
+  doc.setTextColor(100, 116, 139);
+  doc.text('Dokumen Paspor Digital resmi diterbitkan untuk pelestarian warisan alam & cagar budaya.', 74, 181, { align: 'center' });
+
+  // MRZ Security String
+  doc.setFont('courier', 'normal');
+  doc.setFontSize(6.5);
+  doc.setTextColor(148, 163, 184);
+  doc.text(`P<IDNNUSANTARAPASS<<ECO<TRAVELER<<<<<<<<<<<<<<<<<<<`, 74, 187, { align: 'center' });
+  doc.text(`NP${passSerial}8IDN<<<<<<<<<<<<<<<<<<<<<<<<<`, 74, 191, { align: 'center' });
+
+  doc.save(`PASPOR_NUSANTARA_${passSerial.slice(-6)}.pdf`);
 }
 
 // ==========================================

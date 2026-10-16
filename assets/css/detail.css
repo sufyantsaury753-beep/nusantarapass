@@ -267,6 +267,8 @@ body {
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.2);
   letter-spacing: 0.2px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .hud-pill.category-pill {
@@ -1082,6 +1084,48 @@ body {
 
   .hero-dest-title {
     font-size: 22px;
+  }
+
+  .hero-hud-top {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .hero-hud-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    max-width: 100%;
+  }
+
+  .hero-hud-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .hud-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    gap: 4px;
+  }
+
+  .hud-pill.category-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .hud-pill.attribution-pill {
+    font-size: 9.5px;
+    padding: 3px 8px;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .visual-docs-grid {
