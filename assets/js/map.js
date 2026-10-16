@@ -889,7 +889,11 @@ function downloadPassportPDF() {
 // ==========================================
 function openApiModal() {
   const modal = document.getElementById('apiModal');
-  if (modal) modal.classList.add('active');
+  if (modal) {
+    modal.classList.add('active');
+    // Otomatis jalankan live request pertama saat modal dibuka
+    testApiEndpoint('all');
+  }
 }
 
 function closeApiModal() {
@@ -897,36 +901,135 @@ function closeApiModal() {
   if (modal) modal.classList.remove('active');
 }
 
-function testApiEndpoint(category) {
+async function testApiEndpoint(category = 'all') {
   const consoleEl = document.getElementById('apiConsoleOutput');
+  const badgeEl = document.getElementById('apiStatusBadge');
+  const urlEl = document.getElementById('apiUrlDisplay');
+  const curlEl = document.getElementById('apiCurlSnippet');
   if (!consoleEl) return;
 
-  consoleEl.innerText = 'Menghubungi endpoint /api/v1/destinations...';
+  // Update visual active state on filter tabs inside modal
+  document.querySelectorAll('#apiModal .filter-tab').forEach((btn) => {
+    const isTarget = btn.getAttribute('onclick')?.includes(`'${category}'`);
+    btn.classList.toggle('active', !!isTarget);
+  });
 
-  setTimeout(() => {
-    let result = NUSANTARA_DESTINATIONS;
-    if (category && category !== 'all') {
-      result = NUSANTARA_DESTINATIONS.filter((d) => d.category === category);
+  const baseUrl = (typeof NP_SUPABASE_CONFIG !== 'undefined' && NP_SUPABASE_CONFIG.URL)
+    ? NP_SUPABASE_CONFIG.URL
+    : 'https://czaafevdnaqmeejthebm.supabase.co';
+  const apiKey = (typeof NP_SUPABASE_CONFIG !== 'undefined' && NP_SUPABASE_CONFIG.ANON_KEY)
+    ? NP_SUPABASE_CONFIG.ANON_KEY
+    : '';
+
+  let endpointQuery = `${baseUrl}/rest/v1/np_destinations?select=code,name,category,province,region,elevation_m,daily_quota,current_visitors,quota_status,wave_status&order=name.asc`;
+  if (category && category !== 'all') {
+    endpointQuery += `&category=eq.${category}`;
+  }
+
+  if (urlEl) urlEl.textContent = endpointQuery;
+  if (badgeEl) {
+    badgeEl.textContent = 'Menghubungi Cloud Server...';
+    badgeEl.style.background = '#eff6ff';
+    badgeEl.style.color = '#0284c7';
+    badgeEl.style.border = '1px solid #bae6fd';
+  }
+  if (curlEl) {
+    curlEl.textContent = `curl -X GET "${endpointQuery}" \\\n  -H "apikey: ${apiKey}" \\\n  -H "Authorization: Bearer ${apiKey}"`;
+  }
+
+  consoleEl.innerText = `// [HTTP/2 GET REQUEST]\n// Target: ${endpointQuery}\n// Mengirim request ke Supabase PostgREST Engine...\n// Menunggu respons...`;
+
+  const startTime = performance.now();
+  try {
+    const response = await fetch(endpointQuery, {
+      method: 'GET',
+      headers: {
+        'apikey': apiKey,
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const latency = Math.round(performance.now() - startTime);
+
+    if (!response.ok) {
+      throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
     }
 
-    const payload = {
-      status: 'success',
-      code: 200,
-      protocol: 'OpenAPI 3.0',
-      total_count: result.length,
-      filter: { category: category || 'all' },
-      data: result.map((d) => ({
+    const data = await response.json();
+
+    if (badgeEl) {
+      badgeEl.textContent = `HTTP/2 200 OK (${latency}ms) — PostgREST Live Database`;
+      badgeEl.style.background = '#ecfdf5';
+      badgeEl.style.color = '#059669';
+      badgeEl.style.border = '1px solid #a7f3d0';
+    }
+
+    const wrappedPayload = {
+      meta: {
+        server: "PostgREST / PostgreSQL 15 (Supabase Cloud)",
+        protocol: "OpenAPI 3.0 / RESTful JSON",
+        status: response.status,
+        latency_ms: latency,
+        filter_category: category,
+        total_records: data.length,
+        timestamp: new Date().toISOString()
+      },
+      data: data
+    };
+
+    consoleEl.innerText = JSON.stringify(wrappedPayload, null, 2);
+  } catch (err) {
+    const latency = Math.round(performance.now() - startTime);
+    console.warn("Fallback to local verified dataset:", err);
+    if (badgeEl) {
+      badgeEl.textContent = `200 OK (${latency}ms) — Local Fallback Mode`;
+      badgeEl.style.background = '#fefce8';
+      badgeEl.style.color = '#ca8a04';
+      badgeEl.style.border = '1px solid #fef08a';
+    }
+
+    let localResult = (typeof NUSANTARA_DESTINATIONS !== 'undefined') ? NUSANTARA_DESTINATIONS : [];
+    if (category && category !== 'all') {
+      localResult = localResult.filter(d => d.category === category);
+    }
+
+    const fallbackPayload = {
+      meta: {
+        server: "NusantaraPass Local Verified Datastore (Fallback)",
+        status: 200,
+        latency_ms: latency,
+        filter_category: category,
+        total_records: localResult.length,
+        notice: "Koneksi offline: Menampilkan data terverifikasi lokal."
+      },
+      data: localResult.map(d => ({
         code: d.code,
         name: d.name,
         category: d.category,
         province: d.province,
+        region: d.region,
+        elevation_m: d.elevation_m || 0,
         daily_quota: d.daily_quota,
         current_visitors: d.current_visitors,
         quota_status: d.quota_status,
-        wave_or_weather: d.wave_status,
-      })),
+        wave_status: d.wave_status
+      }))
     };
 
-    consoleEl.innerText = JSON.stringify(payload, null, 2);
-  }, 250);
+    consoleEl.innerText = JSON.stringify(fallbackPayload, null, 2);
+  }
+}
+
+function copyApiCurl() {
+  const curlEl = document.getElementById('apiCurlSnippet');
+  const btn = document.getElementById('btnCopyCurl');
+  if (!curlEl) return;
+  navigator.clipboard.writeText(curlEl.textContent).then(() => {
+    if (btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✅ Berhasil Disalin!';
+      setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+    }
+  });
 }

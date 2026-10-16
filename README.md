@@ -59,12 +59,16 @@
   * Manajemen kuota pelestarian (CRUD data objek wisata & ubah kuota darurat dalam 1 klik).
   * Log verifikasi tiket gerbang masuk.
 
-### 6. 🔌 Open REST API & Interoperabilitas (OpenAPI 3.0 Standard)
-* Sesuai tema *"Engineering Interconnected Web Solutions"*, NusantaraPass menyediakan endpoint API publik:
-  * `GET /api/v1/destinations` (filter kategori & provinsi)
-  * `GET /api/v1/destinations/{id}/quota` (status daya dukung wisata)
-  * `POST /api/v1/pass/verify` (verifikasi tiket gerbang)
-  * `GET /api/v1/openapi` (spesifikasi OpenAPI resmi)
+### 6. 🔌 Open REST API & Interoperabilitas (PostgREST OpenAPI 3.0 Live)
+Sesuai tema *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*, NusantaraPass menyediakan endpoint RESTful API publik yang langsung terhubung ke pangkalan data PostgreSQL Cloud via engine PostgREST OpenAPI 3.0:
+* **Base Endpoint:** `https://czaafevdnaqmeejthebm.supabase.co/rest/v1/np_destinations`
+* **Filter Kategori:** `?category=eq.pantai`, `?category=eq.gunung`, `?category=eq.budaya`, `?category=eq.taman_nasional`
+* **Pilihan Proyeksi Kolom:** `?select=code,name,category,province,daily_quota,current_visitors,quota_status`
+* **Contoh cURL Langsung (Dapat Diuji Seketika di Terminal/Postman Dewan Juri):**
+  ```bash
+  curl -s -X GET "https://czaafevdnaqmeejthebm.supabase.co/rest/v1/np_destinations?select=code,name,category,province,daily_quota,current_visitors,quota_status&limit=5" \
+    -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YWFmZXZkbmFxbWVlanRoZWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwOTY1MjIsImV4cCI6MjEwNzY3MjUyMn0.nZbkhSNe0RrM5hwBLW_DFtGVAzjpVOIjj9nk1DlZ1cU"
+  ```
 
 ---
 
