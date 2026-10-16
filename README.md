@@ -1,7 +1,7 @@
 # NusantaraPass — Smart Interconnected Geotourism & Heritage Passport 🧭🇮🇩
 
 [![UINIC 8.0](https://img.shields.io/badge/Competition-UINIC%208.0%20WebDev-emerald?style=flat-square)](https://bit.ly/GuidebookUINIC8_WEBDEV)
-[![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-blue?style=flat-square&logo=github)](https://sufyantsaury753-beep.github.io/nusantarapass/)
+[![Live Demo (Vercel)](https://img.shields.io/badge/Demo-Vercel%20Edge%20Network-black?style=flat-square&logo=vercel)](https://nusantarapass.vercel.app/)
 [![Leaflet GIS](https://img.shields.io/badge/Mapping-Leaflet%20%26%20OSM-199900?style=flat-square&logo=leaflet)](https://leafletjs.com)
 [![Supabase](https://img.shields.io/badge/Database-PostgreSQL%20(Supabase)-3ECF8E?style=flat-square&logo=supabase)](https://supabase.com)
 [![SDG 11 & 8.9](https://img.shields.io/badge/SDGs-Heritage%20%26%20Sustainable%20Tourism-amber?style=flat-square)](https://sdgs.un.org)
@@ -10,7 +10,7 @@
 > **Tema Utama:** *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*  
 > **Sub-Tema:** Sosial Budaya & Lingkungan (Pariwisata Berkelanjutan & Pelestarian Cagar Alam-Budaya)  
 > **Kategori:** Individu / Tim (Web Development)  
-> **Akses Demo Langsung:** 🌐 **[https://sufyantsaury753-beep.github.io/nusantarapass/](https://sufyantsaury753-beep.github.io/nusantarapass/)**  
+> **Akses Demo Langsung:** 🌐 **[https://nusantarapass.vercel.app/](https://nusantarapass.vercel.app/)** *(Mirror CDN: [GitHub Pages](https://sufyantsaury753-beep.github.io/nusantarapass/))*  
 > **Dokumen Proposal Resmi (PDF 22 Halaman):** 📄 **[`docs/UINIC8#2026_WEBDEV_TimNusantaraDigital_Universitas.pdf`](./docs/UINIC8%232026_WEBDEV_TimNusantaraDigital_Universitas.pdf)** | **[Versi HTML Interaktif](./docs/PROPOSAL_UINIC_8.0.html)**  
 > **Laporan Pengujian Pengguna (SUS Score 84.83 - Grade A):** 📊 **[`docs/USER_TESTING_SUS.md`](./docs/USER_TESTING_SUS.md)**
 
@@ -88,7 +88,7 @@ Struktur tabel relasional, indeks performa, dan aturan *Row-Level Security (RLS)
 * **GIS Mapping Engine:** Leaflet.js v1.9.4, Custom Thematic SVG Precision Pins dengan Jewel-Tone Gradients & Ground Shadow, Multi-layer Tile Basemap (OpenStreetMap Standard, OpenTopoMap Terrain, ESRI World Imagery Satellite).
 * **Backend & Cloud Database:** Supabase Cloud (PostgreSQL 15 Relasional, PostgREST OpenAPI 3.0 Engine, Row-Level Security / RLS).
 * **Document Engine:** jsPDF v2.5 (Client-Side Vector PDF Engine untuk Buku Paspor Resmi & Sertifikat Pelestari Budaya), QRCode Engine.
-* **Hosting & CDN:** GitHub Pages (Global CDN Edge Network, HTTPS/SSL, HTTP/2 Protocol).
+* **Hosting & Edge Delivery:** Vercel Global Edge Network (High-Speed Anycast CDN, HTTPS/SSL, HTTP/2 & HTTP/3) & GitHub Pages Mirror.
 
 > 💡 **Rasional Teknis (Technical Rationale):**  
 > Mengapa Vanilla Architecture tanpa framework berat? Platform pariwisata NusantaraPass dirancang dengan prinsip **Inklusivitas Wilayah 3T & Green Computing**. Total muatan transfer website hanya **~240 KB** (dibandingkan bundle framework Next.js/React yang mencapai 2.5–5 MB), menghasilkan metrik *First Contentful Paint (FCP) < 0.6 detik* dan *Time to Interactive (TTI) < 0.9 detik*. Hal ini menjamin wisatawan di kawasan alam terpencil atau pulau terluar dengan koneksi 3G/Edge tetap dapat mengakses informasi daya dukung dan tiket QR secara instan.

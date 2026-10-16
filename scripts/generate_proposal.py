@@ -314,7 +314,7 @@ def generate_html():
         </tr>
         <tr>
           <td class="label">Tautan Demosite:</td>
-          <td><code>https://sufyantsaury753-beep.github.io/nusantarapass/</code></td>
+          <td><code>https://nusantarapass.vercel.app/</code></td>
         </tr>
         <tr>
           <td class="label">Repositori GitHub:</td>
@@ -705,7 +705,7 @@ def generate_html():
   <h2>10.1 Arsitektur Sistem (3-Tier Decoupled Client-BaaS Architecture)</h2>
   <p>NusantaraPass mengusung arsitektur *Decoupled Cloud Serverless* yang memisahkan lapisan presentasi antarmuka klien secara independen dari lapisan penyimpanan data berkinerja tinggi:</p>
   <ul>
-    <li><strong>Client Layer (Edge Delivery):</strong> Berupa file statis Vanilla HTML5/CSS3/JavaScript yang di-host pada jaringan CDN GitHub Pages global dengan latensi transmisi ultra-rendah dan proteksi SSL/TLS otomatis.</li>
+    <li><strong>Client Layer (Edge Delivery):</strong> Berupa file statis Vanilla HTML5/CSS3/JavaScript yang di-host pada jaringan Anycast CDN global Vercel Edge Network (didukung mirror GitHub Pages) dengan latensi transmisi ultra-rendah dan proteksi SSL/TLS otomatis.</li>
     <li><strong>API Gateway Layer:</strong> Supabase PostgREST yang secara otomatis mengekspos endpoint RESTful berotentikasi dari schema PostgreSQL tanpa memerlukan server runtime Node.js/PHP terpisah.</li>
     <li><strong>Data Persistence Layer:</strong> Basis data relasional PostgreSQL 15 di Supabase Cloud yang mengelola integritas data destinasi, kuota harian, log pengunjung, dan ulasan wisatawan.</li>
   </ul>
@@ -1017,8 +1017,8 @@ def generate_html():
     <tbody>
       <tr>
         <td><strong>Live Demosite (Website Aktif)</strong></td>
-        <td><code>https://sufyantsaury753-beep.github.io/nusantarapass/</code></td>
-        <td><span class="badge badge-success">HTTP 200 OK (Aktif)</span></td>
+        <td><code>https://nusantarapass.vercel.app/</code><br><span style="font-size: 8pt; color: #64748B;">(Mirror: <code>https://sufyantsaury753-beep.github.io/nusantarapass/</code>)</span></td>
+        <td><span class="badge badge-success">HTTP 200 OK (Vercel Edge)</span></td>
       </tr>
       <tr>
         <td><strong>Repositori Publik GitHub</strong></td>

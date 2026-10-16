@@ -1,7 +1,7 @@
 # 📋 PANDUAN LENGKAP PEMBUATAN GOOGLE FORM UJI PENGGUNA (SUS)
 **Karya:** NusantaraPass — Web Development Competition UINIC 8.0  
 **Target Pengumpulan Responden:** 20 – 28 Oktober 2026 (Minimal 10–15 Responden)  
-**Tautan Web Demo:** [https://sufyantsaury753-beep.github.io/nusantarapass/](https://sufyantsaury753-beep.github.io/nusantarapass/)
+**Tautan Web Demo:** [https://nusantarapass.vercel.app/](https://nusantarapass.vercel.app/)
 
 ---
 
@@ -19,7 +19,7 @@ function createNusantaraPassSUSForm() {
   form.setDescription(
     'Halo! Terima kasih atas ketersediaan Anda menjadi responden pengujian platform "NusantaraPass" untuk kompetisi Web Development UINIC 8.0 (UIN Sunan Kalijaga Yogyakarta).\n\n' +
     '📌 TAUTAN WEB DEMO (Silakan coba buka 1-2 menit di HP/Laptop):\n' +
-    'https://sufyantsaury753-beep.github.io/nusantarapass/\n\n' +
+    'https://nusantarapass.vercel.app/\n\n' +
     'Skenario yang disarankan untuk dicoba:\n' +
     '1. Buka peta interaktif, coba filter kategori & cari destinasi (misal Candi Borobudur / TN Komodo).\n' +
     '2. Buka halaman detail destinasi, lihat sisa kuota kapasitas, dan coba klik "Terbitkan NusantaraPass (Direct Pass)".\n' +
@@ -127,7 +127,7 @@ Salin pesan ini saat mengirimkan link form ke teman kampus / grup WA:
 > *Halo teman-teman! Minta tolong bantuannya 1–2 menit yaa untuk mengisi survei pengujian platform webgis pariwisata NusantaraPass yang saya ikutkan di lomba Web Development UINIC 8.0 UIN Sunan Kalijaga.* 🙏
 >
 > 🌐 **Coba webnya di sini:**  
-> https://sufyantsaury753-beep.github.io/nusantarapass/  
+> https://nusantarapass.vercel.app/  
 > *(Bisa dicoba lihat peta, filter kategori, atau klik terbitkan tiket)*
 >
 > 📝 **Link Isi Kuesioner (Hanya 10 Pertanyaan Cepat):**  
