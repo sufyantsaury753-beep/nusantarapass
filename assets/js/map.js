@@ -51,66 +51,117 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ==========================================
-// 1. MASTER SVG GENERATOR (MODERN PRECISION TEARDROP PIN)
-// 2026 Travel-Tech & GIS Standard (30x38px, High-Contrast White Pictograms)
+// 1. MASTER SVG GENERATOR (LUXURY CARTOGRAPHY BESPOKE PIN)
+// 2026 High-End GIS Standard: Jewel Gradients, Glass Gloss, Precision Glyphs & Smart Quota Halo
 // ==========================================
-function getCategoryTeardropSvg(category) {
-  let pinColor = '#059669'; // default Forest Emerald
-  let glyph = '';
+function getCategoryPremiumPinSvg(dest, isSelected = false) {
+  const cat = (typeof dest === 'string') ? dest : (dest && dest.category) || 'pantai';
+  
+  // Smart carrying capacity indicator
+  let statusDotColor = '#10b981'; // Normal / Aman (Emerald)
+  if (dest && typeof dest === 'object') {
+    const visitors = dest.current_visitors || 0;
+    const quota = dest.daily_quota || 1000;
+    const pct = (visitors / quota) * 100;
+    if (dest.quota_status === 'ditutup_cuaca' || pct >= 100) {
+      statusDotColor = '#ef4444'; // Critical / Ditutup (Coral Red)
+    } else if (dest.quota_status === 'hampir_penuh' || pct > 75) {
+      statusDotColor = '#f59e0b'; // Warning / Hampir Penuh (Amber)
+    }
+  }
 
-  if (category === 'pantai') {
-    pinColor = '#0284c7'; // Deep Sky / Ocean Blue
+  // Multi-stop jewel gradients for each category
+  const gradDefs = `
+    <linearGradient id="pinGrad_pantai" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="pinGrad_gunung" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+    <linearGradient id="pinGrad_budaya" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fcd34d"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <linearGradient id="pinGrad_taman_nasional" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="50%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+  `;
+
+  let glyph = '';
+  if (cat === 'pantai') {
     glyph = `
-      <!-- Precision Sea Wave & Horizon -->
-      <path d="M9 13.5c1.8-1 3.6-1 5.4 0s3.6 1 5.4 0" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-      <path d="M9 17c1.8-1 3.6-1 5.4 0s3.6 1 5.4 0" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-      <circle cx="14.5" cy="8.5" r="2.2" fill="#ffffff"/>
+      <!-- Precision Maritime Sun & Rhythm Waves -->
+      <circle cx="17" cy="9.8" r="2.2" fill="#ffffff"/>
+      <path d="M 9.5,15.5 C 12,14 14.5,14 17,15.5 C 19.5,17 22,17 24.5,15.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <path d="M 9.5,19.2 C 12,17.7 14.5,17.7 17,19.2 C 19.5,20.7 22,20.7 24.5,19.2" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
     `;
-  } else if (category === 'gunung') {
-    pinColor = '#ea580c'; // Warm Terracotta Mountain
+  } else if (cat === 'gunung') {
     glyph = `
-      <!-- Minimalist Twin Peaks -->
-      <path d="M8.5 18L14 8.5L18 15.5L20 12.5L24 18H8.5Z" fill="#ffffff"/>
+      <!-- Precision 3D Faceted Summit Peaks -->
+      <path d="M 8.5,22 L 15,11 L 18,15 L 14.5,17.5 L 12,22 Z" fill="rgba(255,255,255,0.55)"/>
+      <path d="M 15,11 L 19,16.5 L 21,14.5 L 25.5,22 L 18,15 Z" fill="#ffffff"/>
+      <polygon points="15,11 13.5,14 16.5,14" fill="#ffffff"/>
     `;
-  } else if (category === 'budaya') {
-    pinColor = '#d97706'; // Ancient Ochre / Heritage Stupa
+  } else if (cat === 'budaya') {
     glyph = `
-      <!-- Heritage Stupa Architectural Silhouette -->
-      <rect x="14" y="6" width="1.8" height="2.5" rx="0.5" fill="#ffffff"/>
-      <path d="M12.5 9h5c.6 0 1 .5 1 1.2L19.5 13H10.5l1-2.8c0-.7.4-1.2 1-1.2Z" fill="#ffffff"/>
-      <rect x="9.5" y="14" width="11" height="1.8" rx="0.5" fill="#ffffff"/>
-      <path d="M8 16.5h14v2H8z" fill="#ffffff"/>
+      <!-- Architectural Heritage Stupa & Pinnacle -->
+      <rect x="16.2" y="6.8" width="1.6" height="2.5" rx="0.5" fill="#ffffff"/>
+      <circle cx="17" cy="6.4" r="1.1" fill="#ffffff"/>
+      <path d="M 13.5,10.8 C 13.5,9.6 14.8,9.4 17,9.4 C 19.2,9.4 20.5,9.6 20.5,10.8 L 21.8,14.2 C 21.8,14.9 20.5,15.2 17,15.2 C 13.5,15.2 12.2,14.9 12.2,14.2 Z" fill="#ffffff"/>
+      <rect x="10.8" y="16.2" width="12.4" height="1.8" rx="0.5" fill="#ffffff"/>
+      <rect x="8.8" y="19" width="16.4" height="2" rx="0.5" fill="#ffffff"/>
     `;
   } else {
     // taman_nasional & konservasi
-    pinColor = '#059669'; // Pine Forest Green
     glyph = `
-      <!-- Minimalist Conservation Pine Tree -->
-      <path d="M14.5 5.5L9.5 14H13v3.5h3V14h3.5L14.5 5.5Z" fill="#ffffff"/>
+      <!-- Precision Tiered Conservation Pine Canopy -->
+      <path d="M 17,6.8 L 11.8,14.2 H 14.2 L 10.8,19 H 15.5 V 22.5 H 18.5 V 19 H 23.2 L 19.8,14.2 H 22.2 Z" fill="#ffffff"/>
     `;
   }
 
+  const destId = (dest && dest.id) ? dest.id : '';
+
   return `
-    <div class="dest-teardrop-pin">
-      <svg viewBox="0 0 30 38" width="30" height="38" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="pinShadow" x="-20%" y="-15%" width="140%" height="135%">
-            <feDropShadow dx="0" dy="2" stdDeviation="1.8" flood-color="rgba(15, 23, 42, 0.28)"/>
-          </filter>
-        </defs>
-        <!-- Aerodynamic Precision Teardrop -->
-        <path d="M15 37 C14.2 35.5 2 21.5 2 14 A13 13 0 1 1 28 14 C28 21.5 15.8 35.5 15 37 Z" 
-              fill="${pinColor}" 
-              stroke="#ffffff" 
-              stroke-width="1.6" 
-              filter="url(#pinShadow)"/>
-        <!-- Centered High-Contrast White Vector Pictogram -->
-        <g id="glyph_${category}">
-          ${glyph}
-        </g>
-      </svg>
+    <div class="dest-premium-marker cat-${cat} ${isSelected ? 'is-selected' : ''}" data-dest-id="${destId}">
+      <div class="marker-ground-pulse"></div>
+      <div class="marker-ground-shadow"></div>
+      <div class="marker-pin-body">
+        <svg viewBox="0 0 34 44" width="34" height="44" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            ${gradDefs}
+          </defs>
+          <!-- Aerodynamic Precision Teardrop with Jewel Gradient -->
+          <path d="M 17,43 C 16.2,41.2 3,25.5 3,16 A 14,14 0 1,1 31,16 C 31,25.5 17.8,41.2 17,43 Z"
+                fill="url(#pinGrad_${cat})"
+                stroke="#ffffff"
+                stroke-width="1.8"
+                stroke-linejoin="round"/>
+          <!-- Inner Concentric Precision Micro-Ring -->
+          <circle cx="17" cy="16" r="12" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="0.8"/>
+          <!-- Curved Specular Glass Light Reflection -->
+          <path d="M 8.5,12 C 10.5,7.5 23.5,7.5 25.5,12 C 21,8.5 13,8.5 8.5,12 Z" fill="rgba(255,255,255,0.3)"/>
+          <!-- Centered High-Precision Pictogram -->
+          <g>
+            ${glyph}
+          </g>
+          <!-- Integrated Smart Carrying Capacity Live Indicator -->
+          <circle cx="26" cy="6.5" r="2.8" fill="${statusDotColor}" stroke="#ffffff" stroke-width="1"/>
+        </svg>
+      </div>
     </div>
   `;
+}
+
+// Backward compatibility alias
+function getCategoryTeardropSvg(category) {
+  return getCategoryPremiumPinSvg(category);
 }
 
 // Helper Nama Resmi Kategori Wisata
@@ -219,17 +270,13 @@ function renderMapMarkers() {
   });
 
   filtered.forEach((dest) => {
-    let catColor = '#059669';
-    if (dest.category === 'pantai') catColor = '#0284c7';
-    if (dest.category === 'gunung') catColor = '#ea580c';
-    if (dest.category === 'budaya') catColor = '#d97706';
-
+    const isSelected = (selectedDestId === dest.id);
     const markerIcon = L.divIcon({
       className: 'dest-pin-leaflet',
-      html: getCategoryTeardropSvg(dest.category),
-      iconSize: [30, 38],
-      iconAnchor: [15, 38],      // Ujung lancip tepat di titik GPS
-      popupAnchor: [0, -38],     // Popup muncul tepat di atas pin
+      html: getCategoryPremiumPinSvg(dest, isSelected),
+      iconSize: [34, 46],
+      iconAnchor: [17, 43],      // Ujung lancip tepat di titik GPS
+      popupAnchor: [0, -44],     // Popup muncul tepat di atas pin
     });
 
     const marker = L.marker([dest.latitude, dest.longitude], { icon: markerIcon });
@@ -244,6 +291,9 @@ function renderMapMarkers() {
       }
       openRegionKeys.add(dest.region);
       selectedDestId = dest.id;
+      document.querySelectorAll('.dest-premium-marker').forEach((el) => {
+        el.classList.toggle('is-selected', el.dataset.destId === dest.id);
+      });
       initRegionHierarchy();
     });
 
@@ -451,6 +501,10 @@ function focusDestination(destId) {
 
   document.querySelectorAll('.dest-item, .tree-child-item').forEach((item) => {
     item.classList.toggle('selected', item.dataset.destId === destId);
+  });
+
+  document.querySelectorAll('.dest-premium-marker').forEach((el) => {
+    el.classList.toggle('is-selected', el.dataset.destId === destId);
   });
 }
 
