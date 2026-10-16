@@ -727,6 +727,101 @@ body.admin-body {
   border-color: #0f172a;
 }
 
+/* ==========================================
+   ADMIN LOGIN GATEWAY (DEMO AUTH)
+   ========================================== */
+.admin-login-overlay {
+  position: fixed;
+  inset: 0;
+  background: #f8fafc;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-login-overlay.hidden {
+  display: none !important;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.admin-login-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-login-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--admin-navy);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-login-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--admin-text-main);
+  letter-spacing: -0.02em;
+}
+
+.admin-login-sub {
+  font-size: 12px;
+  color: var(--admin-text-muted);
+}
+
+.admin-login-demo-hint {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: var(--admin-radius);
+  padding: 10px 12px;
+  font-size: 11.5px;
+  color: var(--admin-text-muted);
+  line-height: 1.5;
+}
+
+.admin-login-demo-hint b {
+  color: var(--admin-text-main);
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.admin-login-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--admin-navy);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--admin-radius);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease;
+}
+
+.admin-login-btn:hover {
+  background: var(--admin-navy-hover);
+}
+
 .admin-footer {
   max-width: 1380px;
   margin: 40px auto 30px;

@@ -14,10 +14,51 @@
 </head>
 
 <body class="admin-body">
+  <!-- Minimalist Admin Demo Authentication Overlay -->
+  <div id="adminLoginOverlay" class="admin-login-overlay">
+    <div class="admin-login-card">
+      <div class="admin-login-header">
+        <div class="admin-login-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+        </div>
+        <div class="admin-login-title">Konsol Pengelola NusantaraPass</div>
+        <div class="admin-login-sub">Masuk untuk mengelola destinasi, kuota daya dukung, dan dokumentasi visual.</div>
+      </div>
+
+      <div class="admin-login-demo-hint">
+        Kredensial Akses Pengujian / Demo:<br/>
+        Username: <b>admin</b> &bull; Password: <b>123456</b>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 12px;">
+        <div id="adminLoginError" style="display: none; padding: 8px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--admin-radius); color: #dc2626; font-size: 11.5px; font-weight: 600;"></div>
+        
+        <div>
+          <label class="form-label">Username Pengelola</label>
+          <input type="text" id="adminLoginUser" class="form-input-admin" placeholder="Masukkan username" required autocomplete="username" />
+        </div>
+
+        <div>
+          <label class="form-label">Kata Sandi (Password)</label>
+          <input type="password" id="adminLoginPass" class="form-input-admin" placeholder="Masukkan kata sandi" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="admin-login-btn">Masuk ke Konsol</button>
+      </form>
+
+      <div style="text-align: center; margin-top: 4px;">
+        <a href="../index.html" onclick="navigateToMap(event)" style="font-size: 11.5px; color: var(--admin-text-muted); text-decoration: none;">&larr; Kembali ke Beranda Peta</a>
+      </div>
+    </div>
+  </div>
+
   <!-- Minimalist Executive Topbar -->
   <header class="admin-topbar">
     <div class="admin-topbar-inner">
-      <a href="../index.html" class="admin-brand">
+      <a href="../index.html" class="admin-brand" onclick="navigateToMap(event)">
         <div class="admin-brand-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <circle cx="12" cy="12" r="10"/>
@@ -37,13 +78,22 @@
           <span id="dbStatusText">Memeriksa Database...</span>
         </button>
 
-        <a href="../index.html" class="btn-admin-action btn-admin-outline">
+        <a href="../index.html" class="btn-admin-action btn-admin-outline" onclick="navigateToMap(event)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <line x1="19" y1="12" x2="5" y2="12"/>
             <polyline points="12 19 5 12 12 5"/>
           </svg>
           Kembali ke Peta
         </a>
+
+        <button id="btnAdminLogout" class="btn-admin-action btn-admin-outline" onclick="handleAdminLogout()" style="display: none; color: #dc2626; border-color: #fca5a5;" title="Keluar dari sesi admin">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Keluar
+        </button>
       </div>
     </div>
   </header>
@@ -160,7 +210,7 @@
             </div>
             <div>
               <label class="form-label">Kategori Wisata</label>
-              <select id="editDestCategory" class="form-input-admin">
+              <select id="editDestCategory" class="form-input-admin" onchange="handleEditCategoryChange()">
                 <option value="pantai">Bahari &amp; Pantai</option>
                 <option value="gunung">Gunung &amp; Dataran Tinggi</option>
                 <option value="budaya">Cagar Budaya &amp; Sejarah</option>
@@ -169,8 +219,8 @@
             </div>
           </div>
 
-          <!-- Row 2: Region, Provinsi & Elevasi -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px;">
+          <!-- Row 2: Region, Provinsi & Elevasi (Khusus Gunung) -->
+          <div id="editDestRow2" style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px;">
             <div>
               <label class="form-label">Pulau / Region</label>
               <select id="editDestRegion" class="form-input-admin">
@@ -187,9 +237,9 @@
               <label class="form-label">Provinsi</label>
               <input type="text" id="editDestProvince" class="form-input-admin" required />
             </div>
-            <div>
+            <div id="editDestElevationCol">
               <label class="form-label">Elevasi (Mdpl)</label>
-              <input type="number" id="editDestElevation" class="form-input-admin" required />
+              <input type="number" id="editDestElevation" class="form-input-admin" placeholder="Contoh: 3726" />
             </div>
           </div>
 
@@ -526,7 +576,57 @@
       } catch (e) {}
     }
 
+    // ==========================================
+    // DEMO AUTHENTICATION & SMART NAVIGATION
+    // ==========================================
+    function checkAdminAuth() {
+      const isLoggedIn = sessionStorage.getItem('np_admin_logged_in') === 'true';
+      const overlay = document.getElementById('adminLoginOverlay');
+      const logoutBtn = document.getElementById('btnAdminLogout');
+      if (isLoggedIn) {
+        if (overlay) overlay.classList.add('hidden');
+        if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+      } else {
+        if (overlay) overlay.classList.remove('hidden');
+        if (logoutBtn) logoutBtn.style.display = 'none';
+      }
+    }
+
+    function handleAdminLogin(e) {
+      if (e) e.preventDefault();
+      const user = (document.getElementById('adminLoginUser')?.value || '').trim();
+      const pass = (document.getElementById('adminLoginPass')?.value || '').trim();
+      const errEl = document.getElementById('adminLoginError');
+
+      if (user === 'admin' && pass === '123456') {
+        sessionStorage.setItem('np_admin_logged_in', 'true');
+        if (errEl) errEl.style.display = 'none';
+        checkAdminAuth();
+      } else {
+        if (errEl) {
+          errEl.textContent = 'Username atau password salah. Silakan gunakan username: admin & password: 123456';
+          errEl.style.display = 'block';
+        }
+      }
+    }
+
+    function handleAdminLogout() {
+      sessionStorage.removeItem('np_admin_logged_in');
+      checkAdminAuth();
+    }
+
+    function navigateToMap(e) {
+      if (e) e.preventDefault();
+      const ref = document.referrer;
+      if (ref && (ref.endsWith('/') || ref.endsWith('/index.html')) && !ref.includes('/destinasi/') && !ref.includes('/admin/') && !ref.includes('/galeri/')) {
+        window.history.back();
+      } else {
+        window.location.replace('../index.html');
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
+      checkAdminAuth();
       applyLocalOverrides();
       await checkDbStatus();
       await loadAdminData();
@@ -644,7 +744,7 @@
             <td class="td-code">${d.code}</td>
             <td>
               <div class="td-dest-name">${d.name}</div>
-              <div style="font-size: 10.5px; color: var(--admin-text-muted);">${d.region} &bull; Elevasi ${d.elevation_m || 0} Mdpl</div>
+              <div style="font-size: 10.5px; color: var(--admin-text-muted);">${d.region}${d.category === 'gunung' && d.elevation_m ? ` &bull; Elevasi ${d.elevation_m} Mdpl` : ''}</div>
             </td>
             <td>
               <span class="td-category-tag">
@@ -713,6 +813,25 @@
     // ==========================================
     // LOGIKA MODAL 1: EDIT DESTINASI & COVER
     // ==========================================
+    function handleEditCategoryChange() {
+      const cat = document.getElementById('editDestCategory')?.value;
+      const col = document.getElementById('editDestElevationCol');
+      const row2 = document.getElementById('editDestRow2');
+      const elevInput = document.getElementById('editDestElevation');
+      if (cat === 'gunung') {
+        if (col) col.style.display = 'block';
+        if (row2) row2.style.gridTemplateColumns = '1fr 1fr 0.8fr';
+        if (elevInput) elevInput.required = true;
+      } else {
+        if (col) col.style.display = 'none';
+        if (row2) row2.style.gridTemplateColumns = '1fr 1fr';
+        if (elevInput) {
+          elevInput.required = false;
+          elevInput.value = 0;
+        }
+      }
+    }
+
     function openEditDestModal(id) {
       const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
       if (!dest) return;
@@ -724,6 +843,7 @@
       document.getElementById('editDestRegion').value = dest.region || 'Jawa';
       document.getElementById('editDestProvince').value = dest.province || '';
       document.getElementById('editDestElevation').value = dest.elevation_m || 0;
+      handleEditCategoryChange();
       document.getElementById('editDestLat').value = dest.latitude || 0;
       document.getElementById('editDestLng').value = dest.longitude || 0;
       document.getElementById('editDestQuota').value = dest.daily_quota || 1000;
@@ -773,14 +893,17 @@
       const dest = NUSANTARA_DESTINATIONS.find(d => d.id === id);
       if (!dest) return;
 
+      const category = document.getElementById('editDestCategory').value;
+      const elevation_m = (category === 'gunung') ? (parseInt(document.getElementById('editDestElevation').value) || 0) : 0;
+
       const updatedPayload = {
         id: dest.id,
         code: dest.code,
         name: document.getElementById('editDestName').value.trim(),
-        category: document.getElementById('editDestCategory').value,
+        category: category,
         region: document.getElementById('editDestRegion').value,
         province: document.getElementById('editDestProvince').value.trim(),
-        elevation_m: parseInt(document.getElementById('editDestElevation').value) || 0,
+        elevation_m: elevation_m,
         latitude: parseFloat(document.getElementById('editDestLat').value),
         longitude: parseFloat(document.getElementById('editDestLng').value),
         daily_quota: parseInt(document.getElementById('editDestQuota').value) || 1000,

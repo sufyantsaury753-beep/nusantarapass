@@ -9,7 +9,7 @@ let destinationMarkers = {};
 let currentBasemap = 'osm'; // Default to Clean Light OpenStreetMap
 let currentCategoryFilter = 'all';
 let currentRegionFilter = 'all';
-let openRegionKeys = new Set(['Jawa']); // Default open Jawa in hierarchy tree
+let openRegionKeys = new Set(); // Default tertutup rapi semua pulau
 let selectedDestId = null;
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
 
@@ -248,7 +248,7 @@ function renderMapMarkers() {
     });
 
     // Compact Geographic Information Panel (Apple Maps / ArcGIS Standards)
-    const elevText = dest.elevation_m > 50 
+    const elevText = (dest.category === 'gunung' && dest.elevation_m > 0)
       ? `${dest.elevation_m.toLocaleString('id-ID')} mdpl`
       : getCategoryDisplayName(dest.category);
 

@@ -84,15 +84,15 @@ function renderHeroHUD() {
 
   const metaEl = document.getElementById('heroDestMeta');
   if (metaEl) {
-    const elevText = currentDest.elevation_m > 50 
-      ? `Elevasi ${currentDest.elevation_m.toLocaleString('id-ID')} Mdpl`
-      : `Elevasi ${currentDest.elevation_m} Mdpl (Pesisir)`;
+    const isGunung = (currentDest.category === 'gunung' && currentDest.elevation_m > 0);
+    const elevPart = isGunung 
+      ? `<span class="meta-sep">&bull;</span><span>Elevasi ${currentDest.elevation_m.toLocaleString('id-ID')} Mdpl</span>`
+      : '';
     metaEl.innerHTML = `
       <span>${currentDest.province}</span>
       <span class="meta-sep">&bull;</span>
       <span>Wilayah ${currentDest.region}</span>
-      <span class="meta-sep">&bull;</span>
-      <span>${elevText}</span>
+      ${elevPart}
       <span class="meta-sep">&bull;</span>
       <span>GPS: [${currentDest.latitude}, ${currentDest.longitude}]</span>
     `;
@@ -524,3 +524,15 @@ window.addEventListener('click', (e) => {
     closeImageViewer();
   }
 });
+
+// Smart Navigation back to Map (prevents history ping-pong loop)
+function navigateToMap(e) {
+  if (e) e.preventDefault();
+  const ref = document.referrer;
+  if (ref && (ref.endsWith('/') || ref.endsWith('/index.html')) && !ref.includes('/destinasi/') && !ref.includes('/admin/') && !ref.includes('/galeri/')) {
+    window.history.back();
+  } else {
+    window.location.replace('../index.html');
+  }
+}
+
