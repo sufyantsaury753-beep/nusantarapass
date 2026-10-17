@@ -9,9 +9,11 @@
 > **Karya Kompetisi:** Web Development Competition UINIC 8.0 (UIN Sunan Kalijaga Yogyakarta, Tahun 2026)  
 > **Tema Utama:** *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*  
 > **Sub-Tema:** Sosial Budaya & Lingkungan (Pariwisata Berkelanjutan & Pelestarian Cagar Alam-Budaya)  
-> **Kategori:** Individu / Tim (Web Development)  
+> **Kategori:** Individu (Solo Developer)  
+> **Nama Tim / Pengembang:** `piantsa` — **Sufyan Tsaury** (NIM: 2530311086, Prodi Hukum Keluarga)  
+> **Asal Instansi:** Universitas Islam Negeri (UIN) Siber Syekh Nurjati Cirebon  
 > **Akses Demo Langsung:** 🌐 **[https://nusantarapass.vercel.app/](https://nusantarapass.vercel.app/)** *(Mirror CDN: [GitHub Pages](https://sufyantsaury753-beep.github.io/nusantarapass/))*  
-> **Dokumen Proposal Resmi (PDF 22 Halaman):** 📄 **[`docs/UINIC8#2026_WEBDEV_TimNusantaraDigital_Universitas.pdf`](./docs/UINIC8%232026_WEBDEV_TimNusantaraDigital_Universitas.pdf)** | **[Versi HTML Interaktif](./docs/PROPOSAL_UINIC_8.0.html)**  
+> **Dokumen Proposal Resmi:** 📄 **[Format DOCX Word (Siap Edit)](./docs/UINIC8%232026_WEBDEV_piantsa_UIN%20Siber%20Syekh%20Nurjati%20Cirebon.docx)** | 📑 **[Format PDF (21 Halaman)](./docs/UINIC8%232026_WEBDEV_piantsa_UIN%20Siber%20Syekh%20Nurjati%20Cirebon.pdf)** | **[Versi HTML](./docs/PROPOSAL_UINIC_8.0.html)**  
 > **Laporan Pengujian Pengguna (SUS Score 84.83 - Grade A):** 📊 **[`docs/USER_TESTING_SUS.md`](./docs/USER_TESTING_SUS.md)**
 
 ---

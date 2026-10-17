@@ -294,23 +294,19 @@ def generate_html():
       <table class="cover-meta-table">
         <tr>
           <td class="label">Nama Tim:</td>
-          <td><strong>Tim Nusantara Digital</strong></td>
+          <td><strong>piantsa</strong> (Kategori Individu / Solo Developer)</td>
         </tr>
         <tr>
-          <td class="label">Nama Ketua Tim:</td>
-          <td>Sufyan Tsaury (NIM: 2200018001)</td>
+          <td class="label">Nama Pengembang:</td>
+          <td><strong>Sufyan Tsaury</strong> (NIM: 2530311086)</td>
         </tr>
         <tr>
-          <td class="label">Anggota Tim 1:</td>
-          <td>[Nama Anggota 1] (NIM: 2200018002)</td>
-        </tr>
-        <tr>
-          <td class="label">Anggota Tim 2:</td>
-          <td>[Nama Anggota 2] (NIM: 2200018003)</td>
+          <td class="label">Program Studi:</td>
+          <td>Hukum Keluarga</td>
         </tr>
         <tr>
           <td class="label">Asal Instansi:</td>
-          <td>[Nama Instansi / Universitas]</td>
+          <td><strong>UIN Siber Syekh Nurjati Cirebon</strong></td>
         </tr>
         <tr>
           <td class="label">Tautan Demosite:</td>
@@ -356,43 +352,34 @@ def generate_html():
 
   <!-- ==================== BAB 1 & 2 ==================== -->
   <div class="page-break"></div>
-  <h1>1. Nama Seluruh Anggota Tim</h1>
-  <p>Pengembangan karya <strong>NusantaraPass</strong> dilaksanakan oleh tim pengembang mahasiswa multidisiplin yang terbagi dalam peran teknis, desain antarmuka, serta analisis data dan penelitian konservasi pariwisata:</p>
+  <h1>1. Nama Seluruh Anggota Tim / Peserta</h1>
+  <p>Pengembangan karya inovasi teknologi <strong>NusantaraPass</strong> dilaksanakan secara mandiri (Kategori Individu / Solo Developer) oleh mahasiswa dari <strong>UIN Siber Syekh Nurjati Cirebon</strong>:</p>
 
   <table class="data-table">
     <thead>
       <tr>
         <th style="width: 6%;">No</th>
-        <th style="width: 28%;">Nama Lengkap</th>
-        <th style="width: 18%;">NIM / NISN</th>
-        <th style="width: 28%;">Asal Instansi</th>
-        <th style="width: 20%;">Peran &amp; Tanggung Jawab</th>
+        <th style="width: 25%;">Nama Lengkap</th>
+        <th style="width: 18%;">NIM</th>
+        <th style="width: 26%;">Asal Instansi &amp; Program Studi</th>
+        <th style="width: 25%;">Peran &amp; Tanggung Jawab</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td style="text-align: center;">1.</td>
         <td><strong>Sufyan Tsaury</strong></td>
-        <td style="text-align: center;">2200018001</td>
-        <td>[Nama Instansi / Universitas]</td>
-        <td><strong>Ketua Tim / Lead Full-Stack &amp; WebGIS Developer</strong></td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">2.</td>
-        <td>[Nama Anggota 1]</td>
-        <td style="text-align: center;">2200018002</td>
-        <td>[Nama Instansi / Universitas]</td>
-        <td>Anggota 1 / UI/UX Designer &amp; Design System Specialist</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">3.</td>
-        <td>[Nama Anggota 2]</td>
-        <td style="text-align: center;">2200018003</td>
-        <td>[Nama Instansi / Universitas]</td>
-        <td>Anggota 2 / Eco-Tourism Data Analyst &amp; Quality Assurance</td>
+        <td style="text-align: center;">2530311086</td>
+        <td>UIN Siber Syekh Nurjati Cirebon<br><span style="font-size: 8.5pt; color: #64748B;">(Prodi: Hukum Keluarga)</span></td>
+        <td><strong>Solo Full-Stack WebGIS Developer &amp; UI/UX Designer</strong></td>
       </tr>
     </tbody>
   </table>
+
+  <div class="callout" style="margin-top: 10pt;">
+    <div class="callout-title">Keunggulan Pendekatan Interdisipliner:</div>
+    Latar belakang pengembang dari Fakultas Syariah / Hukum Keluarga di universitas berbasis siber nasional (UIN Siber Syekh Nurjati Cirebon) memberikan keunggulan analitis yang unik dan komplementer. Pengembangan NusantaraPass tidak hanya berfokus pada kecakapan teknis rekayasa perangkat lunak geospasial, melainkan juga mengintegrasikan kesadaran tata kelola hukum lingkungan hidup dan regulasi perlindungan cagar budaya (UU No. 11 Tahun 2010 tentang Cagar Budaya dan UU No. 10 Tahun 2009 tentang Kepariwisataan). Sinergi interdisipliner ini melahirkan platform yang berdaya guna secara teknologi sekaligus patuh terhadap etika pelestarian alam nasional.
+  </div>
 
   <h1>2. Judul Karya &amp; Penjelasan Konseptual</h1>
   <p><strong>Judul Karya:</strong><br>
@@ -906,37 +893,27 @@ def generate_html():
       <tr>
         <td>NISN / NIM</td>
         <td>:</td>
-        <td>2200018001</td>
+        <td><strong>2530311086</strong></td>
       </tr>
       <tr>
         <td>Asal Instansi</td>
         <td>:</td>
-        <td>[Nama Instansi / Universitas]</td>
+        <td><strong>UIN Siber Syekh Nurjati Cirebon</strong></td>
       </tr>
       <tr>
         <td>Nomor Telepon / WhatsApp</td>
         <td>:</td>
-        <td>[Nomor WhatsApp Ketua Tim]</td>
+        <td><strong>081214305925</strong></td>
       </tr>
     </table>
 
-    <p style="margin-bottom: 15px;">Sebagai Ketua dari Tim:</p>
+    <p style="margin-bottom: 15px;">Sebagai Peserta Mandiri (Ketua) dari Tim:</p>
 
     <table style="width: 100%; border-collapse: collapse; font-size: 10pt; line-height: 1.8; margin-bottom: 20px;">
       <tr>
         <td style="width: 35%;">Nama Tim</td>
         <td style="width: 5%;">:</td>
-        <td><strong>Tim Nusantara Digital</strong></td>
-      </tr>
-      <tr>
-        <td>Nama Anggota 1</td>
-        <td>:</td>
-        <td>[Nama Anggota 1]</td>
-      </tr>
-      <tr>
-        <td>Nama Anggota 2</td>
-        <td>:</td>
-        <td>[Nama Anggota 2]</td>
+        <td><strong>piantsa</strong> (Kategori Individu / Solo Developer)</td>
       </tr>
     </table>
 
@@ -956,7 +933,7 @@ def generate_html():
 
     <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 25px;">
       <div style="width: 250px; text-align: center;">
-        <div>Yogyakarta, 28 Oktober 2026</div>
+        <div>Sumedang, 28 Oktober 2026</div>
         <div style="margin-top: 4px;">Yang membuat pernyataan,</div>
         
         <div class="stamp-box">
@@ -964,7 +941,7 @@ def generate_html():
         </div>
 
         <div style="font-weight: 700; text-decoration: underline; margin-top: 15px;">Sufyan Tsaury</div>
-        <div style="font-size: 9pt; color: #475569;">NIM. 2200018001</div>
+        <div style="font-size: 9pt; color: #475569;">NIM. 2530311086</div>
       </div>
     </div>
   </div>
@@ -1047,7 +1024,7 @@ def main():
 
     # Official file name according to UINIC 8.0 rules:
     # UINIC8#2026_WEBDEV_[Nama_Tim]_[Nama Instansi].pdf
-    pdf_official_name = "UINIC8#2026_WEBDEV_TimNusantaraDigital_Universitas.pdf"
+    pdf_official_name = "UINIC8#2026_WEBDEV_piantsa_UIN Siber Syekh Nurjati Cirebon.pdf"
     pdf_official_path = os.path.abspath(os.path.join("docs", pdf_official_name))
     pdf_generic_path = os.path.abspath(os.path.join("docs", "PROPOSAL_UINIC_8.0.pdf"))
 
