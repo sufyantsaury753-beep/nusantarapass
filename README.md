@@ -13,7 +13,7 @@
 > **Nama Tim / Pengembang:** `piantsa` — **Sufyan Tsaury** (NIM: 2530311086, Prodi Hukum Keluarga)  
 > **Asal Instansi:** Universitas Islam Negeri (UIN) Siber Syekh Nurjati Cirebon  
 > **Akses Demo Langsung:** 🌐 **[https://nusantarapass.vercel.app/](https://nusantarapass.vercel.app/)** *(Mirror CDN: [GitHub Pages](https://sufyantsaury753-beep.github.io/nusantarapass/))*  
-> **Dokumen Proposal Resmi:** 📄 **[Format DOCX Word (Siap Edit)](./docs/UINIC8%232026_WEBDEV_piantsa_UIN%20Siber%20Syekh%20Nurjati%20Cirebon.docx)** | 📑 **[Format PDF (21 Halaman)](./docs/UINIC8%232026_WEBDEV_piantsa_UIN%20Siber%20Syekh%20Nurjati%20Cirebon.pdf)** | **[Versi HTML](./docs/PROPOSAL_UINIC_8.0.html)**  
+> **Dokumen Proposal Resmi:** 📑 **[Format PDF Resmi Lomba (22 Halaman)](./docs/UINIC8%232026_WEBDEV_piantsa_UIN%20Siber%20Syekh%20Nurjati%20Cirebon.pdf)** | 🌐 **[Versi Pratinjau Interaktif (HTML)](./docs/PROPOSAL_UINIC_8.0.html)**  
 > **Laporan Pengujian Pengguna (SUS Score 84.83 - Grade A):** 📊 **[`docs/USER_TESTING_SUS.md`](./docs/USER_TESTING_SUS.md)**
 
 ---

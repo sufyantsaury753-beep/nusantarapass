@@ -1,0 +1,18 @@
+# Local Windows dev script
+start-local.bat
+*.bat
+
+# Local Microsoft Word draft files (Arsip Lokal Pengembang)
+*.docx
+docs/*.docx
+
+# Python & Build cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Temporary test outputs
+test_*.html
+test_*.png
+test_*.pdf

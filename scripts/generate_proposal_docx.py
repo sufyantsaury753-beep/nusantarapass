@@ -34,6 +34,7 @@ def create_proposal_docx(output_path):
     }
 
     doc = Document()
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # Set page margins (Normal: 2.54 cm = 1 inch)
     for section in doc.sections:
@@ -62,7 +63,13 @@ def create_proposal_docx(output_path):
     run_org.font.size = Pt(9.5)
     run_org.font.color.rgb = RGBColor(100, 116, 139)
 
-    doc.add_paragraph().paragraph_format.space_after = Pt(20)
+    logo_path = os.path.join(root, "assets", "img", "logo.png")
+    if os.path.exists(logo_path):
+        p_logo = doc.add_paragraph()
+        p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_logo.paragraph_format.space_after = Pt(12)
+        r_logo = p_logo.add_run()
+        r_logo.add_picture(logo_path, width=Inches(1.4))
 
     p_title = doc.add_paragraph()
     p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -335,6 +342,13 @@ def create_proposal_docx(output_path):
     h7.runs[0].font.color.rgb = RGBColor(15, 118, 110)
 
     doc.add_heading("7.1 Filosofi Logo NusantaraPass", level=2)
+    if os.path.exists(logo_path):
+        p_logo7 = doc.add_paragraph()
+        p_logo7.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_logo7.paragraph_format.space_after = Pt(8)
+        r_logo7 = p_logo7.add_run()
+        r_logo7.add_picture(logo_path, width=Inches(1.2))
+
     doc.add_paragraph(
         "Logo NusantaraPass menggabungkan siluet kompas navigasi bahari dan garis batas topografi kepulauan nusantara berbalut warna hijau zamrud khatulistiwa. Lambang ini merepresentasikan visi platform sebagai kompas pemandu yang menuntun para penjelajah tanah air untuk berwisata secara berkesadaran, menjaga keutuhan alam, dan menghormati batas daya dukung bumi pertiwi."
     )

@@ -820,27 +820,30 @@ function downloadPassportPDF() {
 
   // Header Banner (Deep Heritage Green)
   doc.setFillColor(15, 60, 35);
-  doc.roundedRect(10, 10, 128, 34, 2, 2, 'F');
+  doc.roundedRect(10, 10, 128, 35, 2, 2, 'F');
 
-  // Geometric Golden Compass Rose Emblem (Vector, no broken emoji)
-  doc.setFillColor(212, 175, 55);
-  doc.circle(74, 18, 4.5, 'F');
-  doc.setFillColor(15, 60, 35);
-  doc.circle(74, 18, 2, 'F');
+  // Official NusantaraPass Logo Emblem (Brand Identity)
+  if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE64) {
+    try {
+      doc.addImage(NUSANTARAPASS_LOGO_BASE64, 'PNG', 68.5, 12, 11, 11);
+    } catch (e) {
+      console.warn('Could not add logo to PDF:', e);
+    }
+  }
 
   doc.setTextColor(212, 175, 55);
   doc.setFont('times', 'bold');
-  doc.setFontSize(11);
-  doc.text('REPUBLIK INDONESIA', 74, 26, { align: 'center' });
+  doc.setFontSize(10.5);
+  doc.text('REPUBLIK INDONESIA', 74, 27.5, { align: 'center' });
 
-  doc.setFontSize(14);
+  doc.setFontSize(13.5);
   doc.setTextColor(255, 255, 255);
-  doc.text('PASPOR JELAJAH NUSANTARA', 74, 33, { align: 'center' });
+  doc.text('PASPOR JELAJAH NUSANTARA', 74, 34, { align: 'center' });
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7.5);
+  doc.setFontSize(7.2);
   doc.setTextColor(187, 247, 208);
-  doc.text('DOKUMEN RESMI PERJALANAN WISATA & PELESTARIAN BUDAYA', 74, 39, { align: 'center' });
+  doc.text('DOKUMEN RESMI PERJALANAN WISATA & PELESTARIAN BUDAYA', 74, 39.5, { align: 'center' });
 
   // Traveler & Passport Identification Box
   doc.setFillColor(241, 245, 249);
