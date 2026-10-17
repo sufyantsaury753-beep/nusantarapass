@@ -440,9 +440,15 @@ function openPassportModal() {
               <h4 style="font-size: 13px; font-weight: 700; color: #0f172a;">${d.name}</h4>
               <div style="font-size: 11px; color: #64748b;">${d.province}</div>
             </div>
-            <span style="font-size: 10.5px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 3px 8px; border-radius: 6px;">
-              Terkoleksi
-            </span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 10.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; padding: 3px 8px; border-radius: 4px;">
+                Terkoleksi
+              </span>
+              <button type="button" class="btn-card-secondary" onclick="downloadSingleDestTicket('${d.id}')" style="padding: 4px 9px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                E-Tiket (PDF)
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -457,182 +463,46 @@ function closePassportModal() {
   if (modal) modal.classList.remove('active');
 }
 
-function downloadPassportPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a5', // Standard A5 single-sheet passport card (148 x 210 mm)
-  });
-
-  const today = new Date().toLocaleDateString('id-ID', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-  const passSerial = Date.now().toString().slice(-8);
-
-  // Background Parchment
-  doc.setFillColor(252, 252, 250);
-  doc.rect(0, 0, 148, 210, 'F');
-
-  // Double Border Frame (Heritage Green & Gold)
-  doc.setDrawColor(15, 60, 35);
-  doc.setLineWidth(0.8);
-  doc.rect(6, 6, 136, 198);
-
-  doc.setDrawColor(212, 175, 55);
-  doc.setLineWidth(0.35);
-  doc.rect(8, 8, 132, 194);
-
-  // Header Banner (Deep Heritage Green)
-  doc.setFillColor(15, 60, 35);
-  doc.roundedRect(10, 10, 128, 35, 2, 2, 'F');
-
-  // Official NusantaraPass Logo Emblem (Brand Identity)
-  if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE64) {
-    try {
-      doc.addImage(NUSANTARAPASS_LOGO_BASE64, 'PNG', 68.5, 12, 11, 11);
-    } catch (e) {
-      console.warn('Could not add logo to PDF:', e);
-    }
+function downloadSingleDestTicket(destId) {
+  const d = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
+    ? NUSANTARA_DESTINATIONS.find((dest) => dest.id === destId)
+    : (typeof currentDest !== 'undefined' ? currentDest : null);
+  if (!d) {
+    alert("Destinasi tidak ditemukan.");
+    return;
   }
+  const nameInput = document.getElementById('visitorNameInput');
+  const emailInput = document.getElementById('visitorEmailInput');
+  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
+  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
 
-  doc.setTextColor(212, 175, 55);
-  doc.setFont('times', 'bold');
-  doc.setFontSize(10.5);
-  doc.text('REPUBLIK INDONESIA', 74, 27.5, { align: 'center' });
+  if (typeof generateSingleTicketPDF === 'function') {
+    generateSingleTicketPDF({
+      destination: d,
+      visitorName: name,
+      visitorEmail: email,
+      passToken: `NP-PASS-${d.code || 'GEN'}-${Date.now().toString().slice(-6)}`
+    });
+  } else {
+    alert("Modul generator E-Tiket sedang dimuat.");
+  }
+}
 
-  doc.setFontSize(13.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text('PASPOR JELAJAH NUSANTARA', 74, 34, { align: 'center' });
+function downloadPassportPDF() {
+  const nameInput = document.getElementById('visitorNameInput');
+  const emailInput = document.getElementById('visitorEmailInput');
+  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
+  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
 
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7.2);
-  doc.setTextColor(187, 247, 208);
-  doc.text('DOKUMEN RESMI PERJALANAN WISATA & PELESTARIAN BUDAYA', 74, 39.5, { align: 'center' });
-
-  // Traveler & Passport Identification Box
-  doc.setFillColor(241, 245, 249);
-  doc.setDrawColor(203, 213, 225);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(10, 47, 128, 29, 2, 2, 'FD');
-
-  // Column Left
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.setTextColor(100, 116, 139);
-  doc.text('NOMOR PASPOR DIGITAL', 15, 53);
-  doc.setFont('courier', 'bold');
-  doc.setFontSize(9);
-  doc.setTextColor(15, 23, 42);
-  doc.text(`NP-${passSerial}`, 15, 57.5);
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.setTextColor(100, 116, 139);
-  doc.text('KATEGORI PEMEGANG', 15, 64);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.setTextColor(15, 23, 42);
-  doc.text('Wisatawan Ramah Lingkungan', 15, 68.5);
-
-  // Column Right
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.setTextColor(100, 116, 139);
-  doc.text('TANGGAL PENERBITAN', 78, 53);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.setTextColor(15, 23, 42);
-  doc.text(today, 78, 57.5);
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.setTextColor(100, 116, 139);
-  doc.text('STATUS OTORISASI', 78, 64);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.setTextColor(5, 150, 105);
-  doc.text('VERIFIED ECO-TRAVELER', 78, 68.5);
-
-  // Section Header: Stamps
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9.5);
-  doc.setTextColor(15, 23, 42);
-  doc.text('LEMBAR STEMPEL DESTINASI RESMI', 12, 83);
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7.5);
-  doc.setTextColor(100, 116, 139);
-  doc.text('Setiap stempel membuktikan kontribusi terhadap pariwisata berkelanjutan.', 12, 87.5);
-
-  // Stamped Destinations (Limit to 3 so exactly 1 page is guaranteed)
-  const stamps = (myPassportStamps.length > 0 ? myPassportStamps : [currentDest.id]).slice(0, 3);
-  let y = 91;
-
-  stamps.forEach((id, index) => {
-    const d = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
-      ? NUSANTARA_DESTINATIONS.find(dest => dest.id === id)
-      : null;
-    const destName = d ? d.name : (currentDest ? currentDest.name : 'Destinasi Nusantara');
-    const destProv = d ? d.province : (currentDest ? currentDest.province : 'Indonesia');
-    const destCat = d ? d.category.toUpperCase() : (currentDest ? currentDest.category.toUpperCase() : 'EKOWISATA');
-
-    doc.setDrawColor(203, 213, 225);
-    doc.setFillColor(255, 255, 255);
-    doc.setLineWidth(0.3);
-    doc.roundedRect(10, y, 128, 23, 2, 2, 'FD');
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.5);
-    doc.setTextColor(15, 23, 42);
-    doc.text(`${index + 1}. ${destName}`, 15, y + 7.5);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(100, 116, 139);
-    doc.text(`Wilayah: ${destProv} | Kategori: ${destCat}`, 15, y + 13.5);
-    doc.text(`Terverifikasi Kuota Ramah Lingkungan pada: ${today}`, 15, y + 18.5);
-
-    // Official Stamp Badge
-    doc.setDrawColor(5, 150, 105);
-    doc.setLineWidth(0.4);
-    doc.roundedRect(98, y + 3.5, 34, 16, 1.5, 1.5, 'D');
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(5, 150, 105);
-    doc.text('CAP RESMI', 115, y + 9.5, { align: 'center' });
-    doc.setFontSize(6.5);
-    doc.text('TERVERIFIKASI', 115, y + 15, { align: 'center' });
-
-    y += 25;
-  });
-
-  // Footer & Security Verification Zone (NO doc.addPage!)
-  doc.setDrawColor(212, 175, 55);
-  doc.setLineWidth(0.4);
-  doc.line(10, 171, 138, 171);
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
-  doc.setTextColor(15, 60, 35);
-  doc.text('PLATFORM GEOPORTAL NUSANTARAPASS INDONESIA', 74, 176.5, { align: 'center' });
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.8);
-  doc.setTextColor(100, 116, 139);
-  doc.text('Dokumen Paspor Digital resmi diterbitkan untuk pelestarian warisan alam & cagar budaya.', 74, 181, { align: 'center' });
-
-  // MRZ Security String
-  doc.setFont('courier', 'normal');
-  doc.setFontSize(6.5);
-  doc.setTextColor(148, 163, 184);
-  doc.text(`P<IDNNUSANTARAPASS<<ECO<TRAVELER<<<<<<<<<<<<<<<<<<<`, 74, 187, { align: 'center' });
-  doc.text(`NP${passSerial}8IDN<<<<<<<<<<<<<<<<<<<<<<<<<`, 74, 191, { align: 'center' });
-
-  doc.save(`PASPOR_NUSANTARA_${passSerial.slice(-6)}.pdf`);
+  if (typeof generateOfficialPassportPDF === 'function') {
+    generateOfficialPassportPDF({
+      visitorName: name,
+      visitorEmail: email,
+      stamps: myPassportStamps
+    });
+  } else {
+    alert("Modul Paspor Resmi sedang dimuat, silakan coba beberapa saat lagi.");
+  }
 }
 
 // Helpers
