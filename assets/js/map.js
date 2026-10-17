@@ -515,15 +515,17 @@ function renderDestinationGrid() {
 
       return `
         <article class="dest-card">
-          <div class="dest-card-media">
+          <a href="destinasi/index.html?id=${dest.id}" class="dest-card-media" aria-label="Lihat detail ${dest.name}">
             <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
-          </div>
+          </a>
           <div class="dest-card-content">
             <div class="dest-card-header">
               <span class="dest-card-loc">${dest.province} &middot; ${dest.region}</span>
               <span class="dest-card-cat">${getCategoryDisplayName(dest.category)}</span>
             </div>
-            <h3 class="dest-card-title">${dest.name}</h3>
+            <h3 class="dest-card-title">
+              <a href="destinasi/index.html?id=${dest.id}">${dest.name}</a>
+            </h3>
             <p class="dest-card-desc">${dest.description}</p>
             
             <div class="dest-card-telemetry">
