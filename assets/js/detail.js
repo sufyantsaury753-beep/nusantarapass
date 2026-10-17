@@ -363,6 +363,8 @@ async function issueDirectPass() {
     }
   }
 
+  lastDetailPassToken = passToken;
+
   // 4. Simpan Tiket ke Database Supabase
   if (typeof npSaveVisitorPass === 'function') {
     npSaveVisitorPass({
@@ -372,6 +374,36 @@ async function issueDirectPass() {
       visitorEmail: email,
       qrToken: passToken
     }).catch(e => console.warn('Supabase pass background save:', e));
+  }
+}
+
+let lastDetailPassToken = null;
+
+function downloadDetailTicketPDF() {
+  if (!currentDest) {
+    alert("Destinasi belum dipilih.");
+    return;
+  }
+  const nameInput = document.getElementById('kioskVisitorName');
+  const emailInput = document.getElementById('kioskVisitorEmail');
+  const qrContainer = document.getElementById('kioskQrCodeContainer');
+
+  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
+  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
+
+  const canvas = qrContainer ? qrContainer.querySelector('canvas') : null;
+  const qrDataUrl = canvas ? canvas.toDataURL('image/png') : (qrContainer ? qrContainer.querySelector('img')?.src : null);
+
+  if (typeof generateSingleTicketPDF === 'function') {
+    generateSingleTicketPDF({
+      destination: currentDest,
+      visitorName: name,
+      visitorEmail: email,
+      passToken: lastDetailPassToken || `NP-PASS-${currentDest.code}-${Date.now().toString().slice(-6)}`,
+      qrDataUrl: qrDataUrl
+    });
+  } else {
+    alert("Generator E-Tiket sedang dimuat, silakan coba lagi.");
   }
 }
 

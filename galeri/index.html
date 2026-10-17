@@ -198,6 +198,12 @@
             <p class="pass-help-text">
               Tunjukkan QR Code ini pada petugas gerbang untuk verifikasi izin masuk.
             </p>
+            <div style="margin-top: 12px; display: flex; justify-content: center;">
+              <button type="button" class="btn-card-primary" onclick="downloadDetailTicketPDF()" style="padding: 9px 16px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; background: #0f766e; border: none; cursor: pointer; color: #ffffff; border-radius: 6px; font-weight: 600;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Unduh E-Tiket Resmi (PDF)
+              </button>
+            </div>
           </div>
         </div>
 
@@ -271,8 +277,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="../assets/js/data.js?v=20261017c"></script>
+  <script src="../assets/js/data.js?v=20261017d"></script>
   <script src="../assets/js/supabase-config.js"></script>
-  <script src="../assets/js/detail.js?v=20261017c"></script>
+  <script src="../assets/js/ticket-pdf.js?v=20261017d"></script>
+  <script src="../assets/js/detail.js?v=20261017d"></script>
 </body>
 </html>

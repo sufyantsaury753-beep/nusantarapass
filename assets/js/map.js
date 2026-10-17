@@ -715,6 +715,8 @@ function generateDigitalPass() {
     correctLevel: QRCode.CorrectLevel.H,
   });
 
+  lastBookingPassToken = passToken;
+
   document.getElementById('passTokenText').innerText = 'KODE TIKET: ' + passToken;
   qrArea.style.display = 'block';
 
@@ -739,6 +741,36 @@ function generateDigitalPass() {
   if (typeof npSaveStamp === 'function') {
     npSaveStamp(email, currentBookingDest.id, currentBookingDest.code)
       .catch(e => console.warn('Supabase stamp background save:', e));
+  }
+}
+
+let lastBookingPassToken = null;
+
+function downloadCurrentBookingTicketPDF() {
+  if (!currentBookingDest) {
+    alert("Destinasi belum dipilih.");
+    return;
+  }
+  const nameInput = document.getElementById('visitorNameInput');
+  const emailInput = document.getElementById('visitorEmailInput');
+  const qrCanvasBox = document.getElementById('qrcodeContainer');
+
+  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
+  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
+
+  const canvas = qrCanvasBox ? qrCanvasBox.querySelector('canvas') : null;
+  const qrDataUrl = canvas ? canvas.toDataURL('image/png') : (qrCanvasBox ? qrCanvasBox.querySelector('img')?.src : null);
+
+  if (typeof generateSingleTicketPDF === 'function') {
+    generateSingleTicketPDF({
+      destination: currentBookingDest,
+      visitorName: name,
+      visitorEmail: email,
+      passToken: lastBookingPassToken || `NP-PASS-${currentBookingDest.code}-${Date.now().toString().slice(-6)}`,
+      qrDataUrl: qrDataUrl
+    });
+  } else {
+    alert("Generator E-Tiket sedang dimuat, silakan coba lagi.");
   }
 }
 

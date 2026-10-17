@@ -48,8 +48,9 @@
   * 🔴 **Penuh / Ditutup Sementara** (untuk perawatan cagar budaya atau gelombang pasang tinggi di pantai).
 * Peringatan gelombang pasang & cuaca pantai berbasis data maritim BMKG.
 
-### 3. 🎫 Smart QR Visitor Pass & Gate Verification
+### 3. 🎫 Smart QR Visitor Pass & E-Tiket Resmi 1 Halaman (Traveloka-Style PDF)
 * Wisatawan dapat memesan tiket retribusi konservasi digital dalam 1 klik dan mendapatkan **QR Code NusantaraPass**.
+* **Generator E-Tiket PDF 1 Halaman:** Mengunduh voucher tiket resmi siap cetak/bawa ke lokasi lengkap dengan QR scanner gerbang, detail rincian wisatawan, barometer daya tampung kawasan, dan panduan pelestarian cagar budaya/alam (*Eco-Code of Conduct*).
 * Petugas gerbang destinasi memindai QR tiket untuk verifikasi dan pemotongan kuota harian secara otomatis di database.
 
 ### 4. 🛂 E-Passport Jelajah Nusantara & Stempel Digital (Automated PDF)

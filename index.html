@@ -246,6 +246,12 @@
           <p style="font-size: 11px; color: #64748b; margin-top: 6px;">
             Tunjukkan kode QR ini ke petugas gerbang izin masuk.
           </p>
+          <div style="margin-top: 12px; display: flex; justify-content: center;">
+            <button type="button" class="btn-card-primary" onclick="downloadCurrentBookingTicketPDF()" style="padding: 9px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; background: #0f766e; border: none; cursor: pointer;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Unduh E-Tiket Resmi (PDF)
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -369,8 +375,9 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
-  <script src="assets/js/data.js?v=20261017c"></script>
+  <script src="assets/js/data.js?v=20261017d"></script>
   <script src="assets/js/supabase-config.js"></script>
-  <script src="assets/js/map.js?v=20261017c"></script>
+  <script src="assets/js/ticket-pdf.js?v=20261017d"></script>
+  <script src="assets/js/map.js?v=20261017d"></script>
 </body>
 </html>
