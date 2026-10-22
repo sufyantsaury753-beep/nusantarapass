@@ -535,7 +535,7 @@ window.addEventListener('click', (e) => {
 function navigateToMap(e) {
   if (e) e.preventDefault();
   const ref = document.referrer;
-  if (ref && (ref.endsWith('/') || ref.endsWith('/index.html')) && !ref.includes('/destinasi/') && !ref.includes('/admin/') && !ref.includes('/galeri/')) {
+  if (ref && (ref.endsWith('/') || ref.endsWith('/index.html')) && !ref.includes('/destinasi/') && !ref.includes('/admin/')) {
     window.history.back();
   } else {
     window.location.replace('../index.html');
