@@ -917,9 +917,9 @@ async function testApiEndpoint(category = 'all') {
   if (urlEl) urlEl.textContent = endpointQuery;
   if (badgeEl) {
     badgeEl.textContent = 'Menghubungi Cloud Server...';
-    badgeEl.style.background = '#eff6ff';
-    badgeEl.style.color = '#0284c7';
-    badgeEl.style.border = '1px solid #bae6fd';
+    badgeEl.style.background = '#ffffff';
+    badgeEl.style.color = '#0f172a';
+    badgeEl.style.border = '1px solid #0f172a';
   }
   if (curlEl) {
     curlEl.textContent = `curl -X GET "${endpointQuery}" \\\n  -H "apikey: ${apiKey}" \\\n  -H "Authorization: Bearer ${apiKey}"`;
@@ -947,10 +947,10 @@ async function testApiEndpoint(category = 'all') {
     const data = await response.json();
 
     if (badgeEl) {
-      badgeEl.textContent = `HTTP/2 200 OK (${latency}ms) — PostgREST Live Database`;
-      badgeEl.style.background = '#ecfdf5';
-      badgeEl.style.color = '#059669';
-      badgeEl.style.border = '1px solid #a7f3d0';
+      badgeEl.textContent = `HTTP/2 200 OK (${latency}ms) — PostgREST Live`;
+      badgeEl.style.background = '#ffffff';
+      badgeEl.style.color = '#15803d';
+      badgeEl.style.border = '1px solid #15803d';
     }
 
     const wrappedPayload = {
@@ -971,10 +971,10 @@ async function testApiEndpoint(category = 'all') {
     const latency = Math.round(performance.now() - startTime);
     console.warn("Fallback to local verified dataset:", err);
     if (badgeEl) {
-      badgeEl.textContent = `200 OK (${latency}ms) — Local Fallback Mode`;
-      badgeEl.style.background = '#fefce8';
-      badgeEl.style.color = '#ca8a04';
-      badgeEl.style.border = '1px solid #fef08a';
+      badgeEl.textContent = `200 OK (${latency}ms) — Local Fallback`;
+      badgeEl.style.background = '#ffffff';
+      badgeEl.style.color = '#b45309';
+      badgeEl.style.border = '1px solid #b45309';
     }
 
     let localResult = (typeof NUSANTARA_DESTINATIONS !== 'undefined') ? NUSANTARA_DESTINATIONS : [];

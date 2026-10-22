@@ -1264,3 +1264,222 @@ html, body {
   color: var(--text-muted);
   font-weight: 500;
 }
+
+/* ==========================================================================
+   OFFICIAL TECHNICAL API SPECIFICATION & DOCUMENTATION MODAL
+   (Anti-AI / Utilitarian Institutional Paper Design)
+   ========================================================================== */
+#apiModal .modal-dialog {
+  max-width: 840px !important;
+  width: 92vw !important;
+  max-height: 90vh !important;
+  border-radius: 2px !important;
+  border: 1px solid #0f172a !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.08) !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+#apiModal .modal-header {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid #0f172a !important;
+  background: #f8fafc !important;
+  border-radius: 0 !important;
+}
+
+#apiModal .modal-title {
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+.api-spec-tag {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  background: #ffffff !important;
+  border: 1px solid #0f172a !important;
+  padding: 2px 6px !important;
+  border-radius: 0px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+
+#apiModal .modal-subtitle {
+  font-size: 11.5px !important;
+  color: #475569 !important;
+  margin: 4px 0 0 0 !important;
+  line-height: 1.4 !important;
+}
+
+#apiModal .modal-close-btn {
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 0px !important;
+  width: 26px !important;
+  height: 26px !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+}
+
+#apiModal .modal-close-btn:hover {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+}
+
+.api-section-label {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+.api-endpoint-btn {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 6px 10px !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 0px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.api-endpoint-btn:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.api-endpoint-btn.active {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+}
+
+.api-bar-container {
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 0px !important;
+  padding: 8px 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.api-method-tag {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  font-family: ui-monospace, monospace !important;
+  font-weight: 700 !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 0px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.api-url-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  font-size: 11px !important;
+  color: #0f172a !important;
+  word-break: break-all !important;
+}
+
+.api-status-pill {
+  font-family: ui-monospace, monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 3px 8px !important;
+  border-radius: 0px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #0f172a !important;
+  letter-spacing: 0.02em !important;
+}
+
+.api-technical-box {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 0px !important;
+  overflow: hidden !important;
+}
+
+.api-technical-header {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding: 6px 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.api-technical-title {
+  font-family: ui-monospace, monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+.api-copy-btn {
+  background: #ffffff !important;
+  border: 1px solid #0f172a !important;
+  color: #0f172a !important;
+  font-family: ui-monospace, monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 8px !important;
+  border-radius: 0px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.api-copy-btn:hover {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.api-code-block {
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 11px !important;
+  line-height: 1.55 !important;
+  color: #0f172a !important;
+  background: #ffffff !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+}
+
+.api-json-block {
+  margin: 0 !important;
+  padding: 12px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 11px !important;
+  line-height: 1.55 !important;
+  color: #0f172a !important;
+  background: #fafafa !important;
+  max-height: 230px !important;
+  overflow-y: auto !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  border-top: 1px solid #f1f5f9 !important;
+}

@@ -291,69 +291,65 @@
   </div>
 
   <!-- ==========================================
-       MODAL: OPEN REST API SANDBOX
+       MODAL: OPEN REST API TECHNICAL SPECIFICATION
        ========================================== -->
   <div class="modal-overlay" id="apiModal" onclick="if(event.target === this) closeApiModal()">
-    <div class="modal-dialog" style="max-width: 780px; width: 92vw; max-height: 90vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;">Open REST API &amp; Interoperabilitas Terbuka</h3>
-            <span style="font-size: 10px; font-weight: 700; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 2px 7px; border-radius: 999px;">OpenAPI 3.0</span>
+          <div class="modal-title">
+            <span>Spesifikasi Open REST API &amp; Interoperabilitas</span>
+            <span class="api-spec-tag">OPENAPI 3.0 / RFC 7946</span>
           </div>
-          <p style="font-size: 11.5px; color: #64748b; margin-top: 3px;">
-            Interkoneksi data daya dukung kuota &amp; status pelestarian lintas platform (Biro Travel, Kemenpar, Pemda).
+          <p class="modal-subtitle">
+            Standar pertukaran data daya dukung kuota &amp; status pelestarian lintas pemangku kepentingan (Biro Perjalanan, Kemenparekraf, Pemda, Peneliti).
           </p>
         </div>
-        <button class="modal-close-btn" onclick="closeApiModal()">&times;</button>
+        <button class="modal-close-btn" onclick="closeApiModal()" aria-label="Tutup Modal">&times;</button>
       </div>
 
       <div class="modal-body" style="padding: 16px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;">
         <!-- Endpoint Selection -->
         <div>
-          <div style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
-            Pilih Endpoint Pengujian:
-          </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="filter-tab active" onclick="testApiEndpoint('all')">GET Semua Destinasi (38 Provinsi)</button>
-            <button class="filter-tab" onclick="testApiEndpoint('pantai')">GET ?category=eq.pantai</button>
-            <button class="filter-tab" onclick="testApiEndpoint('gunung')">GET ?category=eq.gunung</button>
-            <button class="filter-tab" onclick="testApiEndpoint('budaya')">GET ?category=eq.budaya</button>
-            <button class="filter-tab" onclick="testApiEndpoint('taman_nasional')">GET ?category=eq.taman_nasional</button>
+          <span class="api-section-label">Pilih Endpoint Spesifikasi:</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="api-endpoint-btn filter-tab active" onclick="testApiEndpoint('all')">GET /destinasi (Semua 38 Provinsi)</button>
+            <button class="api-endpoint-btn filter-tab" onclick="testApiEndpoint('pantai')">GET ?category=pantai</button>
+            <button class="api-endpoint-btn filter-tab" onclick="testApiEndpoint('gunung')">GET ?category=gunung</button>
+            <button class="api-endpoint-btn filter-tab" onclick="testApiEndpoint('budaya')">GET ?category=budaya</button>
+            <button class="api-endpoint-btn filter-tab" onclick="testApiEndpoint('taman_nasional')">GET ?category=taman_nasional</button>
           </div>
         </div>
 
         <!-- Request Line Bar -->
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <div style="display: flex; align-items: center; gap: 8px; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11.5px; color: #0f172a; word-break: break-all;">
-            <span style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 10px; padding: 2px 6px; border-radius: 3px;">GET</span>
-            <span id="apiUrlDisplay">https://czaafevdnaqmeejthebm.supabase.co/rest/v1/np_destinations?select=*</span>
+        <div class="api-bar-container">
+          <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 260px;">
+            <span class="api-method-tag">GET</span>
+            <span class="api-url-text" id="apiUrlDisplay">https://czaafevdnaqmeejthebm.supabase.co/rest/v1/np_destinations?select=*</span>
           </div>
-          <div id="apiStatusBadge" style="font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: #f1f5f9; color: #475569;">
+          <div class="api-status-pill" id="apiStatusBadge">
             Menunggu Request
           </div>
         </div>
 
-        <!-- Terminal cURL Copy Snippet for Jury -->
-        <div style="background: #1e293b; border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Perintah cURL (Dapat langsung diuji di Terminal / Postman Dewan Juri):</span>
-            <button id="btnCopyCurl" onclick="copyApiCurl()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #f8fafc; font-size: 10.5px; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
+        <!-- Terminal cURL Box -->
+        <div class="api-technical-box">
+          <div class="api-technical-header">
+            <span class="api-technical-title">Perintah cURL (Terminal / Postman CLI Dewan Juri)</span>
+            <button class="api-copy-btn" id="btnCopyCurl" onclick="copyApiCurl()">
               Salin cURL
             </button>
           </div>
-          <pre id="apiCurlSnippet" style="margin: 0; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; color: #38bdf8; white-space: pre-wrap; word-break: break-all;"></pre>
+          <pre class="api-code-block" id="apiCurlSnippet"></pre>
         </div>
 
         <!-- Live JSON Console -->
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <span style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em;">Respons JSON Live dari Database Cloud:</span>
-            <span style="font-size: 10.5px; color: #64748b;">Format: UTF-8 &bull; Content-Type: application/json</span>
+        <div class="api-technical-box">
+          <div class="api-technical-header">
+            <span class="api-technical-title">Respons Payload (application/json) — PostgREST Cloud Engine</span>
+            <span style="font-family: ui-monospace, monospace; font-size: 10px; color: #64748b;">Encoding: UTF-8</span>
           </div>
-          <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; max-height: 250px; overflow-y: auto;">
-            <pre id="apiConsoleOutput" style="font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; color: #38bdf8; margin: 0; white-space: pre-wrap;">Klik tombol endpoint di atas untuk menguji respons JSON realtime dari server Supabase PostgREST.</pre>
-          </div>
+          <pre class="api-json-block" id="apiConsoleOutput">Klik tombol endpoint di atas untuk menguji respons JSON realtime dari server Supabase PostgREST.</pre>
         </div>
       </div>
     </div>
