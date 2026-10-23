@@ -148,9 +148,8 @@ $$;
 -- Izinkan publik mengeksekusi stored procedure ini
 GRANT EXECUTE ON FUNCTION public.np_increment_visitor(TEXT) TO anon, authenticated;
 
--- 8. KONFIRMASI STATUS EMAIL AKUN ADMIN (Jika dibuat via Supabase Auth)
+-- 8. KONFIRMASI STATUS EMAIL AKUN ADMIN
 -- ------------------------------------------------------------------------------
 UPDATE auth.users
-SET email_confirmed_at = COALESCE(email_confirmed_at, now()),
-    confirmed_at = COALESCE(confirmed_at, now())
+SET email_confirmed_at = COALESCE(email_confirmed_at, now())
 WHERE email = 'admin.nusantarapass@gmail.com';
