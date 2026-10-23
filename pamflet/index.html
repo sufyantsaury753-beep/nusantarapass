@@ -486,51 +486,9 @@
       font-weight: 700;
     }
 
-    /* CAROUSEL PAGINATION & ARROWS */
-    .carousel-meta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(6, 78, 59, 0.15);
-    }
-
-    .nav-arrow {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(6, 78, 59, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #064E3B;
-      font-size: 15px;
-      font-weight: 700;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .dots-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #94A3B8;
-      transition: all 0.3s ease;
-    }
-
-    .dot.active {
-      width: 28px;
-      height: 9px;
-      border-radius: 6px;
-      background: #064E3B;
+    /* Bottom safe area for Instagram native app overlay & pagination dots */
+    .slide-footer {
+      padding-bottom: 28px;
     }
 
     /* SLIDE 5: Metrics chips */
@@ -678,18 +636,7 @@
         <p class="slide-description">
           Wisatawan dapat memanfaatkan <strong>Peta WebGIS Interaktif 38 Provinsi</strong> untuk memantau beban kunjungan di seluruh cagar alam prioritas Indonesia secara aktual. Dilengkapi sistem zonasi kuota otomatis berbasis daya dukung lingkungan <em>(carrying capacity)</em>—dengan indikator visual <strong>Aman (&lt;60%)</strong>, <strong>Waspada (60–84%)</strong>, dan <strong>Kritis (&ge;85%)</strong>—sistem memberikan peringatan dini guna mencegah penumpukan massa <em>(overtourism)</em> di kawasan konservasi rentan.
         </p>
-
-        <div class="carousel-meta">
-          <div class="nav-arrow">‹</div>
-          <div class="dots-indicator">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-          </div>
-          <div class="nav-arrow">›</div>
-        </div>
+</div>
       </div>
     </div>
 
@@ -736,13 +683,13 @@
             <div class="grid-label">PETA 38 Provinsi</div>
           </div>
 
-          <!-- Item 2: Indikator Kapasitas -->
+          <!-- Item 2: Katalog Eksplorasi Grid (NEW REAL SCREENSHOT) -->
           <div class="grid-item">
             <div class="grid-mockup-wrapper">
               <div class="grid-laptop">
                 <div class="laptop-lid">
                   <div class="laptop-screen">
-                    <img src="img/desktop-detail.png" alt="Zonasi Kuota">
+                    <img src="img/real-katalog-grid.png" alt="Katalog Destinasi">
                   </div>
                 </div>
                 <div class="laptop-base"><div class="laptop-notch"></div></div>
@@ -751,16 +698,16 @@
                 <div class="phone-screen"><img src="img/mobile-detail.png" alt="Mobile"></div>
               </div>
             </div>
-            <div class="grid-label">ZONASI Warna Kuota</div>
+            <div class="grid-label">KATALOG Destinasi</div>
           </div>
 
-          <!-- Item 3: Multi-Layer Maps -->
+          <!-- Item 3: Galeri Dokumentasi Foto (NEW REAL SCREENSHOT) -->
           <div class="grid-item">
             <div class="grid-mockup-wrapper">
               <div class="grid-laptop">
                 <div class="laptop-lid">
                   <div class="laptop-screen">
-                    <img src="img/desktop-map.png" alt="Multi-layer Maps">
+                    <img src="img/real-galeri-foto.png" alt="Galeri Dokumentasi Foto Cagar Budaya">
                   </div>
                 </div>
                 <div class="laptop-base"><div class="laptop-notch"></div></div>
@@ -769,7 +716,7 @@
                 <div class="phone-screen"><img src="img/mobile-map.png" alt="Mobile"></div>
               </div>
             </div>
-            <div class="grid-label">MULTI-LAYER Maps</div>
+            <div class="grid-label">GALERI Dokumentasi</div>
           </div>
 
           <!-- Item 4: Admin CMS Konsol -->
@@ -797,18 +744,7 @@
         <p class="slide-description">
           Tampilan <strong>Beranda (Dashboard WebGIS)</strong> menyajikan visualisasi data persebaran objek wisata konservasi dengan klaster penanda 3D adaptif dan filter regional kepulauan (Jawa, Sumatera, Bali-Nusra, Sulawesi, Papua). Sistem menghitung persentase keterisian kawasan secara matematis langsung dari basis data cloud PostgreSQL Supabase, menjamin transparansi informasi tanpa jeda pemuatan bagi publik.
         </p>
-
-        <div class="carousel-meta">
-          <div class="nav-arrow">‹</div>
-          <div class="dots-indicator">
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-          </div>
-          <div class="nav-arrow">›</div>
-        </div>
+</div>
       </div>
     </div>
 
@@ -830,21 +766,21 @@
           </div>
         </div>
         <div class="dual-pill-header">
-          <div class="pill-slot"><div class="pill-btn">PASPOR DIGITAL</div></div>
+          <div class="pill-slot"><div class="pill-btn">E-TIKET RESMI</div></div>
           <div class="pill-slot"><div class="pill-btn">BUFFER REDIRECT</div></div>
         </div>
       </div>
 
       <div class="slide-body">
         <div class="dual-showcase">
-          <!-- Left Mockup: Penerbitan Paspor -->
+          <!-- Left Mockup: Penerbitan E-Tiket QR Resmi -->
           <div class="showcase-card">
             <div class="device-combo">
               <div class="mockup-laptop">
                 <div class="laptop-lid">
                   <div class="laptop-camera"></div>
                   <div class="laptop-screen">
-                    <img src="img/desktop-detail.png" alt="Penerbitan Paspor Digital">
+                    <img src="img/real-e-tiket-qr.png" alt="Penerbitan E-Tiket QR Resmi">
                   </div>
                 </div>
                 <div class="laptop-base"><div class="laptop-notch"></div></div>
@@ -852,11 +788,11 @@
               <div class="mockup-phone">
                 <div class="phone-notch"></div>
                 <div class="phone-screen">
-                  <img src="img/mobile-detail.png" alt="Mobile Tiket QR">
+                  <img src="img/mobile-e-tiket-dialog.png" alt="Mobile Tiket QR">
                 </div>
               </div>
             </div>
-            <div class="card-label">Penerbitan Digital Pass</div>
+            <div class="card-label">E-Tiket &amp; Paspor QR</div>
           </div>
 
           <!-- Right Mockup: Rekomendasi Penyangga -->
@@ -884,22 +820,11 @@
       </div>
 
       <div class="slide-footer">
-        <h2 class="slide-main-title">Mitigasi Overtourism &amp; Paspor Ramah Lingkungan</h2>
+        <h2 class="slide-main-title">Pemesanan E-Tiket Resmi &amp; Buffer Redirect</h2>
         <p class="slide-description">
-          Fitur <strong>Buffer Redirect</strong> berfungsi sebagai instrumen mitigasi cerdas yang secara otomatis merekomendasikan desa wisata penyangga di sekitar destinasi utama saat kuota kritis tercapai (seperti Desa Wanurejo saat Candi Borobudur penuh 98%). Wisatawan memperoleh <strong>Digital Eco-Pass</strong> instan berformat QR Code dengan verifikasi tanda tangan Web Crypto SHA-256 yang aman, sah, dan dapat diakses tanpa kewajiban login rumit <em>(zero-friction UX)</em>.
+          Sistem menghadirkan <strong>Pemesanan E-Tiket Resmi</strong> instan berformat QR Code unik yang dapat diunduh langsung dalam format PDF dengan validasi kriptografis Web Crypto SHA-256 tanpa perlu login rumit <em>(zero-friction UX)</em>. Saat kuota destinasi prioritas penuh, fitur <strong>Buffer Redirect</strong> secara otomatis merekomendasikan desa wisata penyangga di sekitarnya (seperti Desa Wanurejo saat Borobudur penuh 98%) guna menjaga keutuhan ekosistem cagar alam.
         </p>
-
-        <div class="carousel-meta">
-          <div class="nav-arrow">‹</div>
-          <div class="dots-indicator">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-          </div>
-          <div class="nav-arrow">›</div>
-        </div>
+</div>
       </div>
     </div>
 
@@ -979,18 +904,7 @@
         <p class="slide-description">
           Pengelola balai konservasi dan petugas pos lapangan dibekali <strong>Konsol CMS Terpadu</strong> untuk memperbarui batas kuota harian, mengelola dokumentasi media, serta mencatat status kedatangan pengunjung secara terverifikasi. Seluruh jalur mutasi data dilindungi dengan kebijakan <strong>Row-Level Security (RLS) PostgreSQL</strong> dan autentikasi token JWT Supabase tepercaya, memastikan sistem kebal terhadap upaya manipulasi otorisasi di sisi peramban.
         </p>
-
-        <div class="carousel-meta">
-          <div class="nav-arrow">‹</div>
-          <div class="dots-indicator">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-          </div>
-          <div class="nav-arrow">›</div>
-        </div>
+</div>
       </div>
     </div>
 
@@ -1026,7 +940,7 @@
                 <div class="laptop-lid">
                   <div class="laptop-camera"></div>
                   <div class="laptop-screen">
-                    <img src="img/desktop-api.png" alt="Developer REST API Sandbox">
+                    <img src="img/real-api-sandbox.png" alt="Developer REST API Sandbox">
                   </div>
                 </div>
                 <div class="laptop-base"><div class="laptop-notch"></div></div>
@@ -1090,18 +1004,7 @@
             <span class="chip-val">piantsa</span>
           </div>
         </div>
-
-        <div class="carousel-meta">
-          <div class="nav-arrow">‹</div>
-          <div class="dots-indicator">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-          </div>
-          <div class="nav-arrow">›</div>
-        </div>
+</div>
       </div>
     </div>
 

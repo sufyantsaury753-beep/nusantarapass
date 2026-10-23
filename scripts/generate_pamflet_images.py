@@ -1,4 +1,4 @@
-import os, subprocess, shutil, pymupdf
+import os, subprocess, pymupdf
 
 root = r'C:\Users\sufya\.gemini\antigravity\scratch\nusantarapass'
 pamflet_html = os.path.join(root, 'pamflet', 'index.html').replace('\\', '/')
@@ -35,7 +35,7 @@ if os.path.exists(out_pdf):
     doc = pymupdf.open(out_pdf)
     print(f'PDF generated with {len(doc)} pages.')
     for i, page in enumerate(doc):
-        # Render page to PNG at 150 DPI (super crisp high-resolution 1275x1650 / 4:5 ratio)
+        # Render page to PNG at 150 DPI
         pix = page.get_pixmap(dpi=150)
         img_filename = slide_names[i] if i < len(slide_names) else f'slide-{i+1}.png'
         
@@ -45,7 +45,11 @@ if os.path.exists(out_pdf):
         
         pix.save(path1)
         pix.save(path_num)
-        shutil.copyfile(path1, path_docs)
+        try:
+            pix.save(path_docs)
+        except Exception as e:
+            print(f'Warning saving to docs/pamflet: {e}')
+            
         print(f'Rendered Slide {i+1}: {img_filename} ({pix.width}x{pix.height})')
         
     print('ALL SLIDES SUCCESSFULLY EXPORTED TO:')
