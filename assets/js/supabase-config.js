@@ -144,7 +144,11 @@ try {
 
     if (error) {
       console.warn("Gagal update destinasi ke Supabase:", error.message);
-      return { success: false, error: error.message };
+      return { 
+        success: false, 
+        error: error.message,
+        isRlsBlocked: error.code === '42501' || (error.message && error.message.toLowerCase().includes('violates row-level security')) || error.code === 'PGRST301'
+      };
     }
     return { success: true, data };
   } catch (err) {
@@ -165,10 +169,74 @@ async function npInsertDestination(destData) {
       .insert([destData])
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.warn("Gagal insert destinasi ke Supabase:", error.message);
+      return {
+        success: false,
+        error: error.message,
+        isRlsBlocked: error.code === '42501' || (error.message && error.message.toLowerCase().includes('violates row-level security')) || error.code === 'PGRST301'
+      };
+    }
     return { success: true, data };
   } catch (err) {
     return { success: false, error: err.message };
+  }
+}
+
+async function npAdminSignIn(email, password) {
+  if (!npClient) initNpSupabase();
+  if (!npClient) return { success: false, error: "Koneksi library Supabase JS belum siap." };
+
+  try {
+    const { data, error } = await npClient.auth.signInWithPassword({
+      email: email.trim(),
+      password: password
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, user: data.user, session: data.session };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+async function npAdminSignOut() {
+  if (!npClient) initNpSupabase();
+  if (!npClient) return { success: true };
+
+  try {
+    const { error } = await npClient.auth.signOut();
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+async function npGetAuthSession() {
+  if (!npClient) initNpSupabase();
+  if (!npClient) return null;
+
+  try {
+    const { data } = await npClient.auth.getSession();
+    return data && data.session ? data.session : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+async function npGetAuthUser() {
+  if (!npClient) initNpSupabase();
+  if (!npClient) return null;
+
+  try {
+    const { data } = await npClient.auth.getUser();
+    return data && data.user ? data.user : null;
+  } catch (err) {
+    return null;
   }
 }
 
@@ -194,14 +262,26 @@ async function npSaveVisitorPass(passRecord) {
       return null;
     }
 
-const dest = NUSANTARA_DESTINATIONS.find(d => d.id === passRecord.destinationId);
+    const dest = NUSANTARA_DESTINATIONS.find(d => d.id === passRecord.destinationId);
     if (dest) {
-      const updatedCount = (dest.current_visitors || 0) + 1;
-      dest.current_visitors = updatedCount;
-      await npClient
-        .from('np_destinations')
-        .update({ current_visitors: updatedCount })
-        .eq('id', passRecord.destinationId);
+      try {
+        const { data: rpcData, error: rpcErr } = await npClient.rpc('np_increment_visitor', {
+          dest_id: passRecord.destinationId
+        });
+        if (!rpcErr && rpcData && rpcData.current_visitors) {
+          dest.current_visitors = rpcData.current_visitors;
+          dest.quota_status = rpcData.quota_status;
+        } else {
+          const updatedCount = (dest.current_visitors || 0) + 1;
+          dest.current_visitors = updatedCount;
+          await npClient
+            .from('np_destinations')
+            .update({ current_visitors: updatedCount })
+            .eq('id', passRecord.destinationId);
+        }
+      } catch (e) {
+        dest.current_visitors = (dest.current_visitors || 0) + 1;
+      }
     }
 
     return data;
@@ -257,7 +337,7 @@ async function npCheckinVisitor(destId) {
     dest.quota_status = 'hampir_penuh';
   }
 
-try {
+  try {
     const raw = localStorage.getItem('np_destinations_override') || '{}';
     const overrides = JSON.parse(raw);
     overrides[destId] = {
@@ -271,6 +351,15 @@ try {
   if (!npClient) return { success: true, localOnly: true, current_visitors: newVisitors };
 
   try {
+    const { data: rpcData, error: rpcErr } = await npClient.rpc('np_increment_visitor', {
+      dest_id: destId
+    });
+    if (!rpcErr && rpcData && rpcData.current_visitors) {
+      dest.current_visitors = rpcData.current_visitors;
+      dest.quota_status = rpcData.quota_status;
+      return { success: true, data: dest, current_visitors: rpcData.current_visitors };
+    }
+
     const { data, error } = await npClient
       .from('np_destinations')
       .update({

@@ -66,20 +66,48 @@ CREATE INDEX IF NOT EXISTS idx_np_dest_region ON public.np_destinations(region);
 CREATE INDEX IF NOT EXISTS idx_np_pass_token ON public.np_visitor_passes(qr_token);
 CREATE INDEX IF NOT EXISTS idx_np_stamps_email ON public.np_digital_stamps(visitor_email);
 
--- ROW LEVEL SECURITY (RLS) POLICIES
+-- ROW LEVEL SECURITY (RLS) POLICIES — HARDENED ACCESS CONTROL
 ALTER TABLE public.np_destinations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.np_visitor_passes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.np_digital_stamps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.np_checkin_logs ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Public read np_destinations" ON public.np_destinations FOR SELECT USING (true);
-CREATE POLICY "Public insert/update np_destinations" ON public.np_destinations FOR ALL USING (true);
-CREATE POLICY "Public read np_visitor_passes" ON public.np_visitor_passes FOR SELECT USING (true);
-CREATE POLICY "Public insert np_visitor_passes" ON public.np_visitor_passes FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public read np_digital_stamps" ON public.np_digital_stamps FOR SELECT USING (true);
-CREATE POLICY "Public insert np_digital_stamps" ON public.np_digital_stamps FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public read np_checkin_logs" ON public.np_checkin_logs FOR SELECT USING (true);
-CREATE POLICY "Public insert np_checkin_logs" ON public.np_checkin_logs FOR INSERT WITH CHECK (true);
+-- 1. np_destinations: Publik hanya boleh membaca. Mutasi (INSERT/UPDATE/DELETE) wajib terautentikasi admin.
+CREATE POLICY "Public read np_destinations" ON public.np_destinations FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Admin full access np_destinations" ON public.np_destinations FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+-- 2. np_visitor_passes: Publik boleh membaca dan reservasi (INSERT). Perubahan status hanya oleh admin.
+CREATE POLICY "Public read np_visitor_passes" ON public.np_visitor_passes FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Public insert np_visitor_passes" ON public.np_visitor_passes FOR INSERT TO anon, authenticated WITH CHECK (true);
+CREATE POLICY "Admin manage np_visitor_passes" ON public.np_visitor_passes FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+
+-- 3. np_digital_stamps: Publik boleh membaca dan klaim stempel.
+CREATE POLICY "Public read np_digital_stamps" ON public.np_digital_stamps FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Public insert np_digital_stamps" ON public.np_digital_stamps FOR INSERT TO anon, authenticated WITH CHECK (true);
+
+-- 4. np_checkin_logs: Publik boleh membaca dan mencatat log check-in.
+CREATE POLICY "Public read np_checkin_logs" ON public.np_checkin_logs FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Public insert np_checkin_logs" ON public.np_checkin_logs FOR INSERT TO anon, authenticated WITH CHECK (true);
+
+-- 5. Stored Function: np_increment_visitor (Penambahan kuota aman tanpa akses UPDATE ke publik)
+CREATE OR REPLACE FUNCTION public.np_increment_visitor(dest_id TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+    dest_rec RECORD;
+    new_count INT;
+    new_stat TEXT;
+BEGIN
+    SELECT daily_quota, current_visitors INTO dest_rec FROM public.np_destinations WHERE id = dest_id FOR UPDATE;
+    IF NOT FOUND THEN RETURN jsonb_build_object('success', false, 'error', 'Destinasi tidak ditemukan'); END IF;
+    new_count := COALESCE(dest_rec.current_visitors, 0) + 1;
+    IF new_count >= dest_rec.daily_quota THEN new_stat := 'penuh';
+    ELSIF new_count >= (dest_rec.daily_quota * 0.85)::INT THEN new_stat := 'hampir_penuh';
+    ELSE new_stat := 'tersedia'; END IF;
+    UPDATE public.np_destinations SET current_visitors = new_count, quota_status = new_stat WHERE id = dest_id;
+    RETURN jsonb_build_object('success', true, 'destination_id', dest_id, 'current_visitors', new_count, 'quota_status', new_stat);
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.np_increment_visitor(TEXT) TO anon, authenticated;
 
 -- ==============================================================================
 -- SEED DATA 20 DESTINASI UNGGULAN INDONESIA (Pantai, Gunung, Candi, TN)

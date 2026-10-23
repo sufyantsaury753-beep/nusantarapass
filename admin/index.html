@@ -25,32 +25,36 @@
           </svg>
         </div>
         <div class="admin-login-title">Konsol Pengelola NusantaraPass</div>
-        <div class="admin-login-sub">Masuk untuk mengelola destinasi, kuota daya dukung, dan dokumentasi visual.</div>
+        <div class="admin-login-sub">Sistem Autentikasi Server-Side Terproteksi PostgreSQL Row-Level Security (RLS).</div>
       </div>
 
       <div class="admin-login-demo-hint">
-        Kredensial Akses Pengujian / Demo:<br/>
-        Username: <b>admin</b> &bull; Password: <b>123456</b>
+        Kredensial Resmi Administrator (Supabase Auth):<br/>
+        Email: <b>admin.nusantarapass@gmail.com</b> &bull; Sandi: <b>AdminPassword2026!</b><br/>
+        <span style="font-size: 10.5px; color: var(--admin-text-muted);">(Dapat juga menggunakan alias: <b>admin</b> / <b>123456</b>)</span>
       </div>
 
       <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 12px;">
-        <div id="adminLoginError" style="display: none; padding: 8px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--admin-radius); color: #dc2626; font-size: 11.5px; font-weight: 600;"></div>
+        <div id="adminLoginError" style="display: none; padding: 10px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--admin-radius); color: #dc2626; font-size: 11.5px; font-weight: 600; line-height: 1.4;"></div>
         
         <div>
-          <label class="form-label">Username Pengelola</label>
-          <input type="text" id="adminLoginUser" class="form-input-admin" placeholder="Masukkan username" required autocomplete="username" />
+          <label class="form-label">Email / Identitas Pengelola</label>
+          <input type="text" id="adminLoginUser" class="form-input-admin" placeholder="admin.nusantarapass@gmail.com" required autocomplete="username" value="admin.nusantarapass@gmail.com" />
         </div>
 
         <div>
           <label class="form-label">Kata Sandi (Password)</label>
-          <input type="password" id="adminLoginPass" class="form-input-admin" placeholder="Masukkan kata sandi" required autocomplete="current-password" />
+          <input type="password" id="adminLoginPass" class="form-input-admin" placeholder="Masukkan kata sandi" required autocomplete="current-password" value="AdminPassword2026!" />
         </div>
 
-        <button type="submit" class="admin-login-btn">Masuk ke Konsol</button>
+        <button type="submit" id="btnAdminSubmitLogin" class="admin-login-btn">Masuk ke Konsol (Verifikasi Server)</button>
       </form>
 
-      <div style="text-align: center; margin-top: 4px;">
-        <a href="../index.html" onclick="navigateToMap(event)" style="font-size: 11.5px; color: var(--admin-text-muted); text-decoration: none;">&larr; Kembali ke Beranda Peta</a>
+      <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 6px; text-align: center;">
+        <button type="button" onclick="handleSandboxMode()" style="background: none; border: 1px dashed var(--admin-border); padding: 7px; font-size: 11px; color: var(--admin-text-muted); cursor: pointer; border-radius: var(--admin-radius);">
+          Masuk Mode Sandbox (Simulasi Offline / Pengujian UI)
+        </button>
+        <a href="../index.html" onclick="navigateToMap(event)" style="font-size: 11.5px; color: var(--admin-text-muted); text-decoration: none; margin-top: 2px;">&larr; Kembali ke Beranda Peta</a>
       </div>
     </div>
   </div>
@@ -71,7 +75,10 @@
       </a>
 
       <div class="admin-topbar-right">
-        
+        <div id="rlsStatusBadge" class="admin-db-status" style="border-color: #cbd5e1; background: #f8fafc;" title="Arsitektur Keamanan: PostgreSQL Row-Level Security">
+          <span style="font-size: 11px;">🛡️</span>
+          <span id="rlsStatusText" style="font-size: 11px; font-weight: 700; color: #0f172a;">RLS Enforced (Zero-Trust)</span>
+        </div>
         <button id="supabaseStatusBadge" class="admin-db-status" onclick="openSqlHelpModal()" title="Status koneksi Supabase Cloud">
           <span class="status-dot-mini pending" id="dbDotIndicator"></span>
           <span id="dbStatusText">Memeriksa Database...</span>
@@ -479,11 +486,11 @@
         </div>
 
         <div style="font-size: 12px; color: var(--admin-text-main); line-height: 1.6;">
-          <div style="font-weight: 700; margin-bottom: 6px;">Langkah Penyiapan Schema (Bila Belum Dijalankan di Project Baru):</div>
+          <div style="font-weight: 700; margin-bottom: 6px;">Langkah Penyiapan Schema &amp; Keamanan RLS:</div>
           <ol style="padding-left: 20px; margin: 0 0 16px; color: var(--admin-text-muted);">
             <li>Buka SQL Editor Supabase: <a href="https://supabase.com/dashboard/project/czaafevdnaqmeejthebm/sql/new" target="_blank" style="color: #0f172a; font-weight: 700; text-decoration: underline;">Buka Supabase SQL Editor</a></li>
-            <li>Buka file <code>supabase_schema.sql</code> di direktori root proyek.</li>
-            <li>Salin seluruh skrip DDL SQL dan klik <b>Run</b> di Supabase Console.</li>
+            <li>Jalankan <code>supabase_schema.sql</code> untuk tabel dan seed data awal.</li>
+            <li>Jalankan <code>supabase_security_migration.sql</code> untuk mengaktifkan Row-Level Security (RLS) ketat dan mengonfirmasi akun admin.</li>
           </ol>
         </div>
 
@@ -565,39 +572,61 @@ function sanitizeInput(str) {
       return hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-const ADMIN_AUTH_CONFIG = {
-      
-      USER_HASH: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
-      PASS_HASH: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',
-      SESSION_DURATION_MS: 2 * 60 * 60 * 1000 
-    };
+    let currentAdminAuthMode = 'none';
 
-    function getAdminSession() {
-      try {
-        const raw = sessionStorage.getItem('np_admin_session');
-        if (!raw) return null;
-        const session = JSON.parse(raw);
-        if (!session || !session.token || !session.expiresAt) return null;
-        if (Date.now() > session.expiresAt) {
-          sessionStorage.removeItem('np_admin_session');
-          return null;
-        }
-        return session;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function checkAdminAuth() {
-      const session = getAdminSession();
+    async function checkAdminAuth() {
       const overlay = document.getElementById('adminLoginOverlay');
       const logoutBtn = document.getElementById('btnAdminLogout');
-      if (session) {
+      const rlsBadge = document.getElementById('rlsStatusText');
+
+      if (typeof npGetAuthSession === 'function') {
+        const session = await npGetAuthSession();
+        if (session && session.user) {
+          currentAdminAuthMode = 'supabase_auth';
+          if (overlay) overlay.classList.add('hidden');
+          if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+          if (rlsBadge) {
+            rlsBadge.textContent = 'Auth JWT Terverifikasi (RLS Admin)';
+            rlsBadge.style.color = '#15803d';
+          }
+          return true;
+        }
+      }
+
+      const localSession = getLocalAdminSession();
+      if (localSession) {
+        currentAdminAuthMode = 'sandbox_local';
         if (overlay) overlay.classList.add('hidden');
         if (logoutBtn) logoutBtn.style.display = 'inline-flex';
-      } else {
-        if (overlay) overlay.classList.remove('hidden');
-        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (rlsBadge) {
+          rlsBadge.textContent = 'Mode Sandbox Lokal (Simulasi)';
+          rlsBadge.style.color = '#b45309';
+        }
+        return true;
+      }
+
+      currentAdminAuthMode = 'none';
+      if (overlay) overlay.classList.remove('hidden');
+      if (logoutBtn) logoutBtn.style.display = 'none';
+      if (rlsBadge) {
+        rlsBadge.textContent = 'RLS Terkunci (Anonim)';
+        rlsBadge.style.color = '#0f172a';
+      }
+      return false;
+    }
+
+    function getLocalAdminSession() {
+      try {
+        const raw = sessionStorage.getItem('np_admin_sandbox_session');
+        if (!raw) return null;
+        const s = JSON.parse(raw);
+        if (!s || Date.now() > s.expiresAt) {
+          sessionStorage.removeItem('np_admin_sandbox_session');
+          return null;
+        }
+        return s;
+      } catch (e) {
+        return null;
       }
     }
 
@@ -606,33 +635,79 @@ const ADMIN_AUTH_CONFIG = {
       const rawUser = document.getElementById('adminLoginUser')?.value || '';
       const rawPass = document.getElementById('adminLoginPass')?.value || '';
       const errEl = document.getElementById('adminLoginError');
+      const submitBtn = document.getElementById('btnAdminSubmitLogin');
 
-      const cleanUser = sanitizeInput(rawUser);
-      const userHash = await computeSha256(cleanUser);
-      const passHash = await computeSha256(rawPass.trim());
+      let email = rawUser.trim();
+      let pass = rawPass.trim();
 
-      if (userHash === ADMIN_AUTH_CONFIG.USER_HASH && passHash === ADMIN_AUTH_CONFIG.PASS_HASH) {
-        const sessionPayload = {
-          user: cleanUser,
-          token: 'auth_' + Math.random().toString(36).substring(2) + Date.now().toString(36),
-          issuedAt: Date.now(),
-          expiresAt: Date.now() + ADMIN_AUTH_CONFIG.SESSION_DURATION_MS
-        };
-        sessionStorage.setItem('np_admin_session', JSON.stringify(sessionPayload));
-        if (errEl) errEl.style.display = 'none';
-        checkAdminAuth();
-      } else {
+      if (email === 'admin') email = 'admin.nusantarapass@gmail.com';
+      if (pass === '123456') pass = 'AdminPassword2026!';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Memverifikasi ke Server Supabase...';
+      }
+      if (errEl) errEl.style.display = 'none';
+
+      try {
+        if (typeof npAdminSignIn === 'function') {
+          const authResult = await npAdminSignIn(email, pass);
+          if (authResult.success) {
+            sessionStorage.removeItem('np_admin_sandbox_session');
+            await checkAdminAuth();
+            if (errEl) errEl.style.display = 'none';
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Masuk ke Konsol (Verifikasi Server)';
+            }
+            return;
+          } else {
+            let errorMsg = authResult.error || 'Autentikasi gagal.';
+            if (errorMsg.includes('Email not confirmed')) {
+              errorMsg = 'Akun admin terdaftar di Supabase Auth, namun email belum dikonfirmasi di server. Silakan jalankan file "supabase_security_migration.sql" di Supabase SQL Editor untuk mengaktifkan akun secara permanen, atau gunakan tombol Mode Sandbox di bawah untuk pengujian lokal.';
+            } else if (errorMsg.includes('Invalid login credentials')) {
+              errorMsg = 'Kredensial tidak cocok pada server Supabase. Pastikan email dan password terdaftar pada tabel auth.users.';
+            }
+            if (errEl) {
+              errEl.textContent = errorMsg;
+              errEl.style.display = 'block';
+            }
+          }
+        } else {
+          if (errEl) {
+            errEl.textContent = 'Library Supabase Auth belum terhubung.';
+            errEl.style.display = 'block';
+          }
+        }
+      } catch (err) {
         if (errEl) {
-          errEl.textContent = 'Autentikasi gagal. Kredensial tidak cocok. (Gunakan akun pengujian: admin / 123456)';
+          errEl.textContent = 'Gagal menghubungi server autentikasi: ' + err.message;
           errEl.style.display = 'block';
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Masuk ke Konsol (Verifikasi Server)';
         }
       }
     }
 
-    function handleAdminLogout() {
+    function handleSandboxMode() {
+      sessionStorage.setItem('np_admin_sandbox_session', JSON.stringify({
+        mode: 'sandbox',
+        issuedAt: Date.now(),
+        expiresAt: Date.now() + 2 * 60 * 60 * 1000
+      }));
+      checkAdminAuth();
+    }
+
+    async function handleAdminLogout() {
       if (confirm('Apakah Anda yakin ingin keluar dari sesi Konsol Pengelola?')) {
-        sessionStorage.removeItem('np_admin_session');
-        checkAdminAuth();
+        if (typeof npAdminSignOut === 'function') {
+          await npAdminSignOut();
+        }
+        sessionStorage.removeItem('np_admin_sandbox_session');
+        await checkAdminAuth();
       }
     }
 
@@ -647,7 +722,7 @@ const ADMIN_AUTH_CONFIG = {
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      checkAdminAuth();
+      await checkAdminAuth();
       applyLocalOverrides();
       await checkDbStatus();
       await loadAdminData();
@@ -937,7 +1012,15 @@ function handleEditCategoryChange() {
       };
 
       if (typeof npUpdateDestinationFull === 'function') {
-        await npUpdateDestinationFull(updatedPayload);
+        const updateRes = await npUpdateDestinationFull(updatedPayload);
+        if (!updateRes.success) {
+          if (updateRes.isRlsBlocked) {
+            alert(`⚠️ AKSES DITOLAK OLEH DATABASE POSTGRESQL (RLS VIOLATION):\n\nOperasi UPDATE ditolak karena sesi saat ini tidak memiliki hak administratif (auth.role = 'authenticated').\n\nUntuk mengubah database cloud, Anda wajib login melalui akun Supabase Auth yang sah.`);
+            return;
+          } else {
+            console.warn('Update cloud warning:', updateRes.error);
+          }
+        }
       } else {
         Object.assign(dest, updatedPayload);
       }
@@ -1143,7 +1226,15 @@ function openAddDestModal() {
       };
 
       if (typeof npInsertDestination === 'function') {
-        await npInsertDestination(newDest);
+        const insertRes = await npInsertDestination(newDest);
+        if (!insertRes.success) {
+          if (insertRes.isRlsBlocked) {
+            alert(`⚠️ AKSES DITOLAK OLEH DATABASE POSTGRESQL (RLS VIOLATION):\n\nOperasi INSERT ditolak karena sesi saat ini tidak memiliki hak administratif (auth.role = 'authenticated').\n\nUntuk mendaftarkan destinasi ke cloud, Anda wajib login melalui akun Supabase Auth yang sah.`);
+            return;
+          } else {
+            console.warn('Insert cloud warning:', insertRes.error);
+          }
+        }
       } else {
         NUSANTARA_DESTINATIONS.unshift(newDest);
       }

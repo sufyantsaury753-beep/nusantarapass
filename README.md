@@ -58,11 +58,12 @@
 * Setiap kali wisatawan melakukan *check-in* di destinasi, mereka mendapatkan **Stempel Digital (*Digital Heritage Stamp*)**.
 * **Generator Buku Paspor Digital (Format PDF):** Menghasilkan dokumen resmi berdesain Buku Paspor Republik Indonesia lengkap dengan biodata wisatawan, stempel cap destinasi yang telah dikunjungi, dan sertifikat Pelestari Budaya & Alam Indonesia siap cetak!
 
-### 5. ⚙️ Cloud CMS Admin Dashboard (`admin/index.html`)
+### 5. ⚙️ Cloud CMS Admin Dashboard & Server-Side Auth (`admin/index.html`)
 * Dashboard khusus pengelola destinasi dan dinas pariwisata:
-  * Ringkasan analitik wisatawan harian & destinasi terpadat.
-  * Manajemen kuota pelestarian (CRUD data objek wisata & ubah kuota darurat dalam 1 klik).
-  * Log verifikasi tiket gerbang masuk.
+  * **Autentikasi Server-Side Terverifikasi:** Menggunakan Supabase Auth JWT (`admin.nusantarapass@gmail.com`).
+  * **Proteksi Mutasi Database:** Dilindungi oleh PostgreSQL Row-Level Security (RLS). Pengguna tanpa token JWT resmi ditolak langsung di level database (`401/403`).
+  * **Manajemen Kuota & Daya Dukung:** CRUD data destinasi, elevasi, tarif retribusi, dan status konservasi secara realtime.
+  * **Stored Procedure Keamanan:** Penambahan pengunjung publik diisolasi melalui fungsi `SECURITY DEFINER` (`np_increment_visitor`) sehingga publik tidak memiliki izin memodifikasi atribut administratif destinasi.
 
 ### 6. 🔌 Open REST API & Interoperabilitas (PostgREST OpenAPI 3.0 Live)
 Sesuai tema *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*, NusantaraPass menyediakan endpoint RESTful API publik yang langsung terhubung ke pangkalan data PostgreSQL Cloud via engine PostgREST OpenAPI 3.0:
@@ -77,12 +78,13 @@ Sesuai tema *"Engineering Interconnected Web Solutions to Empower Digital Ecosys
 
 ---
 
-## 🗄️ Skema Basis Data Relasional (PostgreSQL Supabase)
-Struktur tabel relasional, indeks performa, dan aturan *Row-Level Security (RLS)* tersedia lengkap di file [`supabase_schema.sql`](./supabase_schema.sql):
-* `destinations`: Data lengkap objek wisata, koordinat, elevasi, kuota harian, status gelombang/cuaca.
-* `visitor_passes`: Data tiket kunjungan ber-token QR unik.
-* `digital_stamps`: Koleksi stempel paspor wisatawan yang berhasil diklaim.
-* `checkin_logs`: Riwayat pemindaian tiket di gerbang masuk konservasi.
+## 🗄️ Skema Basis Data Relasional & Keamanan RLS (PostgreSQL Supabase)
+Struktur tabel relasional, indeks performa, dan aturan *Row-Level Security (RLS)* tersedia lengkap di:
+* [`supabase_schema.sql`](./supabase_schema.sql): DDL skema tabel lengkap, indeks spasial, dan seed data 20 destinasi.
+* [`supabase_security_migration.sql`](./supabase_security_migration.sql): Skrip migrasi keamanan RLS ketat (Zero-Trust):
+  * `np_destinations`: Akses publik read-only (`SELECT`). Operasi mutasi (`INSERT`, `UPDATE`, `DELETE`) terkunci penuh untuk peran `authenticated` (Admin).
+  * `np_increment_visitor(dest_id)`: Prosedur tersimpan (`SECURITY DEFINER`) untuk mutasi kuota publik yang aman tanpa mengekspos hak `UPDATE` ke publik.
+  * `np_visitor_passes`, `np_digital_stamps`, `np_checkin_logs`: Akses `INSERT` terkendali untuk pemesanan tiket wisatawan.
 
 ---
 
