@@ -44,11 +44,11 @@ def generate_html():
 
     h1 {
       font-size: 18pt;
-      border-bottom: 2px solid #0D9488;
+      border-bottom: 2px solid #064E3B;
       padding-bottom: 6px;
       margin-top: 24pt;
       margin-bottom: 12pt;
-      color: #0F766E;
+      color: #064E3B;
     }
 
     h2 {
@@ -56,7 +56,7 @@ def generate_html():
       margin-top: 16pt;
       margin-bottom: 8pt;
       color: #0F172A;
-      border-left: 4px solid #0D9488;
+      border-left: 4px solid #064E3B;
       padding-left: 8px;
     }
 
@@ -131,7 +131,7 @@ def generate_html():
       margin: 20px auto;
       width: 140px;
       height: 140px;
-      background: linear-gradient(135deg, #0F766E, #047857);
+      background: linear-gradient(135deg, #064E3B, #047857);
       border-radius: 28px;
       display: flex;
       align-items: center;
@@ -188,7 +188,7 @@ def generate_html():
 
     .callout {
       background-color: #F8FAFC;
-      border-left: 4px solid #0D9488;
+      border-left: 4px solid #064E3B;
       padding: 10px 14px;
       margin: 10pt 0;
       border-radius: 0 8px 8px 0;
@@ -197,7 +197,7 @@ def generate_html():
 
     .callout-title {
       font-weight: 700;
-      color: #0F766E;
+      color: #064E3B;
       margin-bottom: 4px;
     }
 
@@ -249,7 +249,7 @@ def generate_html():
       background-color: #F1F5F9;
       padding: 2px 4px;
       border-radius: 4px;
-      color: #0F766E;
+      color: #064E3B;
     }
     
     pre {
@@ -380,7 +380,7 @@ def generate_html():
 
   <h1>2. Judul Karya &amp; Penjelasan Konseptual</h1>
   <p><strong>Judul Karya:</strong><br>
-  <span style="font-size: 11pt; font-weight: 700; color: #0F766E;">NusantaraPass: Smart Eco-Tourism &amp; Capacity-Balancing WebGIS Platform</span></p>
+  <span style="font-size: 11pt; font-weight: 700; color: #064E3B;">NusantaraPass: Smart Eco-Tourism &amp; Capacity-Balancing WebGIS Platform</span></p>
 
   <p><strong>Penjelasan Judul Karya:</strong><br>
   <strong>NusantaraPass</strong> tersusun dari dua entitas kata esensial: <em>"Nusantara"</em> yang merepresentasikan kekayaan bentang alam dan cagar budaya Negara Kesatuan Republik Indonesia, serta <em>"Pass"</em> yang merujuk pada paspor izin masuk digital yang bertanggung jawab <em>(Responsible Traveler Pass)</em>. Secara konseptual, platform ini merupakan sistem informasi geografis berbasis web (WebGIS) modern yang dirancang khusus untuk memecahkan krisis <strong>Overtourism</strong> (kelebihan beban kunjungan wisatawan) di destinasi konservasi prioritas Indonesia.</p>
@@ -588,7 +588,12 @@ def generate_html():
   <div style="text-align: center; margin: 15px 0;">
     <img src="../assets/img/logo.png" style="width: 110px; height: 110px; border-radius: 22px; box-shadow: 0 8px 20px -4px rgba(15, 118, 110, 0.3); display: inline-block;" alt="Logo NusantaraPass">
   </div>
-  <p>Logo NusantaraPass menggabungkan siluet kompas navigasi bahari dan garis batas topografi kepulauan nusantara berbalut warna hijau zamrud khatulistiwa. Lambang ini merepresentasikan visi platform sebagai kompas pemandu yang menuntun para penjelajah tanah air untuk berwisata secara berkesadaran, menjaga keutuhan alam, dan menghormati batas daya dukung bumi pertiwi.</p>
+  <p>Logo NusantaraPass dirancang dengan pendekatan <em>human-centered</em> dan filosofi konservasi berbasis sains, memadukan identitas paspor digital resmi dengan simbol navigasi kepulauan berwibawa. Filosofi visual logo terbagi atas tiga pilar utama:</p>
+  <ul>
+    <li><strong>Bentuk Squircle (Rounded Container):</strong> Melambangkan metafora <em>"Smart Eco-Passport"</em>—sebuah dokumen resmi dan gerbang digital yang kokoh, teratur, presisi, serta ramah pengguna <em>(approachable)</em>. Sudut melengkung halus mencerminkan adaptabilitas teknologi modern terhadap keharmonisan alam hayati Nusantara.</li>
+    <li><strong>Warna Latar Heritage Forest Green (<code>#064E3B</code>):</strong> Mengakar kuat pada keaslian kanopi hutan hujan tropis purba dan suaka margasatwa Nusantara. Warna hijau rimba yang pekat, teduh, dan berwibawa ini merefleksikan suaka alam lestari, memancarkan legitimasi institusional, stabilitas ekologis, serta wibawa paspor resmi pelestarian lingkungan hidup.</li>
+    <li><strong>Siluet Jarum Kompas Monokrom &amp; Sumbu Keseimbangan:</strong> Jarum navigasi bersudut tajam berwarna putih monokrom melambangkan navigasi berkesadaran <em>(mindful exploration)</em> yang menuntun para penjelajah tanah air menghormati ambang batas daya dukung <em>(carrying capacity)</em> bumi pertiwi, sekaligus memandu mobilitas wisatawan menuju destinasi penyangga secara terukur dan seimbang.</li>
+  </ul>
 
   <h2>7.2 Skema Warna Antarmuka (Color Palette)</h2>
   <table class="data-table">
@@ -602,10 +607,10 @@ def generate_html():
     </thead>
     <tbody>
       <tr>
-        <td style="text-align: center;"><span class="color-chip" style="background: #0F766E;"></span>#0F766E</td>
-        <td><code>#0F766E</code></td>
-        <td><strong>Emerald Teal (Primary)</strong></td>
-        <td>Melambangkan kelestarian hutan hujan nusantara, ketenangan alam, dan komitmen keberlanjutan. Digunakan pada navbar, tombol utama, dan pin kapasitas aman.</td>
+        <td style="text-align: center;"><span class="color-chip" style="background: #064E3B;"></span>#064E3B</td>
+        <td><code>#064E3B</code></td>
+        <td><strong>Heritage Forest Green (Primary)</strong></td>
+        <td>Melambangkan kanopi hutan hujan tropis purba, suaka alam nusantara, dan legitimasi institusional konservasi lingkungan. Digunakan secara konsisten pada identitas brand/logo, bilah navigasi utama (navbar), tombol aksi utama (CTA), badge tiket, dan penanda kapasitas aman (&lt;60%).</td>
       </tr>
       <tr>
         <td style="text-align: center;"><span class="color-chip" style="background: #0B132B;"></span>#0B132B</td>
@@ -919,7 +924,7 @@ def generate_html():
 
     <p style="margin-bottom: 15px;">Menyatakan dengan sesungguhnya bahwa karya dengan judul:</p>
     
-    <div style="background: #F8FAFC; border: 1px solid #CBD5E1; padding: 10px; text-align: center; font-weight: 700; font-size: 11pt; color: #0F766E; margin-bottom: 20px;">
+    <div style="background: #F8FAFC; border: 1px solid #CBD5E1; padding: 10px; text-align: center; font-weight: 700; font-size: 11pt; color: #064E3B; margin-bottom: 20px;">
       NusantaraPass: Smart Eco-Tourism &amp; Capacity-Balancing WebGIS Platform
     </div>
 

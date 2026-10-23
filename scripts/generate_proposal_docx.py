@@ -57,7 +57,7 @@ def create_proposal_docx(output_path):
     run_badge = p_badge.add_run("PROPOSAL KARYA WEB DEVELOPMENT COMPETITION UINIC 8.0 — TAHUN 2026\n")
     run_badge.bold = True
     run_badge.font.size = Pt(10)
-    run_badge.font.color.rgb = RGBColor(15, 118, 110)
+    run_badge.font.color.rgb = RGBColor(6, 78, 59)
 
     run_org = p_badge.add_run("HIMPUNAN MAHASISWA PROGRAM STUDI INFORMATIKA (HMPS-INFORMATIKA)\nUNIVERSITAS ISLAM NEGERI SUNAN KALIJAGA YOGYAKARTA\n")
     run_org.font.size = Pt(9.5)
@@ -81,7 +81,7 @@ def create_proposal_docx(output_path):
     run_subtitle = p_title.add_run("Smart Eco-Tourism & Capacity-Balancing WebGIS Platform\n")
     run_subtitle.bold = True
     run_subtitle.font.size = Pt(13)
-    run_subtitle.font.color.rgb = RGBColor(15, 118, 110)
+    run_subtitle.font.color.rgb = RGBColor(6, 78, 59)
 
     run_desc = p_title.add_run("Platform WebGIS Interaktif Berbasis Cloud PostgreSQL PostgREST untuk Pengendalian Daya Tampung Wisata (Carrying Capacity) dan Redistribusi Wisatawan Guna Mewujudkan Pariwisata Berkelanjutan Indonesia (SDG 11 & 8.9)\n")
     run_desc.font.size = Pt(10.5)
@@ -127,7 +127,7 @@ def create_proposal_docx(output_path):
 
     # ==================== DAFTAR ISI ====================
     h_toc = doc.add_heading("DAFTAR ISI", level=1)
-    h_toc.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h_toc.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     toc_items = [
         ("1. Nama Seluruh Anggota Tim / Peserta", "3"),
@@ -167,7 +167,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 1 ====================
     h1 = doc.add_heading("1. Nama Seluruh Anggota Tim / Peserta", level=1)
-    h1.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h1.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_paragraph(
         f"Karya inovasi teknologi NusantaraPass dikembangkan secara mandiri (Kategori Individu / Solo Developer) "
@@ -179,7 +179,7 @@ def create_proposal_docx(output_path):
     hdr_row = member_table.rows[0]
     for idx, text in enumerate(headers):
         cell = hdr_row.cells[idx]
-        set_cell_background(cell, "0F766E")
+        set_cell_background(cell, "064E3B")
         set_cell_margins(cell, 100, 100, 100, 100)
         p = cell.paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -214,14 +214,14 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 2 ====================
     h2 = doc.add_heading("2. Judul Karya & Penjelasan Konseptual", level=1)
-    h2.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h2.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     p_jk = doc.add_paragraph()
     r_jkt = p_jk.add_run("Judul Karya: ")
     r_jkt.bold = True
     r_jkv = p_jk.add_run("NusantaraPass: Smart Eco-Tourism & Capacity-Balancing WebGIS Platform\n")
     r_jkv.bold = True
-    r_jkv.font.color.rgb = RGBColor(15, 118, 110)
+    r_jkv.font.color.rgb = RGBColor(6, 78, 59)
 
     p_pj = doc.add_paragraph()
     r_pjt = p_pj.add_run("Penjelasan Judul Karya:\n")
@@ -233,7 +233,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 3 ====================
     h3 = doc.add_heading("3. Latar Belakang Masalah", level=1)
-    h3.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h3.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_heading("3.1 Fenomena Overtourism & Degradasi Kawasan Konservasi Indonesia", level=2)
     doc.add_paragraph(
@@ -261,7 +261,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 4 ====================
     h4 = doc.add_heading("4. Tujuan dan Manfaat", level=1)
-    h4.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h4.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_heading("4.1 Tujuan Pengembangan", level=2)
     doc.add_paragraph(
@@ -276,8 +276,8 @@ def create_proposal_docx(output_path):
     b_hdr = benefit_table.rows[0]
     b_hdr.cells[0].paragraphs[0].add_run("Penerima Manfaat").bold = True
     b_hdr.cells[1].paragraphs[0].add_run("Uraian Manfaat Nyata").bold = True
-    set_cell_background(b_hdr.cells[0], "0F766E")
-    set_cell_background(b_hdr.cells[1], "0F766E")
+    set_cell_background(b_hdr.cells[0], "064E3B")
+    set_cell_background(b_hdr.cells[1], "064E3B")
     b_hdr.cells[0].paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
     b_hdr.cells[1].paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
 
@@ -299,7 +299,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 5 ====================
     h5 = doc.add_heading("5. Analisis Produk & Kebutuhan Sistem", level=1)
-    h5.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h5.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_heading("5.1 Target Pengguna (User Persona)", level=2)
     doc.add_paragraph(
@@ -327,7 +327,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 6 ====================
     h6 = doc.add_heading("6. Metodologi Pengembangan Produk", level=1)
-    h6.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h6.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_paragraph(
         "Pengembangan NusantaraPass menerapkan kerangka kerja Agile Scrum yang dipadukan dengan siklus Design Thinking untuk memastikan produk benar-benar memecahkan masalah nyata pengguna:\n"
@@ -339,7 +339,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 7 ====================
     h7 = doc.add_heading("7. Design Brief & Sistem Visual", level=1)
-    h7.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h7.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_heading("7.1 Filosofi Logo NusantaraPass", level=2)
     if os.path.exists(logo_path):
@@ -350,7 +350,10 @@ def create_proposal_docx(output_path):
         r_logo7.add_picture(logo_path, width=Inches(1.2))
 
     doc.add_paragraph(
-        "Logo NusantaraPass menggabungkan siluet kompas navigasi bahari dan garis batas topografi kepulauan nusantara berbalut warna hijau zamrud khatulistiwa. Lambang ini merepresentasikan visi platform sebagai kompas pemandu yang menuntun para penjelajah tanah air untuk berwisata secara berkesadaran, menjaga keutuhan alam, dan menghormati batas daya dukung bumi pertiwi."
+        "Logo NusantaraPass dirancang dengan pendekatan human-centered dan filosofi konservasi berbasis sains, memadukan identitas paspor digital resmi dengan simbol navigasi kepulauan berwibawa. Filosofi visual logo terbagi atas tiga pilar utama:\n"
+        "1. Bentuk Squircle (Rounded Container): Melambangkan metafora 'Smart Eco-Passport'—sebuah dokumen resmi dan gerbang digital yang kokoh, teratur, presisi, serta ramah pengguna (approachable). Sudut melengkung halus mencerminkan adaptabilitas teknologi modern terhadap keharmonisan alam hayati Nusantara.\n"
+        "2. Warna Latar Heritage Forest Green (#064E3B): Mengakar kuat pada keaslian kanopi hutan hujan tropis purba dan suaka margasatwa Nusantara. Warna hijau rimba yang pekat, teduh, dan berwibawa ini merefleksikan suaka alam lestari, memancarkan legitimasi institusional, stabilitas ekologis, serta wibawa paspor resmi pelestarian lingkungan hidup.\n"
+        "3. Siluet Jarum Kompas Monokrom & Sumbu Keseimbangan: Jarum navigasi bersudut tajam berwarna putih monokrom melambangkan navigasi berkesadaran (mindful exploration) yang menuntun para penjelajah tanah air menghormati ambang batas daya dukung (carrying capacity) bumi pertiwi, sekaligus memandu mobilitas wisatawan menuju destinasi penyangga secara terukur dan seimbang."
     )
 
     doc.add_heading("7.2 Skema Warna Antarmuka (Color Palette)", level=2)
@@ -358,14 +361,14 @@ def create_proposal_docx(output_path):
     c_hdr = color_table.rows[0]
     for idx, text in enumerate(["Kode Hex", "Nama Peran", "Makna & Penerapan Antarmuka"]):
         cell = c_hdr.cells[idx]
-        set_cell_background(cell, "0F766E")
+        set_cell_background(cell, "064E3B")
         p = cell.paragraphs[0]
         r = p.add_run(text)
         r.bold = True
         r.font.color.rgb = RGBColor(255, 255, 255)
 
     colors = [
-        ("#0F766E", "Emerald Teal (Primary)", "Melambangkan kelestarian hutan hujan nusantara, ketenangan alam, dan komitmen keberlanjutan. Digunakan pada navbar, tombol utama, dan pin kapasitas aman."),
+        ("#064E3B", "Heritage Forest Green (Primary)", "Melambangkan kanopi hutan hujan tropis purba, suaka alam nusantara, dan legitimasi institusional konservasi lingkungan. Digunakan secara konsisten pada identitas brand/logo, bilah navigasi utama (navbar), tombol aksi utama (CTA), badge tiket, dan penanda kapasitas aman (<60%)."),
         ("#0B132B", "Deep Obsidian (Surface)", "Mencerminkan ketegasan, kecanggihan teknologi, dan stabilitas modern. Digunakan sebagai latar belakang header, card mewah, dan panel API sandbox."),
         ("#D97706", "Amber Gold (Warning)", "Mengindikasikan status kewaspadaan (Medium Capacity / 60-84%), mendorong wisatawan bersiap mengambil opsi destinasi penyangga."),
         ("#DC2626", "Crimson Coral (Critical)", "Menandakan ambang batas kritis kapasitas penuh (Full Capacity / >= 85%), memicu penguncian reservasi dan redirect ke destinasi penyangga."),
@@ -392,7 +395,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 8 ====================
     h8 = doc.add_heading("8. Skenario Penggunaan Sistem", level=1)
-    h8.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h8.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_paragraph(
         "Skenario 1 — Wisatawan Merencanakan Liburan Saat Kuota Penuh:\n"
@@ -405,7 +408,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 9 ====================
     h9 = doc.add_heading("9. User Flow & Alur Interaksi", level=1)
-    h9.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h9.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_paragraph(
         "Alur interaksi sistem dirancang linier dan minim friksi (zero-friction UX):\n\n"
@@ -427,7 +430,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 10 ====================
     h10 = doc.add_heading("10. Arsitektur Teknis, Basis Data & Fitur Unggulan", level=1)
-    h10.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h10.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_heading("10.1 Arsitektur Sistem (3-Tier Decoupled Client-BaaS Architecture)", level=2)
     doc.add_paragraph(
@@ -448,7 +451,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 11 ====================
     h11 = doc.add_heading("11. Hasil Pengujian Pengguna (User Testing & SUS)", level=1)
-    h11.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h11.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_heading("11.1 Metodologi System Usability Scale (SUS)", level=2)
     doc.add_paragraph(
@@ -464,7 +467,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 12 ====================
     h12 = doc.add_heading("12. Kesimpulan & Roadmap Masa Depan", level=1)
-    h12.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h12.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_paragraph(
         "NusantaraPass telah membuktikan diri sebagai solusi teknologi WebGIS yang inovatif, solutif, dan berdaya guna nyata dalam menjawab krisis overtourism serta ketimpangan pariwisata di Indonesia. Melalui arsitektur cerdas zero-dependency yang ringan, sistem mampu beroperasi tangguh di kawasan 3T dengan waktu pemuatan di bawah 0.6 detik. Integrasi kalkulasi carrying capacity dinamis langsung ke cloud PostgreSQL Supabase menjamin transparansi data kuota secara real-time. Didukung dengan perolehan skor SUS 84.83 (Grade A - Excellent), NusantaraPass siap diimplementasikan sebagai pionir sistem reservasi wisata konservasi berkelanjutan di tanah air.\n\n"
@@ -477,7 +480,7 @@ def create_proposal_docx(output_path):
 
     # ==================== BAB 13 ====================
     h13 = doc.add_heading("13. Daftar Pustaka", level=1)
-    h13.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h13.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     references = [
         "Bangor, A., Kortum, P. T., & Miller, J. T. (2009). Determining what individual SUS scores mean: Adding an adjective rating scale. Journal of Usability Studies, 4(3), 114-123.",
@@ -497,7 +500,7 @@ def create_proposal_docx(output_path):
 
     # ==================== LAMPIRAN I ====================
     h14 = doc.add_heading("14. Lampiran I: Surat Pernyataan Orisinalitas Karya", level=1)
-    h14.runs[0].font.color.rgb = RGBColor(15, 118, 110)
+    h14.runs[0].font.color.rgb = RGBColor(6, 78, 59)
 
     doc.add_paragraph("Sesuai Lampiran I Buku Panduan Resmi Web Development Competition UINIC 8.0 HMPS-Informatika UIN Sunan Kalijaga Yogyakarta:")
 
@@ -531,7 +534,7 @@ def create_proposal_docx(output_path):
     p_karya_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r_kt = p_karya_title.add_run("NusantaraPass: Smart Eco-Tourism & Capacity-Balancing WebGIS Platform")
     r_kt.bold = True
-    r_kt.font.color.rgb = RGBColor(15, 118, 110)
+    r_kt.font.color.rgb = RGBColor(6, 78, 59)
 
     p_st_end = stmt_cell.add_paragraph()
     p_st_end.paragraph_format.line_spacing = 1.25
@@ -555,8 +558,14 @@ def create_proposal_docx(output_path):
     )
 
     # Save document
-    doc.save(output_path)
-    print(f"SUCCESS: DOCX Proposal created at: {output_path}")
+    try:
+        doc.save(output_path)
+        print(f"SUCCESS: DOCX Proposal created at: {output_path}")
+    except PermissionError:
+        alt_path = output_path.replace('.docx', '_UPDATED.docx')
+        doc.save(alt_path)
+        print(f"NOTICE: '{os.path.basename(output_path)}' is currently open in Microsoft Word.")
+        print(f"SUCCESS: Saved updated copy at: {alt_path}")
 
 if __name__ == "__main__":
     out1 = os.path.abspath("docs/PROPOSAL_UINIC_8.0_NUSANTARAPASS.docx")
