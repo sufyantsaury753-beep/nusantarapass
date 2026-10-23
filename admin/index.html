@@ -82,7 +82,10 @@
 
       <div class="admin-topbar-right">
         <div id="rlsStatusBadge" class="admin-db-status" style="border-color: #cbd5e1; background: #f8fafc;" title="Arsitektur Keamanan: PostgreSQL Row-Level Security">
-          <span style="font-size: 11px;">🛡️</span>
+          <svg id="rlsShieldIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #0f172a; flex-shrink: 0;">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
           <span id="rlsStatusText" style="font-size: 11px; font-weight: 700; color: #0f172a;">RLS Enforced (Zero-Trust)</span>
         </div>
         <button id="supabaseStatusBadge" class="admin-db-status" onclick="openSqlHelpModal()" title="Status koneksi Supabase Cloud">
@@ -583,6 +586,8 @@ function sanitizeInput(str) {
     async function checkAdminAuth() {
       const overlay = document.getElementById('adminLoginOverlay');
       const logoutBtn = document.getElementById('btnAdminLogout');
+      const rlsContainer = document.getElementById('rlsStatusBadge');
+      const rlsIcon = document.getElementById('rlsShieldIcon');
       const rlsBadge = document.getElementById('rlsStatusText');
 
       if (typeof npGetAuthSession === 'function') {
@@ -594,6 +599,11 @@ function sanitizeInput(str) {
           if (rlsBadge) {
             rlsBadge.textContent = 'Auth JWT Terverifikasi (RLS Admin)';
             rlsBadge.style.color = '#15803d';
+          }
+          if (rlsIcon) rlsIcon.style.color = '#15803d';
+          if (rlsContainer) {
+            rlsContainer.style.borderColor = '#bbf7d0';
+            rlsContainer.style.background = '#f0fdf4';
           }
           return true;
         }
@@ -608,6 +618,11 @@ function sanitizeInput(str) {
           rlsBadge.textContent = 'Mode Sandbox Lokal (Simulasi)';
           rlsBadge.style.color = '#b45309';
         }
+        if (rlsIcon) rlsIcon.style.color = '#b45309';
+        if (rlsContainer) {
+          rlsContainer.style.borderColor = '#fed7aa';
+          rlsContainer.style.background = '#fff7ed';
+        }
         return true;
       }
 
@@ -617,6 +632,11 @@ function sanitizeInput(str) {
       if (rlsBadge) {
         rlsBadge.textContent = 'RLS Terkunci (Anonim)';
         rlsBadge.style.color = '#0f172a';
+      }
+      if (rlsIcon) rlsIcon.style.color = '#0f172a';
+      if (rlsContainer) {
+        rlsContainer.style.borderColor = '#cbd5e1';
+        rlsContainer.style.background = '#f8fafc';
       }
       return false;
     }
