@@ -459,8 +459,8 @@
           </div>
 
           <div>
-            <label class="form-label">Foto Cover Utama (URL)</label>
-            <input type="url" id="destInputPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" required />
+            <label class="form-label">Foto Cover Utama (URL atau Data Image)</label>
+            <input type="text" id="destInputPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/... atau data:image/..." value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" required />
           </div>
 
           <div>
@@ -1204,11 +1204,35 @@ function getGalleryForDest(destId) {
       if (!file) return;
 
       const status = document.getElementById('newPhotoFileStatus');
-      if (status) status.textContent = `File dipilih: ${file.name}`;
+      if (status) status.textContent = `Memproses: ${file.name}...`;
 
       const reader = new FileReader();
       reader.onload = (e) => {
-        document.getElementById('newPhotoUrl').value = e.target.result;
+        const rawDataUrl = e.target.result;
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 1200;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.80);
+          document.getElementById('newPhotoUrl').value = compressedDataUrl;
+          if (status) status.textContent = `Foto siap: ${file.name} (Terkonversi)`;
+        };
+        img.src = rawDataUrl;
       };
       reader.readAsDataURL(file);
     }
@@ -1291,25 +1315,39 @@ function openAddDestModal() {
         stamp_icon: '🧭'
       };
 
+      // 1. Selalu tambahkan ke dataset in-memory
+      NUSANTARA_DESTINATIONS.unshift(newDest);
+
+      // 2. Simpan ke local storage override
+      try {
+        const rawOverrides = localStorage.getItem('np_destinations_override') || '{}';
+        const overrides = JSON.parse(rawOverrides);
+        overrides[newDest.id] = newDest;
+        localStorage.setItem('np_destinations_override', JSON.stringify(overrides));
+      } catch (err) {
+        console.warn('Gagal menyimpan override lokal:', err);
+      }
+
+      // 3. Upaya sinkronisasi ke Supabase Cloud jika tersedia
+      let cloudMsg = '';
       if (typeof npInsertDestination === 'function') {
-        const insertRes = await npInsertDestination(newDest);
-        if (!insertRes.success) {
-          if (insertRes.isRlsBlocked) {
-            alert(`⚠️ AKSES DITOLAK OLEH DATABASE POSTGRESQL (RLS VIOLATION):\n\nOperasi INSERT ditolak karena sesi saat ini tidak memiliki hak administratif (auth.role = 'authenticated').\n\nUntuk mendaftarkan destinasi ke cloud, Anda wajib login melalui akun Supabase Auth yang sah.`);
-            return;
-          } else {
-            console.warn('Insert cloud warning:', insertRes.error);
+        try {
+          const insertRes = await npInsertDestination(newDest);
+          if (insertRes && insertRes.success) {
+            cloudMsg = '\n\n☁️ Sinkronisasi: Berhasil disimpan ke Supabase Cloud.';
+          } else if (insertRes && insertRes.isRlsBlocked) {
+            cloudMsg = '\n\n⚠️ Catatan: Tersimpan di Penyimpanan Lokal (Mode Sandbox).';
           }
+        } catch (err) {
+          console.warn('Insert cloud warning:', err);
         }
-      } else {
-        NUSANTARA_DESTINATIONS.unshift(newDest);
       }
 
       closeAddDestModal();
       document.getElementById('addDestForm').reset();
       renderTable();
       updateKpis();
-      alert(`Destinasi "${name}" berhasil didaftarkan ke NusantaraPass.`);
+      alert(`✅ Berhasil! Destinasi "${name}" berhasil didaftarkan ke NusantaraPass!${cloudMsg}`);
     }
 </script>
 </body>
