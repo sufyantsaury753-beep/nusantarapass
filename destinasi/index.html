@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Detail Destinasi &amp; Daya Dukung — NusantaraPass</title>
 
-  <!-- Google Fonts: Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="../assets/css/detail.css?v=20261017b" />
+<link rel="stylesheet" href="../assets/css/detail.css?v=20261017b" />
 
-  <!-- External Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -22,7 +19,7 @@
 
 <body>
   <div class="geoportal-detail-wrapper">
-    <!-- Topbar Navigation & Breadcrumbs -->
+    
     <header class="geoportal-topbar">
       <div class="topbar-left">
         <a class="brand-link" href="../index.html" onclick="navigateToMap(event)">
@@ -62,13 +59,11 @@
       </div>
     </header>
 
-    <!-- Cinematic Hero Showcase Banner -->
-    <section class="hero-showcase">
+<section class="hero-showcase">
       <img id="heroShowcaseBg" class="hero-showcase-bg" src="" alt="Lanskap Destinasi" />
       <div class="hero-showcase-gradient"></div>
 
-      <!-- Top HUD Clean Badges -->
-      <div class="hero-hud-top">
+<div class="hero-hud-top">
         <div class="hero-hud-left">
           <div class="hud-pill category-pill" id="hudCategoryPill">
             <span>Kategori</span>
@@ -85,18 +80,16 @@
         </div>
       </div>
 
-      <!-- Bottom HUD Title & Metadata Overlay -->
-      <div class="hero-content-bottom">
+<div class="hero-content-bottom">
         <h1 class="hero-dest-title" id="heroDestTitle">Nama Destinasi</h1>
         <div class="hero-dest-meta" id="heroDestMeta"></div>
       </div>
     </section>
 
-    <!-- Main Dual-Column Master Content Grid -->
-    <main class="geoportal-main-grid">
-      <!-- Left Column: Narrative Heritage & Visual Documentation (65%) -->
+<main class="geoportal-main-grid">
+      
       <div class="narrative-col">
-        <!-- Card 1: Heritage Profile & Value -->
+        
         <article class="content-surface-card">
           <div class="card-header-clean">
             <h2>Tentang Destinasi</h2>
@@ -104,8 +97,7 @@
           <div class="narrative-body-text" id="narrativeBodyText"></div>
         </article>
 
-        <!-- Card 2: Conservation Protocols (Clean Swiss Grid) -->
-        <article class="content-surface-card">
+<article class="content-surface-card">
           <div class="card-header-clean">
             <div>
               <h2>Panduan Konservasi &amp; Etika Kunjungan</h2>
@@ -115,8 +107,7 @@
           <div class="conservation-rules-grid" id="sdgRulesGrid"></div>
         </article>
 
-        <!-- Card 3: Visual Field Documentation Grid -->
-        <article class="content-surface-card">
+<article class="content-surface-card">
           <div class="card-header-clean">
             <h2>Dokumentasi Lanskap &amp; Cagar Alam</h2>
             <span class="hint-text">Klik foto untuk memperbesar</span>
@@ -125,17 +116,15 @@
         </article>
       </div>
 
-      <!-- Right Column: GIS Telemetry & Smart Pass Kiosk (35%) -->
-      <aside class="telemetry-kiosk-col">
-        <!-- Kiosk Card 1: Carrying Capacity Barometer -->
+<aside class="telemetry-kiosk-col">
+        
         <div class="kiosk-card">
           <div class="kiosk-card-header">
             <span class="kiosk-heading">Daya Dukung Lingkungan</span>
             <span class="status-badge-chip aman" id="kioskStatusBadge">Terkendali</span>
           </div>
 
-          <!-- 3-Column Telemetry Strip -->
-          <div class="telemetry-metrics-strip">
+<div class="telemetry-metrics-strip">
             <div class="telemetry-col-item">
               <span class="metric-number-bold" id="metricMaxQuota">0</span>
               <span class="metric-label-micro">Kuota Harian</span>
@@ -161,14 +150,12 @@
           </div>
         </div>
 
-        <!-- Environmental & BMKG Info Strip -->
-        <div class="env-condition-card">
+<div class="env-condition-card">
           <span class="env-condition-label">Kondisi Alam &amp; Cuaca (BMKG)</span>
           <span class="env-status-text" id="envStatusText">Normal &amp; Kondusif</span>
         </div>
 
-        <!-- Kiosk Card 2: Smart Pass (QR) Issuance -->
-        <div class="kiosk-card">
+<div class="kiosk-card">
           <div class="kiosk-card-header">
             <span class="kiosk-heading">Penerbitan Tiket &amp; Pass</span>
           </div>
@@ -191,8 +178,7 @@
             Terbitkan Smart Pass (QR)
           </button>
 
-          <!-- Result QR Box -->
-          <div id="kioskPassResultBox" style="display: none;" class="pass-result-card">
+<div id="kioskPassResultBox" style="display: none;" class="pass-result-card">
             <div class="pass-result-badge">TIKET RESMI BERHASIL DITERBITKAN</div>
             <div id="kioskQrCodeContainer" class="pass-qr-frame"></div>
             <div id="kioskPassTokenText" class="pass-token-code"></div>
@@ -208,8 +194,7 @@
           </div>
         </div>
 
-        <!-- Kiosk Card 3: Digital Passport Stamp Seal -->
-        <div class="stamp-preview-card">
+<div class="stamp-preview-card">
           <div class="stamp-badge-circle">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
@@ -224,15 +209,13 @@
       </aside>
     </main>
 
-    <!-- Site Footer -->
-    <footer class="geoportal-footer">
+<footer class="geoportal-footer">
       <div>&copy; 2026 <strong>NusantaraPass</strong> &bull; Platform Geoportal Interkoneksi Pariwisata Berkelanjutan 38 Provinsi.</div>
       <div>SDG 11 Pelestarian Warisan Budaya &amp; SDG 8.9 Ekowisata Berkelanjutan.</div>
     </footer>
   </div>
 
-  <!-- Image Viewer Modal (Bespoke Clean Lightbox) -->
-  <div class="clean-image-viewer" id="cleanImageViewer" onclick="closeImageViewer()">
+<div class="clean-image-viewer" id="cleanImageViewer" onclick="closeImageViewer()">
     <div class="viewer-dialog" onclick="event.stopPropagation()">
       <div class="viewer-header">
         <div style="display: flex; flex-direction: column; gap: 2px;">
@@ -247,8 +230,7 @@
     </div>
   </div>
 
-  <!-- Passport Booklet Modal & PDF (Fixed Overlay - Hidden by default) -->
-  <div class="modal-overlay" id="passportModal" onclick="if(event.target === this) closePassportModal()">
+<div class="modal-overlay" id="passportModal" onclick="if(event.target === this) closePassportModal()">
     <div class="modal-dialog" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
@@ -277,8 +259,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="../assets/js/data.js?v=20261017d"></script>
+<script src="../assets/js/data.js?v=20261017d"></script>
   <script src="../assets/js/supabase-config.js"></script>
   <script src="../assets/js/ticket-pdf.js?v=20261017g"></script>
   <script src="../assets/js/detail.js?v=20261017g"></script>

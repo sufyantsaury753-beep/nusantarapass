@@ -1,8 +1,3 @@
-/**
- * NUSANTARAPASS — SUPABASE CLOUD INTEGRATION
- * Terhubung ke database PostgreSQL Supabase bersama Mountain Gallery (Prefix: np_)
- */
-
 const NP_SUPABASE_CONFIG = {
   URL: "https://czaafevdnaqmeejthebm.supabase.co",
   ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YWFmZXZkbmFxbWVlanRoZWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwOTY1MjIsImV4cCI6MjEwNzY3MjUyMn0.nZbkhSNe0RrM5hwBLW_DFtGVAzjpVOIjj9nk1DlZ1cU"
@@ -10,7 +5,6 @@ const NP_SUPABASE_CONFIG = {
 
 let npClient = null;
 
-// Inisialisasi Supabase Client
 function initNpSupabase() {
   if (typeof window !== 'undefined' && window.supabase && window.supabase.createClient) {
     try {
@@ -23,7 +17,6 @@ function initNpSupabase() {
   return npClient;
 }
 
-// Cek koneksi tabel np_destinations
 async function npCheckConnection() {
   if (!npClient) initNpSupabase();
   if (!npClient) return { connected: false, reason: "Supabase JS library belum terpasang." };
@@ -43,7 +36,6 @@ async function npCheckConnection() {
   }
 }
 
-// Fetch destinasi dari Supabase (dengan graceful fallback ke NUSANTARA_DESTINATIONS)
 async function npFetchDestinations() {
   if (!npClient) initNpSupabase();
   if (!npClient) return NUSANTARA_DESTINATIONS;
@@ -60,7 +52,7 @@ async function npFetchDestinations() {
     }
 
     if (data && data.length > 0) {
-      // Sinkronkan data ke array runtime
+      
       NUSANTARA_DESTINATIONS.length = 0;
       data.forEach(item => NUSANTARA_DESTINATIONS.push(item));
       console.log(`✅ Berhasil memuat ${data.length} destinasi realtime dari Supabase Cloud!`);
@@ -73,12 +65,10 @@ async function npFetchDestinations() {
   return NUSANTARA_DESTINATIONS;
 }
 
-// Update kuota destinasi di Supabase
 async function npUpdateQuota(destId, newQuota, newStatus) {
   if (!npClient) initNpSupabase();
-  
-  // Update memori lokal dulu
-  const target = NUSANTARA_DESTINATIONS.find(d => d.id === destId);
+
+const target = NUSANTARA_DESTINATIONS.find(d => d.id === destId);
   if (target) {
     target.daily_quota = newQuota;
     if (newStatus) target.quota_status = newStatus;
@@ -106,20 +96,17 @@ async function npUpdateQuota(destId, newQuota, newStatus) {
   }
 }
 
-// Update seluruh atribut destinasi (identitas, cover foto, kuota, koordinat, dll)
 async function npUpdateDestinationFull(destData) {
   if (!npClient) initNpSupabase();
 
-  // 1. Update in-memory array
-  const targetIndex = NUSANTARA_DESTINATIONS.findIndex(d => d.id === destData.id);
+const targetIndex = NUSANTARA_DESTINATIONS.findIndex(d => d.id === destData.id);
   if (targetIndex !== -1) {
     NUSANTARA_DESTINATIONS[targetIndex] = { ...NUSANTARA_DESTINATIONS[targetIndex], ...destData };
   } else {
     NUSANTARA_DESTINATIONS.unshift(destData);
   }
 
-  // 2. Simpan override ke localStorage untuk persistence instan offline
-  try {
+try {
     const rawOverrides = localStorage.getItem('np_destinations_override') || '{}';
     const overrides = JSON.parse(rawOverrides);
     overrides[destData.id] = destData;
@@ -130,8 +117,7 @@ async function npUpdateDestinationFull(destData) {
 
   if (!npClient) return { success: true, localOnly: true };
 
-  // 3. Update ke Supabase Cloud
-  try {
+try {
     const payload = {
       name: destData.name,
       category: destData.category,
@@ -166,7 +152,6 @@ async function npUpdateDestinationFull(destData) {
   }
 }
 
-// Tambah destinasi baru ke Supabase
 async function npInsertDestination(destData) {
   if (!npClient) initNpSupabase();
 
@@ -187,7 +172,6 @@ async function npInsertDestination(destData) {
   }
 }
 
-// Simpan tiket Smart Pass ke Supabase
 async function npSaveVisitorPass(passRecord) {
   if (!npClient) initNpSupabase();
   if (!npClient) return null;
@@ -210,8 +194,7 @@ async function npSaveVisitorPass(passRecord) {
       return null;
     }
 
-    // Auto-increment current_visitors di destinasi
-    const dest = NUSANTARA_DESTINATIONS.find(d => d.id === passRecord.destinationId);
+const dest = NUSANTARA_DESTINATIONS.find(d => d.id === passRecord.destinationId);
     if (dest) {
       const updatedCount = (dest.current_visitors || 0) + 1;
       dest.current_visitors = updatedCount;
@@ -228,7 +211,6 @@ async function npSaveVisitorPass(passRecord) {
   }
 }
 
-// Simpan Stempel Digital Paspor ke Supabase
 async function npSaveStamp(visitorEmail, destinationId, stampCode) {
   if (!npClient) initNpSupabase();
   if (!npClient) return null;
@@ -255,7 +237,6 @@ async function npSaveStamp(visitorEmail, destinationId, stampCode) {
   }
 }
 
-// Check-in Wisatawan & Mutasi Realtime Kuota Pengunjung
 async function npCheckinVisitor(destId) {
   if (!npClient) initNpSupabase();
 
@@ -276,8 +257,7 @@ async function npCheckinVisitor(destId) {
     dest.quota_status = 'hampir_penuh';
   }
 
-  // Simpan override ke localStorage untuk persistensi instan
-  try {
+try {
     const raw = localStorage.getItem('np_destinations_override') || '{}';
     const overrides = JSON.parse(raw);
     overrides[destId] = {

@@ -1,8 +1,3 @@
-/* ==============================================================================
-   NUSANTARAPASS — ADMIN CONSOLE STYLESHEET (2026 GIS & TRAVEL-TECH STANDARD)
-   Utilitarian, High-Density, Mature, Human-Designed (Linear / Supabase Console / ArcGIS)
-   ============================================================================== */
-
 :root {
   --admin-bg: #f8fafc;
   --admin-surface: #ffffff;
@@ -26,9 +21,6 @@ body.admin-body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==========================================
-   ADMIN TOPBAR
-   ========================================== */
 .admin-topbar {
   background: #ffffff;
   border-bottom: 1px solid var(--admin-border);
@@ -169,19 +161,12 @@ body.admin-body {
   border-color: var(--admin-navy-hover);
 }
 
-/* ==========================================
-   MAIN ADMIN CONTAINER
-   ========================================== */
 .admin-container {
   max-width: 1380px;
   margin: 24px auto 60px;
   padding: 0 24px;
 }
 
-/* ==========================================
-   METRIC RIBBON (UTILITARIAN & DATA-FIRST)
-   No AI Pastel Cards. Clean Typography & Dividers.
-   ========================================== */
 .admin-metric-ribbon {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -226,9 +211,6 @@ body.admin-body {
   gap: 4px;
 }
 
-/* ==========================================
-   TABLE SECTION & TOOLBAR
-   ========================================== */
 .admin-card-section {
   background: #ffffff;
   border: 1px solid var(--admin-border);
@@ -315,9 +297,6 @@ body.admin-body {
   border-color: #0f172a;
 }
 
-/* ==========================================
-   DATA TABLE SPECIFICATION
-   ========================================== */
 .admin-table-container {
   overflow-x: auto;
 }
@@ -481,9 +460,6 @@ body.admin-body {
   gap: 6px;
 }
 
-/* ==========================================
-   COVER PHOTO DROPZONE & LIVE PREVIEW
-   ========================================== */
 .cover-preview-container {
   display: flex;
   gap: 14px;
@@ -540,9 +516,6 @@ body.admin-body {
   background: #f1f5f9;
 }
 
-/* ==========================================
-   GALLERY / MEDIA DOCUMENTATION MANAGER
-   ========================================== */
 .gallery-admin-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -630,10 +603,6 @@ body.admin-body {
   color: var(--admin-text-main);
 }
 
-
-/* ==========================================
-   MODAL DIALOG REFINEMENT
-   ========================================== */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -727,9 +696,6 @@ body.admin-body {
   border-color: #0f172a;
 }
 
-/* ==========================================
-   ADMIN LOGIN GATEWAY (DEMO AUTH)
-   ========================================== */
 .admin-login-overlay {
   position: fixed;
   inset: 0;

@@ -1,15 +1,10 @@
-/**
- * NUSANTARAPASS — CORE MAP & INTERACTION SCRIPT
- * Clean White Modern Theme, Teardrop Vector SVG Markers & Mobile-First Performance
- */
-
 let mapInstance = null;
 let markersLayerGroup = null;
 let destinationMarkers = {};
-let currentBasemap = 'osm'; // Default to Clean Light OpenStreetMap
+let currentBasemap = 'osm'; 
 let currentCategoryFilter = 'all';
 let currentRegionFilter = 'all';
-let openRegionKeys = new Set(); // Default tertutup rapi semua pulau
+let openRegionKeys = new Set(); 
 let selectedDestId = null;
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
 
@@ -35,8 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initRegionHierarchy();
   updatePassportCountBadge();
 
-  // Muat data langsung dari Supabase Cloud jika tabel sudah siap
-  if (typeof npFetchDestinations === 'function') {
+if (typeof npFetchDestinations === 'function') {
     try {
       await npFetchDestinations();
       applyLocalOverrides();
@@ -50,15 +44,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// ==========================================
-// 1. MASTER SVG GENERATOR (LUXURY CARTOGRAPHY BESPOKE PIN)
-// 2026 High-End GIS Standard: Jewel Gradients, Glass Gloss, Precision Glyphs & Smart Quota Halo
-// ==========================================
 function getCategoryPremiumPinSvg(dest, isSelected = false) {
   const cat = (typeof dest === 'string') ? dest : (dest && dest.category) || 'pantai';
 
-  // Multi-stop jewel gradients for each category
-  const gradDefs = `
+const gradDefs = `
     <linearGradient id="pinGrad_pantai" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#38bdf8"/>
       <stop offset="50%" stop-color="#0284c7"/>
@@ -106,7 +95,7 @@ function getCategoryPremiumPinSvg(dest, isSelected = false) {
       <rect x="8.8" y="19" width="16.4" height="2" rx="0.5" fill="#ffffff"/>
     `;
   } else {
-    // taman_nasional & konservasi
+    
     glyph = `
       <!-- Precision Tiered Conservation Pine Canopy -->
       <path d="M 17,6.8 L 11.8,14.2 H 14.2 L 10.8,19 H 15.5 V 22.5 H 18.5 V 19 H 23.2 L 19.8,14.2 H 22.2 Z" fill="#ffffff"/>
@@ -144,12 +133,10 @@ function getCategoryPremiumPinSvg(dest, isSelected = false) {
   `;
 }
 
-// Backward compatibility alias
 function getCategoryTeardropSvg(category) {
   return getCategoryPremiumPinSvg(category);
 }
 
-// Helper Nama Resmi Kategori Wisata
 function getCategoryDisplayName(cat) {
   if (cat === 'pantai') return 'Bahari & Pantai';
   if (cat === 'gunung') return 'Gunung & Dataran Tinggi';
@@ -158,7 +145,6 @@ function getCategoryDisplayName(cat) {
   return (cat || '').replace('_', ' ');
 }
 
-// Helper SVG Icon kecil untuk UI (tanpa emoji sama sekali)
 function getCategoryBadgeSvg(category) {
   if (category === 'pantai') {
     return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="4"/></svg>`;
@@ -167,19 +153,15 @@ function getCategoryBadgeSvg(category) {
   } else if (category === 'budaya') {
     return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>`;
   }
-  // taman_nasional
+  
   return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-7M9 15c-3 0-5-2-5-5 0-4 4-7 8-7s8 3 8 7c0 3-2 5-5 5"/></svg>`;
 }
 
-// ==========================================
-// 2. LEAFLET MAP INITIALIZATION
-// ==========================================
 function initMap() {
   const mapContainer = document.getElementById('map');
   if (!mapContainer) return;
 
-  // Initialize Map
-  mapInstance = L.map('map', {
+mapInstance = L.map('map', {
     center: [-2.5, 118.0],
     zoom: 5,
     zoomControl: false,
@@ -189,8 +171,7 @@ function initMap() {
 
   L.control.zoom({ position: 'bottomright' }).addTo(mapInstance);
 
-  // Basemaps (OSM Clean Light default)
-  const basemaps = {
+const basemaps = {
     osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 19,
@@ -215,8 +196,7 @@ function initMap() {
 
   renderMapMarkers();
 
-  // Pastikan Leaflet mengukur viewport dengan sempurna setelah layout sidebar kiri render
-  setTimeout(() => {
+setTimeout(() => {
     if (mapInstance) mapInstance.invalidateSize();
   }, 200);
 
@@ -240,9 +220,6 @@ function switchBasemap(type) {
   });
 }
 
-// ==========================================
-// 3. RENDER TEARDROP SVG MARKERS
-// ==========================================
 function renderMapMarkers() {
   if (!markersLayerGroup) return;
   markersLayerGroup.clearLayers();
@@ -260,14 +237,13 @@ function renderMapMarkers() {
       className: 'dest-pin-leaflet',
       html: getCategoryPremiumPinSvg(dest, isSelected),
       iconSize: [34, 46],
-      iconAnchor: [17, 43],      // Ujung lancip tepat di titik GPS
-      popupAnchor: [0, -44],     // Popup muncul tepat di atas pin
+      iconAnchor: [17, 43],      
+      popupAnchor: [0, -44],     
     });
 
     const marker = L.marker([dest.latitude, dest.longitude], { icon: markerIcon });
 
-    // Otomatis smooth zoom dan buka hierarki saat icon lokasi di klik (seperti klik filter)
-    marker.on('click', () => {
+marker.on('click', () => {
       if (mapInstance) {
         mapInstance.flyTo([dest.latitude, dest.longitude], 11, {
           duration: 0.9,
@@ -282,8 +258,7 @@ function renderMapMarkers() {
       initRegionHierarchy();
     });
 
-    // Compact Geographic Information Panel (Apple Maps / ArcGIS Standards)
-    const elevText = (dest.category === 'gunung' && dest.elevation_m > 0)
+const elevText = (dest.category === 'gunung' && dest.elevation_m > 0)
       ? `${dest.elevation_m.toLocaleString('id-ID')} mdpl`
       : getCategoryDisplayName(dest.category);
 
@@ -331,8 +306,7 @@ function filterRegion(reg, el) {
   document.querySelectorAll('.region-pill').forEach((btn) => btn.classList.remove('active'));
   if (el) el.classList.add('active');
 
-  // Fly to region coordinate smoothly
-  if (mapInstance) {
+if (mapInstance) {
     if (reg === 'all') mapInstance.flyTo([-2.5, 118.0], 5, { duration: 1.2 });
     else if (reg === 'Jawa') mapInstance.flyTo([-7.5, 110.0], 7, { duration: 1.2 });
     else if (reg === 'Sumatera') mapInstance.flyTo([0.5, 101.5], 6, { duration: 1.2 });
@@ -346,9 +320,6 @@ function filterRegion(reg, el) {
   initRegionHierarchy();
 }
 
-// ==========================================
-// HIERARCHICAL REGION & DESTINATION TREE
-// ==========================================
 const REGIONS_HIERARCHY_CONFIG = [
   { key: 'all', name: 'Semua (Nasional)' },
   { key: 'Jawa', name: 'Jawa' },
@@ -493,9 +464,6 @@ function focusDestination(destId) {
   });
 }
 
-// ==========================================
-// 4. RENDER DESTINATION GRID
-// ==========================================
 function renderDestinationGrid() {
   const grid = document.getElementById('destinationsGrid');
   if (!grid) return;
@@ -581,9 +549,6 @@ function updatePassportCountBadge() {
   }
 }
 
-// ==========================================
-// 4.5. MODAL: DETAIL LENGKAP DESTINASI
-// ==========================================
 function openDestDetailModal(destId) {
   const dest = NUSANTARA_DESTINATIONS.find((d) => d.id === destId);
   if (!dest) return;
@@ -611,8 +576,7 @@ function openDestDetailModal(destId) {
   const descEl = document.getElementById('detailDestDesc');
   if (descEl) descEl.innerText = dest.description;
 
-  // Quota & carrying capacity
-  const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
+const quotaPercent = Math.min((dest.current_visitors / dest.daily_quota) * 100, 100);
   const quotaColor = quotaPercent > 90 ? '#ef4444' : quotaPercent > 70 ? '#f59e0b' : '#059669';
 
   const numsEl = document.getElementById('detailDestQuotaNums');
@@ -636,19 +600,16 @@ function openDestDetailModal(destId) {
   const percentEl = document.getElementById('detailDestPercentText');
   if (percentEl) percentEl.innerText = `${Math.round(quotaPercent)}% Kapasitas Terisi`;
 
-  // Weather & Price
-  const weatherEl = document.getElementById('detailDestWeather');
+const weatherEl = document.getElementById('detailDestWeather');
   if (weatherEl) weatherEl.innerText = dest.wave_status || 'Normal (Aman & Kondusif)';
 
   const priceEl = document.getElementById('detailDestPrice');
   if (priceEl) priceEl.innerText = `Rp ${(dest.ticket_price || 20000).toLocaleString('id-ID')} / orang`;
 
-  // Eco guidelines
-  const guideEl = document.getElementById('detailDestGuidelines');
+const guideEl = document.getElementById('detailDestGuidelines');
   if (guideEl) guideEl.innerText = dest.eco_guidelines || 'Patuhi zona konservasi, buang sampah pada tempatnya, dan jaga kelestarian warisan budaya.';
 
-  // Book button inside detail modal
-  const bookBtn = document.getElementById('detailDestBookBtn');
+const bookBtn = document.getElementById('detailDestBookBtn');
   if (bookBtn) {
     bookBtn.onclick = () => {
       closeDestDetailModal();
@@ -664,16 +625,12 @@ function closeDestDetailModal() {
   if (modal) modal.classList.remove('active');
 }
 
-// Close modals when clicking backdrop overlay
 window.addEventListener('click', (e) => {
   if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
     e.target.classList.remove('active');
   }
 });
 
-// ==========================================
-// 5. MODAL: PASS BOOKING & QR GENERATION
-// ==========================================
 let currentBookingDest = null;
 
 function openPassBookingModal(destId) {
@@ -706,8 +663,7 @@ function generateDigitalPass() {
 
   const passToken = `NP-PASS-${currentBookingDest.code}-${Date.now().toString().slice(-6)}`;
 
-  // Generate QR Code via QRCode lib
-  qrCanvasBox.innerHTML = '';
+qrCanvasBox.innerHTML = '';
   new QRCode(qrCanvasBox, {
     text: passToken,
     width: 160,
@@ -722,16 +678,14 @@ function generateDigitalPass() {
   document.getElementById('passTokenText').innerText = 'KODE TIKET: ' + passToken;
   qrArea.style.display = 'block';
 
-  // Automatically record stamp claim
-  if (!myPassportStamps.includes(currentBookingDest.id)) {
+if (!myPassportStamps.includes(currentBookingDest.id)) {
     myPassportStamps.push(currentBookingDest.id);
     localStorage.setItem('np_stamps', JSON.stringify(myPassportStamps));
     updatePassportCountBadge();
     confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
   }
 
-  // Simpan data tiket dan stempel ke Supabase Cloud
-  if (typeof npSaveVisitorPass === 'function') {
+if (typeof npSaveVisitorPass === 'function') {
     npSaveVisitorPass({
       code: passToken,
       destinationId: currentBookingDest.id,
@@ -776,9 +730,6 @@ function downloadCurrentBookingTicketPDF() {
   }
 }
 
-// ==========================================
-// 6. MODAL: BUKU PASPOR JELAJAH NUSANTARA (PDF)
-// ==========================================
 function openPassportModal() {
   const modal = document.getElementById('passportModal');
   const listEl = document.getElementById('passportStampsList');
@@ -872,14 +823,11 @@ function downloadPassportPDF() {
   }
 }
 
-// ==========================================
-// 7. MODAL: API SANDBOX
-// ==========================================
 function openApiModal() {
   const modal = document.getElementById('apiModal');
   if (modal) {
     modal.classList.add('active');
-    // Otomatis jalankan live request pertama saat modal dibuka
+    
     testApiEndpoint('all');
   }
 }
@@ -896,8 +844,7 @@ async function testApiEndpoint(category = 'all') {
   const curlEl = document.getElementById('apiCurlSnippet');
   if (!consoleEl) return;
 
-  // Update visual active state on filter tabs inside modal
-  document.querySelectorAll('#apiModal .filter-tab').forEach((btn) => {
+document.querySelectorAll('#apiModal .filter-tab').forEach((btn) => {
     const isTarget = btn.getAttribute('onclick')?.includes(`'${category}'`);
     btn.classList.toggle('active', !!isTarget);
   });

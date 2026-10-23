@@ -1,53 +1,41 @@
-/* ==============================================================================
-   NUSANTARAPASS — DESIGN SYSTEM & MAIN STYLESHEET
-   Clean 2026 Travel-Tech / Geospatial Architecture (Google Maps & Apple HIG Standards)
-   ============================================================================== */
-
 :root {
-  /* Surfaces & Backgrounds */
+  
   --bg-page: #f8fafc;
   --bg-surface: #ffffff;
   --bg-subtle: #f1f5f9;
   --bg-hover: #f8fafc;
-  
-  /* Borders */
-  --border-subtle: #e2e8f0;
+
+--border-subtle: #e2e8f0;
   --border-medium: #cbd5e1;
   --border-dark: #0f172a;
 
-  /* High-Contrast Typography */
-  --text-primary: #0f172a;    /* Slate 900 */
-  --text-secondary: #334155;  /* Slate 700 */
-  --text-muted: #64748b;      /* Slate 500 */
-  --text-light: #94a3b8;      /* Slate 400 */
+--text-primary: #0f172a;    
+  --text-secondary: #334155;  
+  --text-muted: #64748b;      
+  --text-light: #94a3b8;      
 
-  /* Functional Accents (Strictly purposeful, no decorative green) */
-  --accent-navy: #0f172a;
-  --accent-blue: #0284c7;     /* Bahari */
-  --accent-terra: #ea580c;    /* Gunung */
-  --accent-ochre: #d97706;    /* Cagar Budaya */
-  --accent-forest: #059669;   /* Taman Nasional */
+--accent-navy: #0f172a;
+  --accent-blue: #0284c7;     
+  --accent-terra: #ea580c;    
+  --accent-ochre: #d97706;    
+  --accent-forest: #059669;   
 
-  /* Status Colors (Functional Only) */
-  --status-normal: #64748b;
+--status-normal: #64748b;
   --status-warning: #b45309;
   --status-critical: #b91c1c;
 
-  /* Shadows (Subtle & Disciplined) */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+--shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
   --shadow-card: 0 2px 6px -1px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.03);
   --shadow-modal: 0 20px 40px -10px rgba(15, 23, 42, 0.16);
 
-  /* Radius System (Human-Engineered, Reduced) */
-  --radius-xs: 4px;
+--radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-full: 9999px;
 
-  /* Typography */
-  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+--font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -71,7 +59,6 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -87,9 +74,6 @@ html, body {
   background: #94a3b8;
 }
 
-/* ==========================================
-   TOPBAR NAVIGATION (MINIMAL & REFINED)
-   ========================================== */
 .topbar {
   position: sticky;
   top: 0;
@@ -151,7 +135,6 @@ html, body {
   font-weight: 500;
 }
 
-/* Clean Text Navigation Items (No Floating Card Clutter) */
 .top-nav {
   display: flex;
   align-items: center;
@@ -204,9 +187,6 @@ html, body {
   background: #1e293b;
 }
 
-/* ==========================================
-   MAIN GEOPORTAL LAYOUT
-   ========================================== */
 .main-layout {
   width: 100%;
   max-width: 100%;
@@ -225,9 +205,6 @@ html, body {
   align-items: start;
 }
 
-/* ==========================================
-   SIDEBAR (CLEAN, UTILITARIAN, GEOGRAPHIC)
-   ========================================== */
 .geoportal-sidebar-left {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
@@ -264,7 +241,6 @@ html, body {
   font-weight: 600;
 }
 
-/* Compact Information Summary (Pure Typography, No Nested Cards) */
 .sidebar-kpi-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -300,7 +276,6 @@ html, body {
   letter-spacing: 0.3px;
 }
 
-/* Explorer Section & Tree */
 .sidebar-explorer {
   display: flex;
   flex-direction: column;
@@ -338,7 +313,6 @@ html, body {
   gap: 2px;
 }
 
-/* Region Group & Header Row */
 .region-group {
   display: flex;
   flex-direction: column;
@@ -408,7 +382,6 @@ html, body {
   color: var(--text-primary);
 }
 
-/* Destination List Items Under Region (Indented, No Card Background) */
 .region-children {
   display: none;
   margin-left: 14px;
@@ -489,7 +462,6 @@ html, body {
   color: var(--text-light);
 }
 
-/* Status colors only when functional */
 .status-normal {
   color: var(--text-muted);
 }
@@ -502,9 +474,6 @@ html, body {
   font-weight: 600;
 }
 
-/* ==========================================
-   MAP CONTAINER (PRIMARY HERO EXPERIENCE)
-   ========================================== */
 .map-wrapper-card {
   position: relative;
   width: 100%;
@@ -522,7 +491,6 @@ html, body {
   z-index: 1;
 }
 
-/* Minimal Layer Control Docked Top-Left */
 .map-floating-controls {
   position: absolute;
   top: 14px;
@@ -565,7 +533,6 @@ html, body {
   color: #ffffff;
 }
 
-/* Minimal Legend Docked Bottom-Left */
 .map-legend-panel {
   position: absolute;
   bottom: 14px;
@@ -616,9 +583,6 @@ html, body {
 .dot-budaya { background: var(--accent-ochre); }
 .dot-konservasi { background: var(--accent-forest); }
 
-/* ==========================================
-   CATALOG EXPLORATION SECTION
-   ========================================== */
 .catalog-section {
   display: flex;
   flex-direction: column;
@@ -648,7 +612,6 @@ html, body {
   margin-top: 2px;
 }
 
-/* Clean Category Tabs (Segmented Control) */
 .catalog-filter-tabs {
   background: #f1f5f9;
   border: 1px solid var(--border-subtle);
@@ -684,7 +647,6 @@ html, body {
   box-shadow: var(--shadow-xs);
 }
 
-/* Destinations Grid & Cards */
 .destinations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -872,9 +834,6 @@ html, body {
   border-color: #1e293b;
 }
 
-/* ==========================================
-   MODALS (CLEAN & SUBTLE OVERLAY)
-   ========================================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -951,9 +910,6 @@ html, body {
   box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
 }
 
-/* ==========================================
-   FOOTER (EDITORIAL)
-   ========================================== */
 .site-footer {
   border-top: 1px solid var(--border-subtle);
   padding: 24px;
@@ -969,9 +925,6 @@ html, body {
   padding: 0 28px;
 }
 
-/* ==========================================
-   RESPONSIVE DESIGN (< 960px)
-   ========================================== */
 @media (max-width: 960px) {
   .geoportal-dashboard-grid {
     grid-template-columns: 1fr;
@@ -1006,8 +959,7 @@ html, body {
     display: none;
   }
 
-  /* Compact 2-Column Grid on Mobile */
-  .destinations-grid {
+.destinations-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
@@ -1138,9 +1090,6 @@ html, body {
   }
 }
 
-/* ==========================================
-   ADMIN CMS COMPATIBILITY STYLES
-   ========================================== */
 .topbar-content {
   width: 100%;
   max-width: 100%;
@@ -1265,10 +1214,6 @@ html, body {
   font-weight: 500;
 }
 
-/* ==========================================================================
-   OFFICIAL TECHNICAL API SPECIFICATION & DOCUMENTATION MODAL
-   (Anti-AI / Utilitarian Institutional Paper Design)
-   ========================================================================== */
 #apiModal .modal-dialog {
   max-width: 840px !important;
   width: 92vw !important;

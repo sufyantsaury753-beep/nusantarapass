@@ -1,14 +1,7 @@
-/* ==============================================================================
-   NUSANTARAPASS — MAP & GEOSPATIAL STYLESHEET
-   Apple Maps & ArcGIS Clean Standards: Precision Pins, Compact Info Popup
-   ============================================================================== */
-
-/* Leaflet Container Reset */
 .leaflet-container {
   font-family: inherit;
 }
 
-/* Leaflet Zoom Control Modern Style */
 .leaflet-control-zoom {
   border: 1px solid #e2e8f0 !important;
   border-radius: 6px !important;
@@ -31,10 +24,6 @@
   background: #f1f5f9 !important;
 }
 
-/* ==============================================================================
-   PREMIUM BESPOKE LOCATION PIN MARKERS (2026 LUXURY CARTOGRAPHY STANDARDS)
-   Jewel-Tone Gradients, Floating Micro-Physics, Ground Beacon & Status Ring
-   ============================================================================== */
 .dest-pin-leaflet {
   background: transparent !important;
   border: none !important;
@@ -51,7 +40,6 @@
   user-select: none;
 }
 
-/* Ground Anchor Shadow */
 .marker-ground-shadow {
   position: absolute;
   bottom: 0;
@@ -66,7 +54,6 @@
   z-index: 1;
 }
 
-/* Luminous Ground Pulse (Selected / Active Pin) */
 .marker-ground-pulse {
   position: absolute;
   bottom: 2px;
@@ -104,7 +91,6 @@
   }
 }
 
-/* Pin Body with Floating Spring Physics */
 .marker-pin-body {
   position: relative;
   width: 34px;
@@ -122,7 +108,6 @@
   overflow: visible;
 }
 
-/* Hover Dynamics */
 .dest-premium-marker:hover .marker-pin-body {
   transform: translateY(-5px) scale(1.12);
   filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.28));
@@ -133,13 +118,11 @@
   opacity: 0.65;
 }
 
-/* Active Click Dynamics */
 .dest-premium-marker:active .marker-pin-body {
   transform: translateY(-2px) scale(1.04);
   filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.24));
 }
 
-/* Selected State */
 .dest-premium-marker.is-selected {
   z-index: 9999 !important;
 }
@@ -149,9 +132,6 @@
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.85)) drop-shadow(0 8px 16px rgba(15, 23, 42, 0.32));
 }
 
-/* ==========================================
-   LEAFLET POPUP OVERRIDES (COMPACT GEOGRAPHIC PANEL)
-   ========================================== */
 .leaflet-popup-content-wrapper {
   padding: 0 !important;
   border-radius: 8px !important;
@@ -172,7 +152,6 @@
   border: 1px solid #e2e8f0 !important;
 }
 
-/* Compact Geographic Information Panel (Section 7 Design Directive) */
 .map-popup-panel {
   width: 250px;
   background: #ffffff;

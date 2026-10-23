@@ -1,9 +1,3 @@
-/**
- * NUSANTARAPASS — DOKUMEN RETRIBUSI & IZIN MASUK KAWASAN RESMI
- * Format Administrasi Kepariwisataan & Konservasi (A4 - 1 Halaman Sah)
- * Diterbitkan resmi terintegrasi dengan Balai Pengelola Kawasan & Dinas Pariwisata Daerah
- */
-
 function generateSingleTicketPDF(ticketData) {
   if (!window.jspdf || !window.jspdf.jsPDF) {
     alert("Modul PDF generator belum siap, silakan coba beberapa saat lagi.");
@@ -14,7 +8,7 @@ function generateSingleTicketPDF(ticketData) {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
-    format: 'a4' // 210 x 297 mm
+    format: 'a4' 
   });
 
   const dest = ticketData.destination || {};
@@ -34,12 +28,9 @@ function generateSingleTicketPDF(ticketData) {
 
   const marginL = 18;
   const marginR = 192;
-  const contentW = marginR - marginL; // 174 mm
+  const contentW = marginR - marginL; 
 
-  // ==========================================
-  // 1. KOP RESMI DOKUMEN (INSTITUTIONAL HEADER)
-  // ==========================================
-  if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE64) {
+if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE64) {
     try {
       doc.addImage(NUSANTARAPASS_LOGO_BASE64, 'PNG', marginL, 14, 15, 15);
     } catch (e) {
@@ -49,33 +40,29 @@ function generateSingleTicketPDF(ticketData) {
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.setTextColor(15, 60, 35); // Deep Heritage Green
+  doc.setTextColor(15, 60, 35); 
   doc.text('NUSANTARAPASS INDONESIA', marginL + 18, 18.5);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(30, 41, 59); // Slate 800
+  doc.setTextColor(30, 41, 59); 
   doc.text('SISTEM GEOPORTAL TERPADU & PENGENDALIAN DAYA TAMPUNG WISATA', marginL + 18, 23.5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
-  doc.setTextColor(100, 116, 139); // Slate 500
+  doc.setTextColor(100, 116, 139); 
   doc.text('Kemitraan Badan Pengelola Kawasan Konservasi & Dinas Pariwisata Daerah • 38 Provinsi', marginL + 18, 28);
 
-  // Garis Pembatas Kop Surat Resmi (Double Line)
-  doc.setDrawColor(15, 60, 35);
+doc.setDrawColor(15, 60, 35);
   doc.setLineWidth(0.8);
   doc.line(marginL, 32, marginR, 32);
 
   doc.setLineWidth(0.25);
   doc.line(marginL, 33.3, marginR, 33.3);
 
-  // ==========================================
-  // 2. JUDUL DOKUMEN & NOMOR REGISTRASI
-  // ==========================================
-  doc.setFont('times', 'bold');
+doc.setFont('times', 'bold');
   doc.setFontSize(12.5);
-  doc.setTextColor(15, 23, 42); // Slate 900
+  doc.setTextColor(15, 23, 42); 
   doc.text('SURAT TANDA BUKTI RETRIBUSI & IZIN MASUK KAWASAN', 105, 41.5, { align: 'center' });
 
   doc.setFont('courier', 'bold');
@@ -88,16 +75,12 @@ function generateSingleTicketPDF(ticketData) {
   doc.setTextColor(100, 116, 139);
   doc.text(`Diterbitkan secara sah pada: ${todayDate}, Pukul ${bookingTime}`, 105, 51.5, { align: 'center' });
 
-  // ==========================================
-  // 3. BAGIAN I: DESTINASI KAWASAN TUJUAN
-  // ==========================================
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
   doc.text('I. DESTINASI TUJUAN & LOKASI KAWASAN', marginL, 59.5);
 
-  // Bingkai Destinasi (Straight lines, radius 0)
-  doc.setFillColor(255, 255, 255);
+doc.setFillColor(255, 255, 255);
   doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.35);
   doc.rect(marginL, 62.5, contentW, 20.5, 'FD');
@@ -112,26 +95,20 @@ function generateSingleTicketPDF(ticketData) {
   doc.setTextColor(71, 85, 105);
   doc.text(`Kategori: ${catLabel}   |   Wilayah: ${dest.region || 'Indonesia'} (${provLabel})   |   Kode: ${dest.code || 'NP-DEST'}   |   Batas Kuota: ${quotaText} Pengunjung/Hari`, marginL + 5, 78);
 
-  // ==========================================
-  // 4. BAGIAN II: IDENTITAS WISATAWAN & VERIFIKASI GERBANG
-  // ==========================================
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
   doc.text('II. IDENTITAS PENGUNJUNG & AREA VERIFIKASI LOKET', marginL, 89.5);
 
-  // Frame Utama Bagian II
-  doc.setFillColor(255, 255, 255);
+doc.setFillColor(255, 255, 255);
   doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.35);
   doc.rect(marginL, 92.5, contentW, 58, 'FD');
 
-  // Sub-kolom Kiri: Rincian Pengunjung & Transaksi (Lebar: 116 mm)
-  const leftColW = 116;
+const leftColW = 116;
   const leftX = marginL + 5;
 
-  // Row 1: Nama Pengunjung
-  doc.setFont('helvetica', 'normal');
+doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(100, 116, 139);
   doc.text('Nama Lengkap Pemegang Izin:', leftX, 98.5);
@@ -145,8 +122,7 @@ function generateSingleTicketPDF(ticketData) {
   doc.setLineWidth(0.25);
   doc.line(leftX, 106, marginL + leftColW - 3, 106);
 
-  // Row 2: Email & Tanggal Kunjungan (2 Sub-kolom)
-  doc.setFont('helvetica', 'normal');
+doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(100, 116, 139);
   doc.text('Email Terdaftar:', leftX, 111);
@@ -164,8 +140,7 @@ function generateSingleTicketPDF(ticketData) {
 
   doc.line(leftX, 118.5, marginL + leftColW - 3, 118.5);
 
-  // Row 3: Jam Akses & Status Pembayaran
-  doc.setFont('helvetica', 'normal');
+doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(100, 116, 139);
   doc.text('Waktu Akses Masuk:', leftX, 123.5);
@@ -183,8 +158,7 @@ function generateSingleTicketPDF(ticketData) {
 
   doc.line(leftX, 131, marginL + leftColW - 3, 131);
 
-  // Row 4: Biaya Retribusi
-  doc.setFont('helvetica', 'normal');
+doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(100, 116, 139);
   doc.text('Tarif Retribusi Masuk & Konservasi:', leftX, 136);
@@ -199,14 +173,12 @@ function generateSingleTicketPDF(ticketData) {
   doc.setTextColor(100, 116, 139);
   doc.text('*Termasuk premi asuransi kecelakaan diri pengunjung dan dana pelestarian cagar alam.', leftX, 147);
 
-  // Garis Pembatas Vertikal Lurus Antar Kolom
-  const splitX = marginL + leftColW;
+const splitX = marginL + leftColW;
   doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.35);
   doc.line(splitX, 92.5, splitX, 150.5);
 
-  // Sub-kolom Kanan: Area Verifikasi QR Gerbang (Lebar: 58 mm)
-  const rightColCenterX = splitX + (contentW - leftColW) / 2;
+const rightColCenterX = splitX + (contentW - leftColW) / 2;
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(6.8);
@@ -232,10 +204,7 @@ function generateSingleTicketPDF(ticketData) {
   doc.text('Tunjukkan kode QR kepada petugas loket', rightColCenterX, 144, { align: 'center' });
   doc.text('Dapat ditunjukkan langsung dari layar HP', rightColCenterX, 147.5, { align: 'center' });
 
-  // ==========================================
-  // 5. BAGIAN III: STATUS DAYA TAMPUNG KAWASAN
-  // ==========================================
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
   doc.text('III. STATUS DAYA TAMPUNG KAWASAN & INFORMASI LINGKUNGAN', marginL, 157.5);
@@ -272,10 +241,7 @@ function generateSingleTicketPDF(ticketData) {
   const ecoRules = dest.eco_guidelines || 'Patuhi rambu pemandu dan instruksi petugas lapangan.';
   doc.text(`Aturan Khusus: ${ecoRules}`, marginL + 5, 181);
 
-  // ==========================================
-  // 6. BAGIAN IV: KETENTUAN KUNJUNGAN & HUKUM
-  // ==========================================
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
   doc.text('IV. KETENTUAN KUNJUNGAN & KEPATUHAN HUKUM', marginL, 191);
@@ -331,16 +297,12 @@ function generateSingleTicketPDF(ticketData) {
     ry += 3.8 + (splitDesc.length * 3.2) + 1.2;
   });
 
-  // ==========================================
-  // 7. FOOTER ADMINISTRASI RESMI
-  // ==========================================
-  const footY = 249;
+const footY = 249;
   doc.setDrawColor(15, 60, 35);
   doc.setLineWidth(0.4);
   doc.line(marginL, footY, marginR, footY);
 
-  // Kiri: Identitas Platform & Helpdesk
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(15, 60, 35);
   doc.text('NusantaraPass Indonesia', marginL, footY + 5.5);
@@ -351,8 +313,7 @@ function generateSingleTicketPDF(ticketData) {
   doc.text('Platform Geoportal Interkoneksi Pariwisata Berkelanjutan 38 Provinsi', marginL, footY + 9.5);
   doc.text('Layanan Bantuan & Hotline Kawasan: WhatsApp 0812-1430-5925 | https://nusantarapass.vercel.app/', marginL, footY + 13.5);
 
-  // Kanan: Validasi Sistem
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
   doc.setTextColor(15, 23, 42);
   doc.text('DOKUMEN ELEKTRONIK SAH', marginR, footY + 5.5, { align: 'right' });
@@ -367,17 +328,11 @@ function generateSingleTicketPDF(ticketData) {
   doc.setTextColor(148, 163, 184);
   doc.text('Sistem Basis Data PostgreSQL PostgREST • SDG 11 & SDG 8.9', marginR, footY + 13.5, { align: 'right' });
 
-  // Save PDF
-  const safeName = (dest.name || 'Destinasi').replace(/[^a-zA-Z0-9]/g, '_');
+const safeName = (dest.name || 'Destinasi').replace(/[^a-zA-Z0-9]/g, '_');
   const fileName = `E_TIKET_${safeName}_${dest.code || 'PASS'}.pdf`;
   doc.save(fileName);
 }
 
-/**
- * NUSANTARAPASS — BUKU REKAPITULASI RESMI PASPOR JELAJAH NUSANTARA
- * Format Dokumen Rekapitulasi Izin Kunjungan & Pelestarian Konservasi (A4 - 1 Halaman Sah)
- * Diterbitkan resmi terintegrasi dengan Sistem Terpadu NusantaraPass 38 Provinsi
- */
 function generateOfficialPassportPDF(passportData = {}) {
   if (!window.jspdf || !window.jspdf.jsPDF) {
     alert("Modul PDF generator belum siap, silakan coba beberapa saat lagi.");
@@ -388,7 +343,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
-    format: 'a4' // 210 x 297 mm
+    format: 'a4' 
   });
 
   const visitorName = passportData.visitorName || 'Sufyan Tsaury';
@@ -407,12 +362,9 @@ function generateOfficialPassportPDF(passportData = {}) {
 
   const marginL = 18;
   const marginR = 192;
-  const contentW = marginR - marginL; // 174 mm
+  const contentW = marginR - marginL; 
 
-  // ==========================================
-  // 1. KOP RESMI DOKUMEN (INSTITUTIONAL HEADER)
-  // ==========================================
-  if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE64) {
+if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE64) {
     try {
       doc.addImage(NUSANTARAPASS_LOGO_BASE64, 'PNG', marginL, 14, 15, 15);
     } catch (e) {
@@ -422,31 +374,27 @@ function generateOfficialPassportPDF(passportData = {}) {
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.setTextColor(15, 60, 35); // Deep Heritage Green
+  doc.setTextColor(15, 60, 35); 
   doc.text('NUSANTARAPASS INDONESIA', marginL + 18, 18.5);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(30, 41, 59); // Slate 800
+  doc.setTextColor(30, 41, 59); 
   doc.text('SISTEM GEOPORTAL TERPADU & PENGENDALIAN DAYA TAMPUNG WISATA', marginL + 18, 23.5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
-  doc.setTextColor(100, 116, 139); // Slate 500
+  doc.setTextColor(100, 116, 139); 
   doc.text('Kemitraan Badan Pengelola Kawasan Konservasi & Dinas Pariwisata Daerah • 38 Provinsi', marginL + 18, 28);
 
-  // Garis Pembatas Kop Surat Resmi (Double Line)
-  doc.setDrawColor(15, 60, 35);
+doc.setDrawColor(15, 60, 35);
   doc.setLineWidth(0.8);
   doc.line(marginL, 32, marginR, 32);
 
   doc.setLineWidth(0.25);
   doc.line(marginL, 33.3, marginR, 33.3);
 
-  // ==========================================
-  // 2. JUDUL DOKUMEN RESMI
-  // ==========================================
-  doc.setFont('times', 'bold');
+doc.setFont('times', 'bold');
   doc.setFontSize(12.5);
   doc.setTextColor(15, 23, 42);
   doc.text('BUKU REKAPITULASI RESMI PASPOR JELAJAH NUSANTARA', 105, 41.5, { align: 'center' });
@@ -461,10 +409,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.setTextColor(100, 116, 139);
   doc.text(`Diterbitkan secara sah melalui Sistem Terpadu NusantaraPass pada: ${todayDate}, Pukul ${bookingTime}`, 105, 51.5, { align: 'center' });
 
-  // ==========================================
-  // 3. BAGIAN I: DATA IDENTITAS PEMEGANG PASPOR
-  // ==========================================
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
   doc.text('I. DATA IDENTITAS PEMEGANG PASPOR DIGITAL', marginL, 59.5);
@@ -476,8 +421,7 @@ function generateOfficialPassportPDF(passportData = {}) {
 
   const halfW = contentW / 2;
 
-  // Kolom Kiri
-  doc.setFont('helvetica', 'normal');
+doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(100, 116, 139);
   doc.text('Nama Lengkap Pemegang:', marginL + 5, 68);
@@ -495,8 +439,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.setTextColor(15, 23, 42);
   doc.text(visitorEmail, marginL + 5, 84);
 
-  // Kolom Kanan
-  doc.setFont('helvetica', 'normal');
+doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(100, 116, 139);
   doc.text('Nomor Paspor Digital:', marginL + halfW + 5, 68);
@@ -514,15 +457,11 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.setTextColor(15, 23, 42);
   doc.text('Wisatawan Ramah Lingkungan (TERVERIFIKASI)', marginL + halfW + 5, 84);
 
-  // Divider vertikal
-  doc.setDrawColor(226, 232, 240);
+doc.setDrawColor(226, 232, 240);
   doc.setLineWidth(0.25);
   doc.line(marginL + halfW, 62.5, marginL + halfW, 88);
 
-  // ==========================================
-  // 4. BAGIAN II: LEMBAR STEMPEL & DESTINASI SAH
-  // ==========================================
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
   doc.text('II. LEMBAR PENGESAHAN KUNJUNGAN & STEMPEL KAWASAN RESMI', marginL, 95);
@@ -532,8 +471,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.setTextColor(100, 116, 139);
   doc.text('Daftar destinasi terdaftar yang telah tervalidasi kuota daya tampung lingkungan dan izin masuknya.', marginL, 99);
 
-  // Tabel Formal Administratif
-  const tblY = 101.5;
+const tblY = 101.5;
   const tblHdrH = 7.5;
   doc.setFillColor(241, 245, 249);
   doc.setDrawColor(203, 213, 225);
@@ -599,15 +537,11 @@ function generateOfficialPassportPDF(passportData = {}) {
     rY += rHeight;
   });
 
-  // Garis luar tabel
-  doc.setDrawColor(203, 213, 225);
+doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.35);
   doc.rect(marginL, tblY, contentW, rY - tblY);
 
-  // ==========================================
-  // 5. BAGIAN III: KETENTUAN KEPATUHAN & DASAR HUKUM
-  // ==========================================
-  const sec3Y = rY + 6;
+const sec3Y = rY + 6;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
@@ -641,10 +575,7 @@ function generateOfficialPassportPDF(passportData = {}) {
     lY += 3.8 + (splitD.length * 3.2) + 1;
   });
 
-  // ==========================================
-  // 6. BAGIAN IV: PENGESAHAN ELEKTRONIK & VERIFIKASI SISTEM
-  // ==========================================
-  const sec4Y = sec3Y + 44;
+const sec4Y = sec3Y + 44;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(15, 60, 35);
@@ -655,8 +586,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.setLineWidth(0.35);
   doc.rect(marginL, sec4Y + 3, contentW, 26, 'FD');
 
-  // Kiri: Teks Otoritas
-  doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.2);
   doc.setTextColor(15, 23, 42);
   doc.text('Pengelola Platform Geoportal NusantaraPass', marginL + 5, sec4Y + 9);
@@ -668,8 +598,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.text(`Kode Autentikasi Sistem: NP-AUTH-PASSPOR-${passSerial}-${now.getFullYear()}`, marginL + 5, sec4Y + 18.5);
   doc.text('Dokumen ini sah tanpa tanda tangan basah berdasarkan ketentuan UU ITE No. 11/2008.', marginL + 5, sec4Y + 23);
 
-  // Kanan: Cap Resmi Teks
-  doc.setDrawColor(15, 60, 35);
+doc.setDrawColor(15, 60, 35);
   doc.setLineWidth(0.4);
   doc.rect(marginR - 44, sec4Y + 6.5, 39, 17);
 
@@ -681,10 +610,7 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.setTextColor(71, 85, 105);
   doc.text('NUSANTARAPASS SISTEM TERPADU', marginR - 24.5, sec4Y + 18, { align: 'center' });
 
-  // ==========================================
-  // 7. FOOTER RESMI
-  // ==========================================
-  const footY = 282;
+const footY = 282;
   doc.setDrawColor(15, 60, 35);
   doc.setLineWidth(0.4);
   doc.line(marginL, footY, marginR, footY);
@@ -707,6 +633,5 @@ function generateOfficialPassportPDF(passportData = {}) {
   doc.save(`PASPOR_NUSANTARA_${passSerial.slice(-6)}.pdf`);
 }
 
-// Make globally available
 window.generateSingleTicketPDF = generateSingleTicketPDF;
 window.generateOfficialPassportPDF = generateOfficialPassportPDF;

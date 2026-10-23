@@ -6,7 +6,7 @@
   <title>Konsol Pengelola Kuota &amp; Destinasi — NusantaraPass</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230f172a%22/><polygon points=%2265,35 56,56 35,65 44,44%22 fill=%22%23ffffff%22/></svg>" />
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -14,7 +14,7 @@
 </head>
 
 <body class="admin-body">
-  <!-- Minimalist Admin Demo Authentication Overlay -->
+  
   <div id="adminLoginOverlay" class="admin-login-overlay">
     <div class="admin-login-card">
       <div class="admin-login-header">
@@ -55,8 +55,7 @@
     </div>
   </div>
 
-  <!-- Minimalist Executive Topbar -->
-  <header class="admin-topbar">
+<header class="admin-topbar">
     <div class="admin-topbar-inner">
       <a href="../index.html" class="admin-brand" onclick="navigateToMap(event)">
         <div class="admin-brand-icon">
@@ -72,7 +71,7 @@
       </a>
 
       <div class="admin-topbar-right">
-        <!-- Minimalist Database Health Indicator -->
+        
         <button id="supabaseStatusBadge" class="admin-db-status" onclick="openSqlHelpModal()" title="Status koneksi Supabase Cloud">
           <span class="status-dot-mini pending" id="dbDotIndicator"></span>
           <span id="dbStatusText">Memeriksa Database...</span>
@@ -98,9 +97,8 @@
     </div>
   </header>
 
-  <!-- Main Management View -->
-  <main class="admin-container">
-    <!-- Integrated Utilitarian Telemetry Metric Ribbon -->
+<main class="admin-container">
+    
     <section class="admin-metric-ribbon">
       <div class="admin-metric-cell">
         <span class="metric-cell-label">Total Destinasi Terdata</span>
@@ -124,8 +122,7 @@
       </div>
     </section>
 
-    <!-- Table Section with Filter & Search Toolbar -->
-    <section class="admin-card-section">
+<section class="admin-card-section">
       <div class="admin-section-header">
         <div class="admin-section-info">
           <h2>Manajemen Objek Wisata &amp; Dokumentasi Media</h2>
@@ -133,7 +130,7 @@
         </div>
 
         <div class="admin-toolbar-controls">
-          <!-- Live Search Input -->
+          
           <div class="admin-search-box">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/>
@@ -142,8 +139,7 @@
             <input type="text" id="adminSearchInput" class="admin-search-input" placeholder="Cari nama, kode, provinsi..." oninput="handleFilterChange()" />
           </div>
 
-          <!-- Category Filter -->
-          <select id="adminCategorySelect" class="admin-select-filter" onchange="handleFilterChange()">
+<select id="adminCategorySelect" class="admin-select-filter" onchange="handleFilterChange()">
             <option value="all">Semua Kategori</option>
             <option value="pantai">Bahari &amp; Pantai</option>
             <option value="gunung">Gunung &amp; Dataran Tinggi</option>
@@ -151,8 +147,7 @@
             <option value="taman_nasional">Taman Nasional &amp; Konservasi</option>
           </select>
 
-          <!-- Add Destination Button -->
-          <button class="btn-admin-action btn-admin-primary" onclick="openAddDestModal()">
+<button class="btn-admin-action btn-admin-primary" onclick="openAddDestModal()">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/>
               <line x1="5" y1="12" x2="19" y2="12"/>
@@ -162,8 +157,7 @@
         </div>
       </div>
 
-      <!-- High Precision Data Table -->
-      <div class="admin-table-container">
+<div class="admin-table-container">
         <table class="admin-table">
           <thead>
             <tr>
@@ -178,17 +172,14 @@
             </tr>
           </thead>
           <tbody id="adminDestTableBody">
-            <!-- Rendered dynamically -->
+            
           </tbody>
         </table>
       </div>
     </section>
   </main>
 
-  <!-- ==========================================
-       MODAL 1: EDIT LENGKAP & UBAH COVER DESTINASI
-       ========================================== -->
-  <div id="editDestModal" class="modal-overlay" onclick="if(event.target === this) closeEditDestModal()">
+<div id="editDestModal" class="modal-overlay" onclick="if(event.target === this) closeEditDestModal()">
     <div class="modal-dialog" style="max-width: 680px; max-height: 92vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
@@ -202,8 +193,7 @@
         <form id="editDestForm" onsubmit="handleSaveEditDestination(event)" style="display: flex; flex-direction: column; gap: 14px;">
           <input type="hidden" id="editDestId" />
 
-          <!-- Row 1: Nama & Kategori -->
-          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px;">
+<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px;">
             <div>
               <label class="form-label">Nama Objek Wisata</label>
               <input type="text" id="editDestName" class="form-input-admin" required />
@@ -219,8 +209,7 @@
             </div>
           </div>
 
-          <!-- Row 2: Region, Provinsi & Elevasi (Khusus Gunung) -->
-          <div id="editDestRow2" style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px;">
+<div id="editDestRow2" style="display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 12px;">
             <div>
               <label class="form-label">Pulau / Region</label>
               <select id="editDestRegion" class="form-input-admin">
@@ -242,8 +231,7 @@
               <input type="number" id="editDestElevation" class="form-input-admin" placeholder="Contoh: 3726" />
             </div>
           </div>
-
-          <!-- Row 3: Koordinat GPS Peta -->
+          
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
               <label class="form-label">Latitude (Titik Lintang)</label>
@@ -255,8 +243,7 @@
             </div>
           </div>
 
-          <!-- Row 4: Kuota, Pengunjung Saat Ini & Status -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
             <div>
               <label class="form-label">Batas Kuota Harian</label>
               <input type="number" id="editDestQuota" class="form-input-admin" required />
@@ -275,8 +262,7 @@
             </div>
           </div>
 
-          <!-- Row 5: Retribusi & Cuaca / BMKG -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
               <label class="form-label">Tarif Retribusi / Tiket (Rp)</label>
               <input type="number" id="editDestTicketPrice" class="form-input-admin" required />
@@ -287,8 +273,7 @@
             </div>
           </div>
 
-          <!-- Row 6: FOTO COVER UTAMA DESTINASI (DENGAN LIVE PREVIEW & UPLOAD) -->
-          <div>
+<div>
             <label class="form-label">Foto Cover Utama Destinasi</label>
             <div class="cover-preview-container">
               <div class="cover-preview-box">
@@ -308,20 +293,17 @@
             </div>
           </div>
 
-          <!-- Row 6b: ATRIBUSI / KREDIT FOTO COVER -->
-          <div>
+<div>
             <label class="form-label">Atribusi &amp; Hak Cipta Foto Cover (Fotografer / Sumber)</label>
             <input type="text" id="editDestPhotoAttribution" class="form-input-admin" placeholder="Contoh: Alex Azabache / Unsplash" />
           </div>
 
-          <!-- Row 7: Deskripsi -->
-          <div>
+<div>
             <label class="form-label">Deskripsi Objek Wisata &amp; Nilai Konservasi</label>
             <textarea id="editDestDesc" class="form-input-admin" rows="3"></textarea>
           </div>
 
-          <!-- Actions -->
-          <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--admin-border); padding-top: 14px; margin-top: 6px;">
+<div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--admin-border); padding-top: 14px; margin-top: 6px;">
             <button type="button" class="btn-admin-action btn-admin-outline" onclick="closeEditDestModal()">Batal</button>
             <button type="submit" class="btn-admin-action btn-admin-primary">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
@@ -333,10 +315,7 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       MODAL 2: KELOLA DOKUMENTASI MEDIA & FOTO
-       ========================================== -->
-  <div id="mediaModal" class="modal-overlay" onclick="if(event.target === this) closeMediaModal()">
+<div id="mediaModal" class="modal-overlay" onclick="if(event.target === this) closeMediaModal()">
     <div class="modal-dialog" style="max-width: 820px; max-height: 92vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
@@ -347,7 +326,7 @@
       </div>
 
       <div class="modal-body" style="overflow-y: auto; max-height: calc(92vh - 120px); padding: 20px;">
-        <!-- Panel Tambah Foto Baru -->
+        
         <div class="gallery-add-panel">
           <div class="gallery-add-title">+ Tambah Foto Dokumentasi Baru</div>
           <div style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 10px;">
@@ -382,15 +361,14 @@
           </div>
         </div>
 
-        <!-- Section: Galeri Foto yang Ada -->
-        <div style="margin-top: 18px;">
+<div style="margin-top: 18px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <span style="font-size: 12.5px; font-weight: 700; color: var(--admin-text-main);">Koleksi Foto Terpasang (<span id="galleryCountBadge">0</span>)</span>
             <span style="font-size: 11px; color: var(--admin-text-muted);">Foto ini langsung tampil di halaman detail destinasi.</span>
           </div>
 
           <div id="mediaGalleryGrid" class="gallery-admin-grid">
-            <!-- Diisi otomatis oleh JavaScript -->
+            
           </div>
         </div>
       </div>
@@ -401,8 +379,7 @@
     </div>
   </div>
 
-  <!-- MODAL: Tambah Destinasi Baru -->
-  <div id="addDestModal" class="modal-overlay" onclick="if(event.target === this) closeAddDestModal()">
+<div id="addDestModal" class="modal-overlay" onclick="if(event.target === this) closeAddDestModal()">
     <div class="modal-dialog" onclick="event.stopPropagation()">
       <div class="modal-header">
         <h3>Tambah Objek Wisata Nusantara</h3>
@@ -487,8 +464,7 @@
     </div>
   </div>
 
-  <!-- MODAL: Status Database Supabase Cloud -->
-  <div id="sqlHelpModal" class="modal-overlay" onclick="if(event.target === this) closeSqlHelpModal()">
+<div id="sqlHelpModal" class="modal-overlay" onclick="if(event.target === this) closeSqlHelpModal()">
     <div class="modal-dialog" style="max-width: 600px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <h3>Status Pangkalan Data Supabase Cloud</h3>
@@ -522,19 +498,17 @@
     <div>&copy; 2026 <strong>NusantaraPass Console</strong> &bull; Konsol Manajemen Pariwisata Berkelanjutan &amp; Cagar Budaya.</div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/data.js"></script>
   <script src="../assets/js/supabase-config.js"></script>
 
   <script>
-    let filterQuery = '';
+let filterQuery = '';
     let filterCategory = 'all';
     let currentMediaDestId = null;
     let currentGalleryList = [];
 
-    // Helper koleksi foto default per kategori
-    const defaultMediaCollections = {
+const defaultMediaCollections = {
       pantai: [
         { caption: 'Pemandangan Garis Pantai & Horison Laut', attribution: 'Bachtiar / Unsplash' },
         { url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80', caption: 'Hamparan Pasir & Sempadan Pantai', attribution: 'Sean Oulashin / Unsplash' },
@@ -575,15 +549,12 @@
       } catch (e) {}
     }
 
-    // ==========================================
-    // SECURITY UTILITIES & SANITIZATION (ANTI-XSS)
-    // ==========================================
-    function sanitizeInput(str) {
+function sanitizeInput(str) {
       if (typeof str !== 'string') return '';
       return str
-        .replace(/[<>]/g, '')           // Strip potential HTML tags
-        .replace(/javascript:/gi, '')    // Strip pseudo-protocols
-        .replace(/on\w+=/gi, '')        // Strip inline event listeners
+        .replace(/[<>]/g, '')           
+        .replace(/javascript:/gi, '')    
+        .replace(/on\w+=/gi, '')        
         .trim();
     }
 
@@ -594,14 +565,11 @@
       return hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // ==========================================
-    // SECURE ADMIN AUTHENTICATION (SHA-256 & TIME-BOUND SESSION)
-    // ==========================================
-    const ADMIN_AUTH_CONFIG = {
-      // SHA-256 Hash of 'admin' & '123456' (No plaintext credentials stored)
+const ADMIN_AUTH_CONFIG = {
+      
       USER_HASH: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
       PASS_HASH: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',
-      SESSION_DURATION_MS: 2 * 60 * 60 * 1000 // 2 Jam masa berlaku sesi
+      SESSION_DURATION_MS: 2 * 60 * 60 * 1000 
     };
 
     function getAdminSession() {
@@ -863,10 +831,7 @@
       if (stampEl) stampEl.innerText = totalDest.toLocaleString('id-ID');
     }
 
-    // ==========================================
-    // LOGIKA MODAL 1: EDIT DESTINASI & COVER
-    // ==========================================
-    function handleEditCategoryChange() {
+function handleEditCategoryChange() {
       const cat = document.getElementById('editDestCategory')?.value;
       const col = document.getElementById('editDestElevationCol');
       const row2 = document.getElementById('editDestRow2');
@@ -983,10 +948,7 @@
       alert(`Data destinasi "${updatedPayload.name}" dan foto cover berhasil diperbarui!`);
     }
 
-    // ==========================================
-    // LOGIKA MODAL 2: KELOLA DOKUMENTASI MEDIA FOTO
-    // ==========================================
-    function getGalleryForDest(destId) {
+function getGalleryForDest(destId) {
       const dest = NUSANTARA_DESTINATIONS.find(d => d.id === destId);
       if (!dest) return [];
 
@@ -1085,7 +1047,7 @@
     }
 
     function updateNewPhotoPreview(url) {
-      // Validasi preview jika perlu
+      
     }
 
     function handleNewPhotoFileSelected(event) {
@@ -1116,18 +1078,14 @@
       saveGalleryForDest(currentMediaDestId, currentGalleryList);
       renderMediaGalleryGrid();
 
-      // Reset form
-      document.getElementById('newPhotoUrl').value = '';
+document.getElementById('newPhotoUrl').value = '';
       document.getElementById('newPhotoCaption').value = '';
       document.getElementById('newPhotoAttribution').value = '';
       document.getElementById('newPhotoFileStatus').textContent = 'Atau tempel URL langsung';
       document.getElementById('newPhotoFileInput').value = '';
     }
 
-    // ==========================================
-    // MODAL TAMBAH DESTINASI BARU
-    // ==========================================
-    function openAddDestModal() {
+function openAddDestModal() {
       const m = document.getElementById('addDestModal');
       if (m) m.classList.add('active');
     }
@@ -1196,6 +1154,6 @@
       updateKpis();
       alert(`Destinasi "${name}" berhasil didaftarkan ke NusantaraPass.`);
     }
-  </script>
+</script>
 </body>
 </html>

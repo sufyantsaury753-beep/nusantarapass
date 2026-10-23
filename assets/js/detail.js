@@ -1,8 +1,3 @@
-/**
- * NUSANTARAPASS — BESPOKE DESTINATION GEOPORTAL SCRIPT
- * Architecture: SDG 11 & SDG 8.9 Compliance, Carrying Capacity & Smart Pass QR
- */
-
 let currentDest = null;
 let currentMediaList = [];
 let myPassportStamps = JSON.parse(localStorage.getItem('np_stamps') || '[]');
@@ -20,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initGeoportalDetail() {
   const requestedId = getUrlParameter('id') || 'dest-pgr-01';
 
-  // Find destination in dataset
-  currentDest = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
+currentDest = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
     ? NUSANTARA_DESTINATIONS.find(d => d.id === requestedId)
     : null;
 
@@ -31,8 +25,7 @@ function initGeoportalDetail() {
 
   if (!currentDest) return;
 
-  // Merge local overrides from Admin CMS if any
-  try {
+try {
     const rawOverrides = localStorage.getItem('np_destinations_override');
     if (rawOverrides) {
       const overrides = JSON.parse(rawOverrides);
@@ -53,7 +46,6 @@ function initGeoportalDetail() {
   renderVisualDocsGrid();
 }
 
-// 1. Render Hero HUD Showcase
 function renderHeroHUD() {
   const breadcrumbEl = document.getElementById('crumbDestName');
   if (breadcrumbEl) breadcrumbEl.textContent = currentDest.name;
@@ -99,7 +91,6 @@ function renderHeroHUD() {
   }
 }
 
-// 2. Render Left Column: Narrative & Heritage Significance
 function renderNarrativeContent() {
   const narrativeEl = document.getElementById('narrativeBodyText');
   if (narrativeEl) {
@@ -112,7 +103,6 @@ function renderNarrativeContent() {
   }
 }
 
-// 3. Render Conservation & Tourism Guidelines (Swiss Clean Grid)
 function renderSDGConservationRules() {
   const rulesGrid = document.getElementById('sdgRulesGrid');
   if (!rulesGrid) return;
@@ -158,7 +148,6 @@ function renderSDGConservationRules() {
   `;
 }
 
-// 4. Render Right Column: Telemetry Barometer & Kiosk
 function renderTelemetryKiosk() {
   const quotaPercent = Math.min((currentDest.current_visitors / currentDest.daily_quota) * 100, 100);
   const quotaRemaining = Math.max(0, currentDest.daily_quota - currentDest.current_visitors);
@@ -199,26 +188,22 @@ function renderTelemetryKiosk() {
     progressPercentText.textContent = `${Math.round(quotaPercent)}% Terisi dari Kapasitas`;
   }
 
-  // Weather / Marine Status
-  const envStatusText = document.getElementById('envStatusText');
+const envStatusText = document.getElementById('envStatusText');
   if (envStatusText) {
     envStatusText.textContent = currentDest.wave_status || 'Normal & Kondusif';
   }
 
-  // Ticket Price
-  const priceVal = document.getElementById('kioskTicketPrice');
+const priceVal = document.getElementById('kioskTicketPrice');
   if (priceVal) {
     priceVal.textContent = `Rp ${(currentDest.ticket_price || 20000).toLocaleString('id-ID')}`;
   }
 
-  // Stamp Seal Name
-  const stampName = document.getElementById('stampSealName');
+const stampName = document.getElementById('stampSealName');
   if (stampName) {
     stampName.textContent = currentDest.name;
   }
 }
 
-// 5. Render Visual Documentation Grid
 function renderVisualDocsGrid() {
   const grid = document.getElementById('visualDocsGrid');
   if (!grid) return;
@@ -287,7 +272,6 @@ function renderVisualDocsGrid() {
   `).join('');
 }
 
-// 6. Clean Image Viewer Modal
 function openImageViewer(idx) {
   const item = currentMediaList[idx];
   if (!item) return;
@@ -309,7 +293,6 @@ function closeImageViewer() {
   if (viewer) viewer.classList.remove('active');
 }
 
-// 7. Direct Smart Pass (QR) Issuance & Live Quota Mutation
 async function issueDirectPass() {
   const nameInput = document.getElementById('kioskVisitorName');
   const emailInput = document.getElementById('kioskVisitorEmail');
@@ -321,18 +304,16 @@ async function issueDirectPass() {
   const email = (emailInput && emailInput.value.trim()) || 'wisatawan@nusantarapass.id';
   const passToken = `NP-PASS-${currentDest.code}-${Date.now().toString().slice(-6)}`;
 
-  // 1. Mutasi Pengurangan Kuota Real-Time ke Supabase Cloud
-  if (typeof npCheckinVisitor === 'function') {
+if (typeof npCheckinVisitor === 'function') {
     try {
       await npCheckinVisitor(currentDest.id);
-      renderKioskMetrics(); // Perbarui tampilan HUD kapasitas & sisa kuota secara instan
+      renderKioskMetrics(); 
     } catch (e) {
       console.warn("Gagal mutasi kuota live:", e);
     }
   }
 
-  // 2. Render QR Code
-  if (qrContainer) {
+if (qrContainer) {
     qrContainer.innerHTML = '';
     new QRCode(qrContainer, {
       text: passToken,
@@ -353,8 +334,7 @@ async function issueDirectPass() {
     }
   }
 
-  // 3. Rekam Stempel Digital Paspor
-  if (!myPassportStamps.includes(currentDest.id)) {
+if (!myPassportStamps.includes(currentDest.id)) {
     myPassportStamps.push(currentDest.id);
     localStorage.setItem('np_stamps', JSON.stringify(myPassportStamps));
     updatePassportBadge();
@@ -365,8 +345,7 @@ async function issueDirectPass() {
 
   lastDetailPassToken = passToken;
 
-  // 4. Simpan Tiket ke Database Supabase
-  if (typeof npSaveVisitorPass === 'function') {
+if (typeof npSaveVisitorPass === 'function') {
     npSaveVisitorPass({
       code: passToken,
       destinationId: currentDest.id,
@@ -412,7 +391,6 @@ function updatePassportBadge() {
   if (badge) badge.innerText = myPassportStamps.length;
 }
 
-// 8. Passport Booklet Modal & PDF Download
 function openPassportModal() {
   const modal = document.getElementById('passportModal');
   const listEl = document.getElementById('passportStampsList');
@@ -505,7 +483,6 @@ function downloadPassportPDF() {
   }
 }
 
-// Helpers
 function getCategoryDisplayName(cat) {
   if (cat === 'pantai') return 'Bahari & Pantai';
   if (cat === 'gunung') return 'Gunung & Dataran Tinggi';
@@ -521,7 +498,6 @@ function getCategoryBadgeSvg(cat) {
   return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2"><path d="M12 22v-7M9 15c-3 0-5-2-5-5 0-4 4-7 8-7s8 3 8 7c0 3-2 5-5 5"/></svg>`;
 }
 
-// Global modal backdrop close
 window.addEventListener('click', (e) => {
   if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
     e.target.classList.remove('active');
@@ -531,7 +507,6 @@ window.addEventListener('click', (e) => {
   }
 });
 
-// Smart Navigation back to Map (prevents history ping-pong loop)
 function navigateToMap(e) {
   if (e) e.preventDefault();
   const ref = document.referrer;
@@ -541,4 +516,3 @@ function navigateToMap(e) {
     window.location.replace('../index.html');
   }
 }
-

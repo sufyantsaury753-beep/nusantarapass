@@ -1,8 +1,3 @@
-/* =========================================================
-   NUSANTARAPASS — BESPOKE DESTINATION GEOPORTAL
-   Swiss GIS Precision, Apple HIG & Human-Crafted Luxury Editorial
-   ========================================================= */
-
 :root {
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --bg-page: #f8fafc;
@@ -54,9 +49,6 @@ body {
   gap: 24px;
 }
 
-/* ==========================================
-   TOPBAR NAVIGATION
-   ========================================== */
 .geoportal-topbar {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
@@ -196,9 +188,6 @@ body {
   color: #ffffff;
 }
 
-/* ==========================================
-   CINEMATIC HERO SHOWCASE BANNER
-   ========================================== */
 .hero-showcase {
   position: relative;
   width: 100%;
@@ -229,7 +218,6 @@ body {
   pointer-events: none;
 }
 
-/* Top HUD Badges (Clean & Non-AI) */
 .hero-hud-top {
   position: absolute;
   top: 20px;
@@ -285,7 +273,6 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* Bottom Title Overlay */
 .hero-content-bottom {
   position: absolute;
   bottom: 26px;
@@ -319,10 +306,6 @@ body {
   font-size: 11px;
 }
 
-/* ==========================================
-   MAIN DUAL-COLUMN CONTENT GRID
-   65% Narrative Heritage : 35% Telemetry Kiosk
-   ========================================== */
 .geoportal-main-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -330,7 +313,6 @@ body {
   align-items: start;
 }
 
-/* Left Narrative Column */
 .narrative-col {
   display: flex;
   flex-direction: column;
@@ -386,7 +368,6 @@ body {
   margin-bottom: 12px;
 }
 
-/* Modern Swiss Conservation Guidelines (No AI Clichés) */
 .conservation-rules-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -445,7 +426,6 @@ body {
   line-height: 1.5;
 }
 
-/* Photo Documentation Grid */
 .visual-docs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -503,9 +483,6 @@ body {
   opacity: 1;
 }
 
-/* ==========================================
-   RIGHT COLUMN: TELEMETRY & KIOSK
-   ========================================== */
 .telemetry-kiosk-col {
   display: flex;
   flex-direction: column;
@@ -563,7 +540,6 @@ body {
   border: 1px solid #fecdd3;
 }
 
-/* Telemetry 3-Column Strip */
 .telemetry-metrics-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -600,7 +576,6 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* Progress track */
 .capacity-progress-box {
   display: flex;
   flex-direction: column;
@@ -636,7 +611,6 @@ body {
   color: #64748b;
 }
 
-/* Weather & Marine Info Row (Understated) */
 .env-condition-card {
   background: #f8fafc;
   border: 1px solid var(--border-subtle);
@@ -659,7 +633,6 @@ body {
   color: var(--text-primary);
 }
 
-/* Ticket Price Box */
 .kiosk-ticket-price-box {
   background: #f8fafc;
   border: 1px solid var(--border-subtle);
@@ -733,7 +706,6 @@ body {
   background: #1e293b;
 }
 
-/* Result QR Pass Card */
 .pass-result-card {
   background: #f8fafc;
   border: 1px solid var(--border-subtle);
@@ -772,7 +744,6 @@ body {
   margin-top: 6px;
 }
 
-/* Passport Stamp Preview Card */
 .stamp-preview-card {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
@@ -807,9 +778,6 @@ body {
   color: var(--text-muted);
 }
 
-/* ==========================================
-   IMAGE VIEWER MODAL (BESPOKE LIGHTBOX)
-   ========================================== */
 .clean-image-viewer {
   position: fixed;
   inset: 0;
@@ -869,9 +837,6 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* ==========================================
-   PASSPORT BOOKLET MODAL (FIX FOOTER LEAK)
-   ========================================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1009,9 +974,6 @@ body {
   overflow-y: auto;
 }
 
-/* ==========================================
-   FOOTER
-   ========================================== */
 .geoportal-footer {
   border-top: 1px solid var(--border-subtle);
   background: #ffffff;
@@ -1025,9 +987,6 @@ body {
   gap: 4px;
 }
 
-/* ==========================================
-   RESPONSIVE DESIGN (< 960px)
-   ========================================== */
 @media (max-width: 960px) {
   .geoportal-main-grid {
     grid-template-columns: 1fr;
