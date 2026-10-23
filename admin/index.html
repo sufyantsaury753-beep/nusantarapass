@@ -25,34 +25,40 @@
           </svg>
         </div>
         <div class="admin-login-title">Konsol Pengelola NusantaraPass</div>
-        <div class="admin-login-sub">Sistem Autentikasi Server-Side Terproteksi PostgreSQL Row-Level Security (RLS).</div>
+        <div class="admin-login-sub">Sistem Autentikasi Server-Side PostgreSQL Row-Level Security (RLS).</div>
       </div>
 
       <div class="admin-login-demo-hint">
-        Kredensial Resmi Administrator (Supabase Auth):<br/>
-        Email: <b>admin.nusantarapass@gmail.com</b> &bull; Sandi: <b>AdminPassword2026!</b><br/>
-        <span style="font-size: 10.5px; color: var(--admin-text-muted);">(Dapat juga menggunakan alias: <b>admin</b> / <b>123456</b>)</span>
+        <div style="font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Kredensial Akun Administrator</div>
+        <div class="cred-row">
+          <span class="cred-label">Email:</span>
+          <code class="cred-val">admin.nusantarapass@gmail.com</code>
+        </div>
+        <div class="cred-row">
+          <span class="cred-label">Sandi:</span>
+          <code class="cred-val">AdminPassword2026!</code>
+        </div>
       </div>
 
-      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 12px;">
-        <div id="adminLoginError" style="display: none; padding: 10px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--admin-radius); color: #dc2626; font-size: 11.5px; font-weight: 600; line-height: 1.4;"></div>
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 14px; margin-top: 2px;">
+        <div id="adminLoginError" style="display: none; padding: 10px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 4px; color: #dc2626; font-size: 11.5px; font-weight: 600; line-height: 1.4;"></div>
         
-        <div>
-          <label class="form-label">Email / Identitas Pengelola</label>
-          <input type="text" id="adminLoginUser" class="form-input-admin" placeholder="admin.nusantarapass@gmail.com" required autocomplete="username" value="admin.nusantarapass@gmail.com" />
+        <div class="form-group-login">
+          <label class="form-label">Email Administrator</label>
+          <input type="email" id="adminLoginUser" class="form-input-admin" placeholder="admin.nusantarapass@gmail.com" required autocomplete="username" value="admin.nusantarapass@gmail.com" />
         </div>
 
-        <div>
-          <label class="form-label">Kata Sandi (Password)</label>
+        <div class="form-group-login">
+          <label class="form-label">Kata Sandi</label>
           <input type="password" id="adminLoginPass" class="form-input-admin" placeholder="Masukkan kata sandi" required autocomplete="current-password" value="AdminPassword2026!" />
         </div>
 
-        <button type="submit" id="btnAdminSubmitLogin" class="admin-login-btn">Masuk ke Konsol (Verifikasi Server)</button>
+        <button type="submit" id="btnAdminSubmitLogin" class="admin-login-btn">Masuk ke Konsol</button>
       </form>
 
-      <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 6px; text-align: center;">
-        <button type="button" onclick="handleSandboxMode()" style="background: none; border: 1px dashed var(--admin-border); padding: 7px; font-size: 11px; color: var(--admin-text-muted); cursor: pointer; border-radius: var(--admin-radius);">
-          Masuk Mode Sandbox (Simulasi Offline / Pengujian UI)
+      <div style="margin-top: 6px; display: flex; flex-direction: column; gap: 6px; text-align: center;">
+        <button type="button" onclick="handleSandboxMode()" style="background: none; border: 1px dashed var(--admin-border); padding: 7px; font-size: 11px; color: var(--admin-text-muted); cursor: pointer; border-radius: 4px;">
+          Mode Demonstrasi Offline (Tanpa Cloud)
         </button>
         <a href="../index.html" onclick="navigateToMap(event)" style="font-size: 11.5px; color: var(--admin-text-muted); text-decoration: none; margin-top: 2px;">&larr; Kembali ke Beranda Peta</a>
       </div>

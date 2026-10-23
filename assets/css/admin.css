@@ -713,15 +713,20 @@ body.admin-body {
 
 .admin-login-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   background: #ffffff;
   border: 1px solid var(--admin-border);
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-  padding: 28px 24px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  padding: 30px 26px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.admin-login-card * {
+  box-sizing: border-box;
 }
 
 .admin-login-header {
@@ -729,12 +734,12 @@ body.admin-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .admin-login-logo {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 8px;
   background: var(--admin-navy);
   color: #ffffff;
@@ -744,30 +749,75 @@ body.admin-body {
 }
 
 .admin-login-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--admin-text-main);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .admin-login-sub {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--admin-text-muted);
+  line-height: 1.4;
 }
 
 .admin-login-demo-hint {
   background: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: var(--admin-radius);
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
   padding: 10px 12px;
   font-size: 11.5px;
-  color: var(--admin-text-muted);
   line-height: 1.5;
 }
 
-.admin-login-demo-hint b {
-  color: var(--admin-text-main);
+.cred-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cred-label {
+  color: var(--admin-text-muted);
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.cred-val {
   font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  word-break: break-all;
+}
+
+.form-group-login {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+
+.form-group-login .form-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.form-group-login .form-input-admin {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  border-radius: 4px;
 }
 
 .admin-login-btn {
