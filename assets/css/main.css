@@ -108,7 +108,7 @@ html, body {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-sm);
-  background: var(--accent-navy);
+  background: #064e3b;
   display: flex;
   align-items: center;
   justify-content: center;
