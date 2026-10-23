@@ -296,7 +296,7 @@
                 <img id="editCoverPreviewImg" src="" alt="Pratinjau Cover" />
               </div>
               <div class="cover-control-inputs">
-                <input type="url" id="editDestPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/..." oninput="updateCoverPreview(this.value)" required />
+                <input type="text" id="editDestPhotoUrl" class="form-input-admin" placeholder="https://images.unsplash.com/... atau data:image/..." oninput="updateCoverPreview(this.value)" required />
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <label class="cover-file-btn" for="editCoverFileInput">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -999,9 +999,32 @@ function handleEditCategoryChange() {
 
       const reader = new FileReader();
       reader.onload = (e) => {
-        const dataUrl = e.target.result;
-        document.getElementById('editDestPhotoUrl').value = dataUrl;
-        updateCoverPreview(dataUrl);
+        const rawDataUrl = e.target.result;
+        // Kompresi otomatis via Canvas agar pas di LocalStorage (< 300KB)
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 1280;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          document.getElementById('editDestPhotoUrl').value = compressedDataUrl;
+          updateCoverPreview(compressedDataUrl);
+        };
+        img.src = rawDataUrl;
       };
       reader.readAsDataURL(file);
     }
@@ -1037,24 +1060,41 @@ function handleEditCategoryChange() {
         stamp_icon: dest.stamp_icon || '🧭'
       };
 
+      // 1. Selalu perbarui objek destinasi di memori browser
+      Object.assign(dest, updatedPayload);
+
+      // 2. Simpan ke local storage override agar persisten di browser
+      try {
+        const rawOverrides = localStorage.getItem('np_destinations_override') || '{}';
+        const overrides = JSON.parse(rawOverrides);
+        overrides[dest.id] = updatedPayload;
+        localStorage.setItem('np_destinations_override', JSON.stringify(overrides));
+      } catch (err) {
+        console.warn('Gagal menyimpan override lokal:', err);
+      }
+
+      // 3. Upaya sinkronisasi ke Supabase Cloud jika tersedia
+      let cloudMsg = '';
       if (typeof npUpdateDestinationFull === 'function') {
-        const updateRes = await npUpdateDestinationFull(updatedPayload);
-        if (!updateRes.success) {
-          if (updateRes.isRlsBlocked) {
-            alert(`⚠️ AKSES DITOLAK OLEH DATABASE POSTGRESQL (RLS VIOLATION):\n\nOperasi UPDATE ditolak karena sesi saat ini tidak memiliki hak administratif (auth.role = 'authenticated').\n\nUntuk mengubah database cloud, Anda wajib login melalui akun Supabase Auth yang sah.`);
-            return;
+        try {
+          const updateRes = await npUpdateDestinationFull(updatedPayload);
+          if (updateRes && updateRes.success) {
+            cloudMsg = '\n\n☁️ Sinkronisasi: Berhasil disimpan ke Supabase Cloud Database.';
+          } else if (updateRes && updateRes.isRlsBlocked) {
+            cloudMsg = '\n\n⚠️ Catatan: Tersimpan di Penyimpanan Lokal (Mode Sandbox). Sinkronisasi Cloud PostgreSQL ditolak karena belum login sebagai Admin Supabase.';
           } else {
-            console.warn('Update cloud warning:', updateRes.error);
+            cloudMsg = '\n\n💾 Tersimpan di Penyimpanan Browser Lokal.';
           }
+        } catch (cloudErr) {
+          console.warn('Gagal update ke cloud:', cloudErr);
+          cloudMsg = '\n\n💾 Tersimpan di Penyimpanan Browser Lokal.';
         }
-      } else {
-        Object.assign(dest, updatedPayload);
       }
 
       closeEditDestModal();
       renderTable();
       updateKpis();
-      alert(`Data destinasi "${updatedPayload.name}" dan foto cover berhasil diperbarui!`);
+      alert(`✅ Berhasil! Data destinasi "${updatedPayload.name}" dan foto cover berhasil diperbarui!${cloudMsg}`);
     }
 
 function getGalleryForDest(destId) {

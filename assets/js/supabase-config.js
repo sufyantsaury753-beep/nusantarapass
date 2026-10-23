@@ -130,17 +130,32 @@ try {
       current_visitors: parseInt(destData.current_visitors) || 0,
       quota_status: destData.quota_status || 'tersedia',
       photo_url: destData.photo_url,
-      photo_attribution: destData.photo_attribution || 'Unsplash / Tim Ekspedisi',
       description: destData.description,
       wave_status: destData.wave_status || 'Normal & Terkendali',
       ticket_price: parseInt(destData.ticket_price) || 20000
     };
 
-    const { data, error } = await npClient
+    if (destData.photo_attribution) {
+      payload.photo_attribution = destData.photo_attribution;
+    }
+
+    let { data, error } = await npClient
       .from('np_destinations')
       .update(payload)
       .eq('id', destData.id)
       .select();
+
+    // Jika skema di database PostgreSQL belum memiliki kolom photo_attribution, retry tanpa kolom tersebut
+    if (error && error.message && error.message.toLowerCase().includes('photo_attribution')) {
+      delete payload.photo_attribution;
+      const retry = await npClient
+        .from('np_destinations')
+        .update(payload)
+        .eq('id', destData.id)
+        .select();
+      data = retry.data;
+      error = retry.error;
+    }
 
     if (error) {
       console.warn("Gagal update destinasi ke Supabase:", error.message);

@@ -68,7 +68,9 @@ function renderHeroHUD() {
 
   const attrEl = document.getElementById('heroAttributionText');
   if (attrEl) {
-    attrEl.textContent = `Foto: ${currentDest.photo_attribution || 'Unsplash / Tim Ekspedisi'}`;
+    const rawAttr = currentDest.photo_attribution || 'Unsplash / Tim Ekspedisi';
+    const formatted = rawAttr.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 600;">$1</a>');
+    attrEl.innerHTML = `Foto: ${formatted}`;
   }
 
   const titleEl = document.getElementById('heroDestTitle');

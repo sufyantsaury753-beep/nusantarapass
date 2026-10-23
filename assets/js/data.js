@@ -14,6 +14,7 @@ const NUSANTARA_DESTINATIONS = [
     current_visitors: 1420,
     quota_status: "tersedia",
     photo_url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    photo_attribution: "Unsplash / Tim Ekspedisi",
     description: "Pesisir legendaris Jawa Barat dengan pantai pasir putih, cagar alam pesisir, dan ombak selancar terbaik di Samudra Hindia.",
     eco_guidelines: "Zona konservasi penyu hijau. Dilarang membuang plastik di sempadan pantai dan patuhi bendera batas aman ombak.",
     wave_status: "Aman (Gelombang 1.2m)",
