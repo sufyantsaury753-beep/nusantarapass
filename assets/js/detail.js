@@ -7,9 +7,43 @@ function getUrlParameter(name) {
   return urlParams.get(name) || urlParams.get('id') || urlParams.get('dest');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function getResolvedPhotoUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('//')) return url;
+  if (url.startsWith('../') || url.startsWith('/')) return url;
+  return '../' + url;
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   initGeoportalDetail();
   updatePassportBadge();
+
+  // 1. Sinkronisasi data cloud Supabase secara otomatis saat halaman dibuka
+  if (typeof npFetchDestinations === 'function') {
+    try {
+      await npFetchDestinations();
+      initGeoportalDetail();
+    } catch (err) {
+      console.warn('Gagal fetch destinasi cloud di detail:', err);
+    }
+  }
+
+  // 2. Langganan WebSocket Realtime: otomatis update tampilan tanpa perlu refresh
+  if (typeof npSubscribeRealtime === 'function') {
+    npSubscribeRealtime((payload) => {
+      const requestedId = getUrlParameter('id') || 'dest-pgr-01';
+      if (payload && payload.new && payload.new.id === requestedId) {
+        initGeoportalDetail();
+      }
+    });
+  }
+
+  // 3. Fallback saat tab aktif kembali di browser ponsel (wake-up sync)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && typeof npFetchDestinations === 'function') {
+      npFetchDestinations().then(() => initGeoportalDetail());
+    }
+  });
 });
 
 function initGeoportalDetail() {
@@ -52,7 +86,7 @@ function renderHeroHUD() {
 
   const bgImg = document.getElementById('heroShowcaseBg');
   if (bgImg) {
-    bgImg.src = currentDest.photo_url;
+    bgImg.src = getResolvedPhotoUrl(currentDest.photo_url);
     bgImg.alt = currentDest.name;
   }
 
@@ -212,10 +246,11 @@ function renderVisualDocsGrid() {
 
   const cat = currentDest.category;
   const name = currentDest.name;
+  const coverUrl = getResolvedPhotoUrl(currentDest.photo_url);
 
   const photoCollections = {
     pantai: [
-      { url: currentDest.photo_url, caption: `Pemandangan Pesisir ${name}` },
+      { url: coverUrl, caption: `Pemandangan Pesisir ${name}` },
       { url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80', caption: 'Hamparan Pasir & Sempadan Pantai' },
       { url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80', caption: 'Ekosistem Karang Laut Bersih' },
       { url: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80', caption: 'Lanskap Senja Pesisir Samudra' },
@@ -223,7 +258,7 @@ function renderVisualDocsGrid() {
       { url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', caption: 'Zona Perlindungan Biota Laut' }
     ],
     gunung: [
-      { url: currentDest.photo_url, caption: `Lanskap Puncak ${name}` },
+      { url: coverUrl, caption: `Lanskap Puncak ${name}` },
       { url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80', caption: 'Lautan Kabut di Ketinggian' },
       { url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', caption: 'Savana Edelweiss & Jalur Trekking' },
       { url: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80', caption: 'Kawah Belerang & Batuan Vulkanik' },
@@ -231,7 +266,7 @@ function renderVisualDocsGrid() {
       { url: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=80', caption: 'Puncak Tertinggi Menembus Awan' }
     ],
     budaya: [
-      { url: currentDest.photo_url, caption: `Arsitektur Bersejarah ${name}` },
+      { url: coverUrl, caption: `Arsitektur Bersejarah ${name}` },
       { url: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=800&q=80', caption: 'Pahatan Relief & Stupa Kuno' },
       { url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80', caption: 'Pancaran Cahaya Fajar di Situs' },
       { url: 'https://images.unsplash.com/photo-1609137144822-0a259c735d1a?auto=format&fit=crop&w=800&q=80', caption: 'Pelataran Suci Cagar Budaya' },
@@ -239,7 +274,7 @@ function renderVisualDocsGrid() {
       { url: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80', caption: 'Preservasi Nilai Arkeologi Dunia' }
     ],
     taman_nasional: [
-      { url: currentDest.photo_url, caption: `Kawasan Konservasi ${name}` },
+      { url: coverUrl, caption: `Kawasan Konservasi ${name}` },
       { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', caption: 'Padang Rumput & Satwa Terlindungi' },
       { url: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80', caption: 'Kanopi Hutan Konservasi Rimbun' },
       { url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80', caption: 'Daerah Aliran Sungai Sumber Air' },

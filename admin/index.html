@@ -785,6 +785,14 @@ function sanitizeInput(str) {
       applyLocalOverrides();
       renderTable();
       updateKpis();
+
+      if (typeof npSubscribeRealtime === 'function') {
+        npSubscribeRealtime(() => {
+          applyLocalOverrides();
+          renderTable();
+          updateKpis();
+        });
+      }
     }
 
     function handleFilterChange() {

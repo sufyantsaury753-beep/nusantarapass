@@ -393,3 +393,53 @@ async function npCheckinVisitor(destId) {
     return { success: true, localOnly: true, current_visitors: newVisitors };
   }
 }
+
+let npRealtimeChannel = null;
+
+function npSubscribeRealtime(onUpdateCallback) {
+  if (!npClient) initNpSupabase();
+  if (!npClient) return null;
+
+  try {
+    if (npRealtimeChannel) {
+      try { npClient.removeChannel(npRealtimeChannel); } catch (e) {}
+    }
+
+    npRealtimeChannel = npClient
+      .channel('public_np_destinations_changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'np_destinations' },
+        (payload) => {
+          console.log('⚡ [Realtime Cloud] Perubahan data diterima:', payload.eventType, payload.new && payload.new.name);
+          if (payload.eventType === 'UPDATE' && payload.new) {
+            const idx = NUSANTARA_DESTINATIONS.findIndex(d => d.id === payload.new.id);
+            if (idx !== -1) {
+              NUSANTARA_DESTINATIONS[idx] = { ...NUSANTARA_DESTINATIONS[idx], ...payload.new };
+            }
+          } else if (payload.eventType === 'INSERT' && payload.new) {
+            const exists = NUSANTARA_DESTINATIONS.some(d => d.id === payload.new.id);
+            if (!exists) {
+              NUSANTARA_DESTINATIONS.unshift(payload.new);
+            }
+          } else if (payload.eventType === 'DELETE' && payload.old) {
+            const idx = NUSANTARA_DESTINATIONS.findIndex(d => d.id === payload.old.id);
+            if (idx !== -1) {
+              NUSANTARA_DESTINATIONS.splice(idx, 1);
+            }
+          }
+          if (typeof onUpdateCallback === 'function') {
+            onUpdateCallback(payload);
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log('⚡ [Realtime Cloud] Status WebSocket:', status);
+      });
+
+    return npRealtimeChannel;
+  } catch (err) {
+    console.warn('Realtime subscribe error:', err);
+    return null;
+  }
+}

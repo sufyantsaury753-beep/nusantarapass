@@ -72,6 +72,9 @@ ALTER TABLE public.np_visitor_passes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.np_digital_stamps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.np_checkin_logs ENABLE ROW LEVEL SECURITY;
 
+-- AKTIFKAN REPLIKASI REALTIME SUPABASE UNTUK TABEL DESTINASI
+ALTER PUBLICATION supabase_realtime ADD TABLE public.np_destinations;
+
 -- 1. np_destinations: Publik hanya boleh membaca. Mutasi (INSERT/UPDATE/DELETE) wajib terautentikasi admin.
 CREATE POLICY "Public read np_destinations" ON public.np_destinations FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "Admin full access np_destinations" ON public.np_destinations FOR ALL TO authenticated USING (true) WITH CHECK (true);

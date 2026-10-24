@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initRegionHierarchy();
   updatePassportCountBadge();
 
-if (typeof npFetchDestinations === 'function') {
+  if (typeof npFetchDestinations === 'function') {
     try {
       await npFetchDestinations();
       applyLocalOverrides();
@@ -42,6 +42,30 @@ if (typeof npFetchDestinations === 'function') {
       console.log('Menggunakan data fallback lokal.');
     }
   }
+
+  // Langganan WebSocket Realtime: pembaruan instan antar perangkat tanpa refresh
+  if (typeof npSubscribeRealtime === 'function') {
+    npSubscribeRealtime(() => {
+      applyLocalOverrides();
+      renderMapMarkers();
+      renderDestinationGrid();
+      updateKPIStats();
+      initRegionHierarchy();
+    });
+  }
+
+  // Wake-up sync saat kembali ke tab di browser ponsel
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && typeof npFetchDestinations === 'function') {
+      npFetchDestinations().then(() => {
+        applyLocalOverrides();
+        renderMapMarkers();
+        renderDestinationGrid();
+        updateKPIStats();
+        initRegionHierarchy();
+      });
+    }
+  });
 });
 
 function getCategoryPremiumPinSvg(dest, isSelected = false) {
