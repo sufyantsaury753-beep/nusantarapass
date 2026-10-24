@@ -179,12 +179,12 @@ html, body {
 }
 
 .nav-item-admin {
-  background: var(--accent-navy);
+  background: #064e3b;
   color: #ffffff !important;
 }
 
 .nav-item-admin:hover {
-  background: #1e293b;
+  background: #043c2e;
 }
 
 .main-layout {
@@ -529,7 +529,7 @@ html, body {
 }
 
 .layer-btn.active {
-  background: var(--accent-navy);
+  background: #064e3b;
   color: #ffffff;
 }
 
