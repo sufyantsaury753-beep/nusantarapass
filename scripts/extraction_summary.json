@@ -1,0 +1,140 @@
+[
+  {
+    "id": "dest-bbd-11",
+    "name": "Candi Borobudur (UNESCO)",
+    "status": "external_or_path",
+    "localPath": "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "dest-blr-16",
+    "name": "Taman Nasional Baluran",
+    "status": "extracted",
+    "sizeKB": "265.4",
+    "localPath": "assets/img/destinations/dest-blr-16.jpg"
+  },
+  {
+    "id": "dest-blt-05",
+    "name": "Pantai Tanjung Kelayang",
+    "status": "extracted",
+    "sizeKB": "242.4",
+    "localPath": "assets/img/destinations/dest-blt-05.jpg"
+  },
+  {
+    "id": "dest-bnk-20",
+    "name": "Taman Nasional Bunaken",
+    "status": "extracted",
+    "sizeKB": "130.0",
+    "localPath": "assets/img/destinations/dest-bnk-20.jpg"
+  },
+  {
+    "id": "dest-brm-07",
+    "name": "Gunung Bromo & Lautan Pasir",
+    "status": "extracted",
+    "sizeKB": "152.9",
+    "localPath": "assets/img/destinations/dest-brm-07.jpg"
+  },
+  {
+    "id": "dest-clt-18",
+    "name": "Ciletuh Palabuhanratu Geopark",
+    "status": "extracted",
+    "sizeKB": "282.6",
+    "localPath": "assets/img/destinations/dest-clt-18.jpg"
+  },
+  {
+    "id": "dest-dng-09",
+    "name": "Dataran Tinggi Dieng & Sikunir",
+    "status": "extracted",
+    "sizeKB": "60.1",
+    "localPath": "assets/img/destinations/dest-dng-09.jpg"
+  },
+  {
+    "id": "dest-kmd-17",
+    "name": "Taman Nasional Komodo (Padar)",
+    "status": "extracted",
+    "sizeKB": "257.1",
+    "localPath": "assets/img/destinations/dest-kmd-17.jpg"
+  },
+  {
+    "id": "dest-krc-10",
+    "name": "Gunung Kerinci (Atap Sumatera)",
+    "status": "extracted",
+    "sizeKB": "49.1",
+    "localPath": "assets/img/destinations/dest-krc-10.jpg"
+  },
+  {
+    "id": "dest-krt-13",
+    "name": "Keraton Ngayogyakarta Hadiningrat",
+    "status": "extracted",
+    "sizeKB": "272.8",
+    "localPath": "assets/img/destinations/dest-krt-13.jpg"
+  },
+  {
+    "id": "dest-kta-03",
+    "name": "Pantai Kuta & Pesisir Badung",
+    "status": "extracted",
+    "sizeKB": "83.5",
+    "localPath": "assets/img/destinations/dest-kta-03.jpg"
+  },
+  {
+    "id": "dest-pbn-12",
+    "name": "Candi Prambanan & Ratu Boko",
+    "status": "extracted",
+    "sizeKB": "159.8",
+    "localPath": "assets/img/destinations/dest-pbn-12.jpg"
+  },
+  {
+    "id": "dest-pgl-14",
+    "name": "Desa Wisata Adat Penglipuran",
+    "status": "extracted",
+    "sizeKB": "308.2",
+    "localPath": "assets/img/destinations/dest-pgl-14.jpg"
+  },
+  {
+    "id": "dest-pgr-01",
+    "name": "Pantai Pangandaran",
+    "status": "extracted",
+    "sizeKB": "261.9",
+    "localPath": "assets/img/destinations/dest-pgr-01.jpg"
+  },
+  {
+    "id": "dest-ppd-06",
+    "name": "Gunung Papandayan & Tegal Alun",
+    "status": "extracted",
+    "sizeKB": "181.7",
+    "localPath": "assets/img/destinations/dest-ppd-06.jpg"
+  },
+  {
+    "id": "dest-prt-02",
+    "name": "Pantai Parangtritis & Gumuk Pasir",
+    "status": "extracted",
+    "sizeKB": "119.7",
+    "localPath": "assets/img/destinations/dest-prt-02.jpg"
+  },
+  {
+    "id": "dest-rja-04",
+    "name": "Kepulauan Raja Ampat (Piaynemo)",
+    "status": "external_or_path",
+    "localPath": "https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "dest-rnj-08",
+    "name": "Gunung Rinjani & Segara Anak",
+    "status": "extracted",
+    "sizeKB": "221.4",
+    "localPath": "assets/img/destinations/dest-rnj-08.jpg"
+  },
+  {
+    "id": "dest-tba-19",
+    "name": "Danau Toba & Pulau Samosir",
+    "status": "extracted",
+    "sizeKB": "177.5",
+    "localPath": "assets/img/destinations/dest-tba-19.jpg"
+  },
+  {
+    "id": "dest-trj-15",
+    "name": "Situs Adat Kete Kesu Tana Toraja",
+    "status": "extracted",
+    "sizeKB": "237.8",
+    "localPath": "assets/img/destinations/dest-trj-15.jpg"
+  }
+]

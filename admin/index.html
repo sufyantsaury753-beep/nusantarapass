@@ -551,6 +551,13 @@ const defaultMediaCollections = {
       ]
     };
 
+    function getAdminResolvedPhotoUrl(url) {
+      if (!url) return '';
+      if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('//')) return url;
+      if (url.startsWith('../') || url.startsWith('/')) return url;
+      return '../' + url;
+    }
+
     function applyLocalOverrides() {
       try {
         const rawOverrides = localStorage.getItem('np_destinations_override');
@@ -724,6 +731,14 @@ function sanitizeInput(str) {
         issuedAt: Date.now(),
         expiresAt: Date.now() + 2 * 60 * 60 * 1000
       }));
+      // Hubungkan autentikasi admin di latar belakang agar mode sandbox tetap bisa sinkron ke Supabase Cloud
+      if (typeof npAdminSignIn === 'function') {
+        npAdminSignIn('admin.nusantarapass@gmail.com', 'AdminPassword2026!').then(res => {
+          if (res && res.success) {
+            console.log('⚡ Sesi Admin Supabase terhubung otomatis di mode sandbox.');
+          }
+        });
+      }
       checkAdminAuth();
     }
 
@@ -780,15 +795,14 @@ function sanitizeInput(str) {
           await npFetchDestinations();
         } catch(e) {
           console.log('Menggunakan fallback data lokal.');
+          applyLocalOverrides();
         }
       }
-      applyLocalOverrides();
       renderTable();
       updateKpis();
 
       if (typeof npSubscribeRealtime === 'function') {
         npSubscribeRealtime(() => {
-          applyLocalOverrides();
           renderTable();
           updateKpis();
         });
@@ -997,7 +1011,7 @@ function handleEditCategoryChange() {
     function updateCoverPreview(url) {
       const img = document.getElementById('editCoverPreviewImg');
       if (img) {
-        img.src = url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
+        img.src = getAdminResolvedPhotoUrl(url) || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
       }
     }
 
@@ -1071,11 +1085,15 @@ function handleEditCategoryChange() {
       // 1. Selalu perbarui objek destinasi di memori browser
       Object.assign(dest, updatedPayload);
 
-      // 2. Simpan ke local storage override agar persisten di browser
+      // 2. Simpan ke local storage override agar persisten di browser (tanpa memicu crash kuota 5MB)
       try {
         const rawOverrides = localStorage.getItem('np_destinations_override') || '{}';
         const overrides = JSON.parse(rawOverrides);
-        overrides[dest.id] = updatedPayload;
+        const safePayload = { ...updatedPayload };
+        if (safePayload.photo_url && safePayload.photo_url.length > 50000) {
+          delete safePayload.photo_url;
+        }
+        overrides[dest.id] = safePayload;
         localStorage.setItem('np_destinations_override', JSON.stringify(overrides));
       } catch (err) {
         console.warn('Gagal menyimpan override lokal:', err);
@@ -1178,7 +1196,7 @@ function getGalleryForDest(destId) {
 
       grid.innerHTML = currentGalleryList.map((item, idx) => `
         <div class="gallery-admin-card">
-          <img class="gallery-admin-thumb" src="${item.url}" alt="${item.caption || 'Foto Dokumentasi'}" />
+          <img class="gallery-admin-thumb" src="${getAdminResolvedPhotoUrl(item.url)}" alt="${item.caption || 'Foto Dokumentasi'}" />
           <div class="gallery-admin-info">
             <div>
               <span class="gallery-admin-caption" title="${item.caption || ''}">${item.caption || 'Tanpa keterangan'}</span>

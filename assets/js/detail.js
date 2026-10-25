@@ -14,6 +14,8 @@ function getResolvedPhotoUrl(url) {
   return '../' + url;
 }
 
+let isCloudSynced = false;
+
 document.addEventListener('DOMContentLoaded', async () => {
   initGeoportalDetail();
   updatePassportBadge();
@@ -22,7 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (typeof npFetchDestinations === 'function') {
     try {
       await npFetchDestinations();
-      initGeoportalDetail();
+      isCloudSynced = true;
+      initGeoportalDetail(true);
     } catch (err) {
       console.warn('Gagal fetch destinasi cloud di detail:', err);
     }
@@ -33,7 +36,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     npSubscribeRealtime((payload) => {
       const requestedId = getUrlParameter('id') || 'dest-pgr-01';
       if (payload && payload.new && payload.new.id === requestedId) {
-        initGeoportalDetail();
+        isCloudSynced = true;
+        initGeoportalDetail(true);
       }
     });
   }
@@ -41,12 +45,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 3. Fallback saat tab aktif kembali di browser ponsel (wake-up sync)
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && typeof npFetchDestinations === 'function') {
-      npFetchDestinations().then(() => initGeoportalDetail());
+      npFetchDestinations().then(() => {
+        isCloudSynced = true;
+        initGeoportalDetail(true);
+      });
     }
   });
 });
 
-function initGeoportalDetail() {
+function initGeoportalDetail(fromCloud = false) {
   const requestedId = getUrlParameter('id') || 'dest-pgr-01';
 
 currentDest = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
@@ -59,16 +66,19 @@ currentDest = (typeof NUSANTARA_DESTINATIONS !== 'undefined')
 
   if (!currentDest) return;
 
-try {
-    const rawOverrides = localStorage.getItem('np_destinations_override');
-    if (rawOverrides) {
-      const overrides = JSON.parse(rawOverrides);
-      if (overrides[currentDest.id]) {
-        Object.assign(currentDest, overrides[currentDest.id]);
+  // Hanya terapkan overrides lokal jika cloud BELUM tersinkronisasi (misal mode offline)
+  if (!fromCloud && !isCloudSynced) {
+    try {
+      const rawOverrides = localStorage.getItem('np_destinations_override');
+      if (rawOverrides) {
+        const overrides = JSON.parse(rawOverrides);
+        if (overrides[currentDest.id]) {
+          Object.assign(currentDest, overrides[currentDest.id]);
+        }
       }
+    } catch (e) {
+      console.warn('Failed reading overrides', e);
     }
-  } catch (e) {
-    console.warn('Failed reading overrides', e);
   }
 
   document.title = `${currentDest.name} — Geoportal Pelestarian NusantaraPass`;

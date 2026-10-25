@@ -22,6 +22,12 @@ function applyLocalOverrides() {
   } catch (e) {}
 }
 
+function getResolvedPhotoUrl(url) {
+  if (!url) return 'assets/img/destinations/dest-pgr-01.jpg';
+  if (url.startsWith('../')) return url.substring(3);
+  return url;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   applyLocalOverrides();
   initMap();
@@ -33,20 +39,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (typeof npFetchDestinations === 'function') {
     try {
       await npFetchDestinations();
-      applyLocalOverrides();
+      // Jangan menimpa data realtime cloud dengan cache local storage lama
       renderMapMarkers();
       renderDestinationGrid();
       updateKPIStats();
       initRegionHierarchy();
     } catch (err) {
       console.log('Menggunakan data fallback lokal.');
+      applyLocalOverrides();
     }
   }
 
   // Langganan WebSocket Realtime: pembaruan instan antar perangkat tanpa refresh
   if (typeof npSubscribeRealtime === 'function') {
     npSubscribeRealtime(() => {
-      applyLocalOverrides();
       renderMapMarkers();
       renderDestinationGrid();
       updateKPIStats();
@@ -58,7 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && typeof npFetchDestinations === 'function') {
       npFetchDestinations().then(() => {
-        applyLocalOverrides();
         renderMapMarkers();
         renderDestinationGrid();
         updateKPIStats();
@@ -293,7 +298,7 @@ const elevText = (dest.category === 'gunung' && dest.elevation_m > 0)
     const popupHtml = `
       <div class="map-popup-panel">
         <div class="popup-photo-frame">
-          <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
+          <img src="${getResolvedPhotoUrl(dest.photo_url)}" alt="${dest.name}" loading="lazy" />
         </div>
         <div class="popup-body">
           <h4 class="popup-title">${dest.name}</h4>
@@ -508,7 +513,7 @@ function renderDestinationGrid() {
       return `
         <article class="dest-card">
           <a href="destinasi/index.html?id=${dest.id}" class="dest-card-media" aria-label="Lihat detail ${dest.name}">
-            <img src="${dest.photo_url}" alt="${dest.name}" loading="lazy" />
+            <img src="${getResolvedPhotoUrl(dest.photo_url)}" alt="${dest.name}" loading="lazy" />
           </a>
           <div class="dest-card-content">
             <div class="dest-card-header">
@@ -593,7 +598,7 @@ function openDestDetailModal(destId) {
 
   const imgEl = document.getElementById('detailDestImg');
   if (imgEl) {
-    imgEl.src = dest.photo_url;
+    imgEl.src = getResolvedPhotoUrl(dest.photo_url);
     imgEl.alt = dest.name;
   }
 
