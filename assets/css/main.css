@@ -108,7 +108,7 @@ html, body {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-sm);
-  background: #064e3b;
+  background: #0b132b;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -179,12 +179,12 @@ html, body {
 }
 
 .nav-item-admin {
-  background: #064e3b;
+  background: #0b132b;
   color: #ffffff !important;
 }
 
 .nav-item-admin:hover {
-  background: #043c2e;
+  background: #1e293b;
 }
 
 .main-layout {
@@ -529,7 +529,7 @@ html, body {
 }
 
 .layer-btn.active {
-  background: #064e3b;
+  background: #0b132b;
   color: #ffffff;
 }
 

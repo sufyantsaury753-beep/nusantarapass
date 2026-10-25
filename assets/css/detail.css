@@ -82,7 +82,7 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: #064e3b;
+  background: #0b132b;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,14 +177,14 @@ body {
 }
 
 .btn-topbar-admin {
-  background: #064e3b;
+  background: #0b132b;
   color: #ffffff;
-  border-color: #064e3b;
+  border-color: #0b132b;
 }
 
 .btn-topbar-admin:hover {
-  background: #043c2e;
-  border-color: #043c2e;
+  background: #1e293b;
+  border-color: #1e293b;
   color: #ffffff;
 }
 
