@@ -40,7 +40,7 @@ if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE6
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.setTextColor(15, 60, 35); 
+  doc.setTextColor(11, 19, 43); 
   doc.text('NUSANTARAPASS INDONESIA', marginL + 18, 18.5);
 
   doc.setFont('helvetica', 'bold');
@@ -53,7 +53,7 @@ if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE6
   doc.setTextColor(100, 116, 139); 
   doc.text('Kemitraan Badan Pengelola Kawasan Konservasi & Dinas Pariwisata Daerah • 38 Provinsi', marginL + 18, 28);
 
-doc.setDrawColor(15, 60, 35);
+doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.8);
   doc.line(marginL, 32, marginR, 32);
 
@@ -77,7 +77,7 @@ doc.setFont('times', 'bold');
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('I. DESTINASI TUJUAN & LOKASI KAWASAN', marginL, 59.5);
 
 doc.setFillColor(255, 255, 255);
@@ -97,7 +97,7 @@ doc.setFillColor(255, 255, 255);
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('II. IDENTITAS PENGUNJUNG & AREA VERIFIKASI LOKET', marginL, 89.5);
 
 doc.setFillColor(255, 255, 255);
@@ -206,7 +206,7 @@ const rightColCenterX = splitX + (contentW - leftColW) / 2;
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('III. STATUS DAYA TAMPUNG KAWASAN & INFORMASI LINGKUNGAN', marginL, 157.5);
 
   doc.setFillColor(255, 255, 255);
@@ -243,7 +243,7 @@ doc.setFont('helvetica', 'bold');
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('IV. KETENTUAN KUNJUNGAN & KEPATUHAN HUKUM', marginL, 191);
 
   doc.setFillColor(255, 255, 255);
@@ -298,13 +298,13 @@ doc.setFont('helvetica', 'bold');
   });
 
 const footY = 249;
-  doc.setDrawColor(15, 60, 35);
+  doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.4);
   doc.line(marginL, footY, marginR, footY);
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('NusantaraPass Indonesia', marginL, footY + 5.5);
 
   doc.setFont('helvetica', 'normal');
@@ -374,7 +374,7 @@ if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE6
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.setTextColor(15, 60, 35); 
+  doc.setTextColor(11, 19, 43); 
   doc.text('NUSANTARAPASS INDONESIA', marginL + 18, 18.5);
 
   doc.setFont('helvetica', 'bold');
@@ -387,7 +387,7 @@ if (typeof NUSANTARAPASS_LOGO_BASE64 !== 'undefined' && NUSANTARAPASS_LOGO_BASE6
   doc.setTextColor(100, 116, 139); 
   doc.text('Kemitraan Badan Pengelola Kawasan Konservasi & Dinas Pariwisata Daerah • 38 Provinsi', marginL + 18, 28);
 
-doc.setDrawColor(15, 60, 35);
+doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.8);
   doc.line(marginL, 32, marginR, 32);
 
@@ -411,7 +411,7 @@ doc.setFont('times', 'bold');
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('I. DATA IDENTITAS PEMEGANG PASPOR DIGITAL', marginL, 59.5);
 
   doc.setFillColor(255, 255, 255);
@@ -463,7 +463,7 @@ doc.setDrawColor(226, 232, 240);
 
 doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('II. LEMBAR PENGESAHAN KUNJUNGAN & STEMPEL KAWASAN RESMI', marginL, 95);
 
   doc.setFont('helvetica', 'normal');
@@ -544,7 +544,7 @@ doc.setDrawColor(203, 213, 225);
 const sec3Y = rY + 6;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('III. KETENTUAN KEPATUHAN & DASAR HUKUM KONSERVASI', marginL, sec3Y);
 
   doc.setFillColor(255, 255, 255);
@@ -578,7 +578,7 @@ const sec3Y = rY + 6;
 const sec4Y = sec3Y + 44;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('IV. PENGESAHAN ELEKTRONIK & VERIFIKASI SISTEM', marginL, sec4Y);
 
   doc.setFillColor(255, 255, 255);
@@ -598,26 +598,26 @@ doc.setFont('helvetica', 'bold');
   doc.text(`Kode Autentikasi Sistem: NP-AUTH-PASSPOR-${passSerial}-${now.getFullYear()}`, marginL + 5, sec4Y + 18.5);
   doc.text('Dokumen ini sah tanpa tanda tangan basah berdasarkan ketentuan UU ITE No. 11/2008.', marginL + 5, sec4Y + 23);
 
-doc.setDrawColor(15, 60, 35);
+doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.4);
   doc.rect(marginR - 44, sec4Y + 6.5, 39, 17);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(6.5);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('TERVERIFIKASI SAH', marginR - 24.5, sec4Y + 13, { align: 'center' });
   doc.setFontSize(5.8);
   doc.setTextColor(71, 85, 105);
   doc.text('NUSANTARAPASS SISTEM TERPADU', marginR - 24.5, sec4Y + 18, { align: 'center' });
 
 const footY = 282;
-  doc.setDrawColor(15, 60, 35);
+  doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.4);
   doc.line(marginL, footY, marginR, footY);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
-  doc.setTextColor(15, 60, 35);
+  doc.setTextColor(11, 19, 43);
   doc.text('NusantaraPass Indonesia', marginL, footY + 4.5);
 
   doc.setFont('helvetica', 'normal');
