@@ -1,0 +1,549 @@
+/* ==========================================================================
+   SIMULASI PAYMENT GATEWAY (NUSANTARAPASS PAY) - SHARED COMPONENT
+   Digunakan di Halaman Utama (index.html) dan Detail Destinasi (destinasi/index.html)
+   ========================================================================== */
+
+.payment-modal-dialog {
+  max-width: 520px;
+  width: 94%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 22px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.2);
+}
+
+.pay-brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #0b132b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pay-summary-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+
+.pay-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.pay-dest-tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #0b132b;
+  background: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.pay-summary-header h4 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 4px 0 2px 0;
+}
+
+.pay-meta-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.pay-timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.pay-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.pay-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #334155;
+}
+
+.pay-breakdown-row.total-row {
+  border-top: 1px solid #cbd5e1;
+  padding-top: 8px;
+  margin-top: 4px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pay-total-amount {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0b132b;
+}
+
+.pay-customer-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (max-width: 480px) {
+  .pay-customer-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pay-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pay-field-group label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.pay-field-input {
+  font-family: inherit;
+  font-size: 12px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #0f172a;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.pay-field-input:focus {
+  border-color: #0b132b;
+}
+
+.pay-method-section {
+  margin-top: 16px;
+}
+
+.pay-section-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.pay-tabs-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.pay-tab-btn {
+  background: transparent;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  padding: 7px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.pay-tab-btn.active {
+  background: #ffffff;
+  color: #0b132b;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.pay-tab-content {
+  display: none;
+  margin-top: 12px;
+}
+
+.pay-tab-content.active {
+  display: block;
+}
+
+/* QRIS BOX */
+.qris-presentation-box {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.qris-badge-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.qris-image-frame {
+  margin: 12px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  width: 156px;
+  height: 156px;
+}
+
+.qris-image-frame canvas,
+.qris-image-frame img {
+  width: 140px;
+  height: 140px;
+  display: block;
+}
+
+.qris-scan-instruction {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* VA LIST */
+.va-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.va-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.va-item:hover, .va-item.selected {
+  border-color: #0b132b;
+  background: #f8fafc;
+}
+
+.va-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.va-bank-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.va-bank-badge.bsi { background: #00a39d; }
+.va-bank-badge.mandiri { background: #003d79; }
+.va-bank-badge.bri { background: #00529c; }
+
+.va-item strong {
+  display: block;
+  font-size: 12px;
+  color: #0f172a;
+}
+
+.va-number {
+  font-size: 11.5px;
+  font-family: monospace;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.btn-copy-va {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-va:hover {
+  background: #0b132b;
+  color: #ffffff;
+  border-color: #0b132b;
+}
+
+/* EWALLET */
+.ewallet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.ewallet-chip {
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.ewallet-chip:hover, .ewallet-chip.selected {
+  border-color: #0b132b;
+  background: #f8fafc;
+}
+
+.ewallet-chip strong {
+  display: block;
+  font-size: 12.5px;
+  color: #0f172a;
+}
+
+.ewallet-chip span {
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+/* SUBMIT BUTTON */
+.btn-confirm-payment {
+  margin-top: 18px;
+  width: 100%;
+  padding: 12px;
+  background: #0b132b;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(11, 19, 43, 0.25);
+}
+
+.btn-confirm-payment:hover {
+  background: #172554;
+  transform: translateY(-1px);
+}
+
+/* LOADING STATE */
+.pay-state-loading {
+  text-align: center;
+  padding: 36px 20px;
+}
+
+.pay-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3.5px solid #e2e8f0;
+  border-top-color: #0b132b;
+  border-radius: 50%;
+  animation: paySpin 0.8s linear infinite;
+  margin: 0 auto 16px auto;
+}
+
+@keyframes paySpin {
+  to { transform: rotate(360deg); }
+}
+
+.pay-state-loading h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.pay-state-loading p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* SUCCESS STATE */
+.pay-state-success {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.pay-success-icon-box {
+  width: 52px;
+  height: 52px;
+  background: #ecfdf5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px auto;
+  border: 1.5px solid #a7f3d0;
+}
+
+.pay-state-success h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.pay-success-sub {
+  font-size: 11.5px;
+  color: #64748b;
+  margin: 0 0 14px 0;
+}
+
+.ticket-receipt-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  padding: 4px 0;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.receipt-row:last-of-type {
+  border-bottom: none;
+}
+
+.receipt-row span {
+  color: #64748b;
+}
+
+.badge-status-paid {
+  font-size: 10px;
+  font-weight: 800;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #a7f3d0;
+}
+
+.receipt-qr-center {
+  margin-top: 12px;
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #cbd5e1;
+}
+
+.receipt-qr-box {
+  display: inline-flex;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+.receipt-qr-box canvas,
+.receipt-qr-box img {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
+
+.receipt-qr-note {
+  display: block;
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.pay-success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-download-ticket-now {
+  width: 100%;
+  padding: 11px;
+  background: #0b132b;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-download-ticket-now:hover {
+  background: #172554;
+}
+
+.btn-view-passport {
+  width: 100%;
+  padding: 8px;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-view-passport:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}

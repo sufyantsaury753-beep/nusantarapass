@@ -412,10 +412,15 @@ let lastIssuedTicketData = null;
 
 function openPaymentModal() {
   if (!currentDest) return;
-  const nameInput = document.getElementById('kioskVisitorName');
-  const emailInput = document.getElementById('kioskVisitorEmail');
-  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
-  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
+  const kioskName = (document.getElementById('kioskVisitorName')?.value || '').trim();
+  const kioskEmail = (document.getElementById('kioskVisitorEmail')?.value || '').trim();
+  const payNameInput = document.getElementById('payVisitorName');
+  const payEmailInput = document.getElementById('payVisitorEmail');
+  if (payNameInput && kioskName) payNameInput.value = kioskName;
+  if (payEmailInput && kioskEmail) payEmailInput.value = kioskEmail;
+
+  const name = (payNameInput && payNameInput.value.trim()) || kioskName || 'Sufyan Tsaury';
+  const email = (payEmailInput && payEmailInput.value.trim()) || kioskEmail || 'sufyantsaury753@gmail.com';
 
   const retribusi = currentDest.ticket_price || 20000;
   const konservasi = 3000;
@@ -536,8 +541,8 @@ async function executePaymentSimulation() {
   if (checkoutState) checkoutState.style.display = 'none';
   if (processingState) processingState.style.display = 'block';
 
-  const nameInput = document.getElementById('kioskVisitorName');
-  const emailInput = document.getElementById('kioskVisitorEmail');
+  const nameInput = document.getElementById('payVisitorName') || document.getElementById('kioskVisitorName');
+  const emailInput = document.getElementById('payVisitorEmail') || document.getElementById('kioskVisitorEmail');
   const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
   const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
 

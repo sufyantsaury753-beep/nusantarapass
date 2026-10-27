@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/css/detail.css?v=20261017b" />
+  <link rel="stylesheet" href="../assets/css/payment.css?v=20261017g" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -311,6 +312,18 @@
               <span>Total Tagihan Pembayaran</span>
               <span class="pay-total-amount" id="payTotalAmount">Rp 25.000</span>
             </div>
+          </div>
+        </div>
+
+                <!-- Visitor Identity Fields -->
+        <div class="pay-customer-fields">
+          <div class="pay-field-group">
+            <label for="payVisitorName">Nama Lengkap:</label>
+            <input type="text" id="payVisitorName" class="pay-field-input" placeholder="Nama wisatawan..." value="Sufyan Tsaury" />
+          </div>
+          <div class="pay-field-group">
+            <label for="payVisitorEmail">Email Aktif:</label>
+            <input type="email" id="payVisitorEmail" class="pay-field-input" placeholder="email@contoh.com" value="sufyantsaury753@gmail.com" />
           </div>
         </div>
 

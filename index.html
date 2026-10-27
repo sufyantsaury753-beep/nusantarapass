@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" href="assets/css/main.css?v=20261017g" />
   <link rel="stylesheet" href="assets/css/map.css?v=20261017b" />
+  <link rel="stylesheet" href="assets/css/payment.css?v=20261017g" />
 </head>
 
 <body>
@@ -186,53 +187,220 @@
     </div>
   </div>
 
-<div class="modal-overlay" id="bookingModal" onclick="if(event.target === this) closeBookingModal()">
-    <div class="modal-dialog" style="max-width: 480px;" onclick="event.stopPropagation()">
+<!-- Modal Simulasi Gateway Pembayaran Terpadu (NusantaraPass Pay) -->
+  <div class="modal-overlay" id="paymentModal" onclick="if(event.target === this) closePaymentModal()">
+    <div class="modal-dialog payment-modal-dialog" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
       <div class="modal-header">
-        <div>
-          <h3 style="font-size: 16px; font-weight: 700; color: #0f172a;">Pesan Tiket NusantaraPass</h3>
-          <p id="bookingDestTitle" style="font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;"></p>
-        </div>
-        <button class="modal-close-btn" onclick="closeBookingModal()">&times;</button>
-      </div>
-      <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
-        <p id="bookingDestPrice" style="font-size: 13px; font-weight: 600; color: #0f172a; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 6px;"></p>
-        
-        <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
-          <label style="font-size: 11.5px; font-weight: 600; color: #334155;">Nama Lengkap:</label>
-          <input type="text" id="visitorNameInput" class="form-input" placeholder="Masukkan nama wisatawan..." value="Sufyan Tsaury" />
-        </div>
-
-        <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
-          <label style="font-size: 11.5px; font-weight: 600; color: #334155;">Email Aktif:</label>
-          <input type="email" id="visitorEmailInput" class="form-input" placeholder="email@contoh.com" value="sufyantsaury753@gmail.com" />
-        </div>
-
-        <button class="btn-card-primary" style="width: 100%; justify-content: center; padding: 11px; font-size: 13px;" onclick="generateDigitalPass()">
-          Terbitkan Smart Pass (QR)
-        </button>
-
-<div id="bookingQrArea" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; text-align: center;">
-          <div style="font-size: 11.5px; color: #059669; font-weight: 700; margin-bottom: 8px;">
-            TIKET BERHASIL DITERBITKAN
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="pay-brand-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           </div>
-          <div id="qrcodeContainer" style="display: inline-block; padding: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px;"></div>
-          <div id="passTokenText" style="font-family: monospace; font-size: 12px; font-weight: 700; color: #0f172a;"></div>
-          <p style="font-size: 11px; color: #64748b; margin-top: 6px;">
-            Tunjukkan kode QR ini ke petugas gerbang izin masuk.
-          </p>
-          <div style="margin-top: 12px; display: flex; justify-content: center;">
-            <button type="button" class="btn-card-primary" onclick="downloadCurrentBookingTicketPDF()" style="padding: 9px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; background: #0f766e; border: none; cursor: pointer;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Unduh E-Tiket Resmi (PDF)
+          <div>
+            <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a;">NusantaraPass Pay</h3>
+            <p style="margin: 0; font-size: 11px; color: #64748b;">Simulasi Pembayaran Terintegrasi &bull; Kuota Masuk Resmi</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closePaymentModal()">&times;</button>
+      </div>
+
+      <!-- State 1: Checkout Form -->
+      <div id="payCheckoutState">
+        <!-- Order Summary & Price Breakdown -->
+        <div class="pay-summary-card">
+          <div class="pay-summary-header">
+            <div>
+              <span class="pay-dest-tag" id="payDestCategory">WISATA</span>
+              <h4 id="payDestTitle">Destinasi</h4>
+              <span class="pay-meta-sub" id="payDestMeta">Wilayah &bull; Provinsi</span>
+            </div>
+            <div class="pay-timer-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="payCountdownTimer">14:59</span>
+            </div>
+          </div>
+
+          <div class="pay-breakdown-list">
+            <div class="pay-breakdown-row">
+              <span>Retribusi Izin Masuk (1 Pengunjung)</span>
+              <strong id="payItemTicket">Rp 20.000</strong>
+            </div>
+            <div class="pay-breakdown-row">
+              <span>Iuran Konservasi Alam &amp; Sempadan Kawasan</span>
+              <strong>Rp 3.000</strong>
+            </div>
+            <div class="pay-breakdown-row">
+              <span>Premi Asuransi Jiwa (Jasa Raharja Putera)</span>
+              <strong>Rp 2.000</strong>
+            </div>
+            <div class="pay-breakdown-row total-row">
+              <span>Total Tagihan Pembayaran</span>
+              <span class="pay-total-amount" id="payTotalAmount">Rp 25.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visitor Identity Fields -->
+        <div class="pay-customer-fields">
+          <div class="pay-field-group">
+            <label for="payVisitorName">Nama Lengkap:</label>
+            <input type="text" id="payVisitorName" class="pay-field-input" placeholder="Nama wisatawan..." value="Sufyan Tsaury" />
+          </div>
+          <div class="pay-field-group">
+            <label for="payVisitorEmail">Email Aktif:</label>
+            <input type="email" id="payVisitorEmail" class="pay-field-input" placeholder="email@contoh.com" value="sufyantsaury753@gmail.com" />
+          </div>
+        </div>
+
+        <!-- Payment Method Tabs -->
+        <div class="pay-method-section">
+          <label class="pay-section-label">Pilih Metode Pembayaran Resmi:</label>
+          <div class="pay-tabs-nav">
+            <button type="button" class="pay-tab-btn active" id="tabBtnQris" onclick="switchPayTab('qris')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              QRIS Dinamis
+            </button>
+            <button type="button" class="pay-tab-btn" id="tabBtnVa" onclick="switchPayTab('va')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="22" y2="10"/></svg>
+              Virtual Account
+            </button>
+            <button type="button" class="pay-tab-btn" id="tabBtnEwallet" onclick="switchPayTab('ewallet')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><circle cx="18" cy="14" r="2"/></svg>
+              E-Wallet
             </button>
           </div>
+
+          <!-- Content Tab QRIS -->
+          <div class="pay-tab-content active" id="payTabContentQris">
+            <div class="qris-presentation-box">
+              <div class="qris-badge-bar">
+                <span style="font-weight: 800; font-size: 13px; letter-spacing: 1px; color: #b91c1c;">QRIS</span>
+                <span style="font-size: 10px; color: #64748b; font-weight: 600;">Standar Pembayaran Nasional</span>
+              </div>
+              <div id="simulatedQrisCodeHolder" class="qris-image-frame"></div>
+              <p class="qris-scan-instruction">
+                Buka aplikasi m-Banking (BCA, Mandiri, BSI, BRI) atau E-Wallet (GoPay, OVO, Dana) Anda, lalu pindai kode QRIS di atas.
+              </p>
+            </div>
+          </div>
+
+          <!-- Content Tab VA -->
+          <div class="pay-tab-content" id="payTabContentVa">
+            <div class="va-options-list">
+              <div class="va-item selected" onclick="selectVaBank(this, '988-25303-11086', 'Bank Syariah Indonesia (BSI)')">
+                <div class="va-item-left">
+                  <span class="va-bank-badge bsi">BSI</span>
+                  <div>
+                    <strong>Bank Syariah Indonesia</strong>
+                    <span class="va-number">988-25303-11086</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-copy-va" onclick="copyVaNumber(event, '9882530311086')">Salin</button>
+              </div>
+
+              <div class="va-item" onclick="selectVaBank(this, '88908-25303-11086', 'Bank Mandiri')">
+                <div class="va-item-left">
+                  <span class="va-bank-badge mandiri">MANDIRI</span>
+                  <div>
+                    <strong>Bank Mandiri</strong>
+                    <span class="va-number">88908-25303-11086</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-copy-va" onclick="copyVaNumber(event, '889082530311086')">Salin</button>
+              </div>
+
+              <div class="va-item" onclick="selectVaBank(this, '10423-25303-11086', 'Bank BRI')">
+                <div class="va-item-left">
+                  <span class="va-bank-badge bri">BRI</span>
+                  <div>
+                    <strong>Bank Rakyat Indonesia</strong>
+                    <span class="va-number">10423-25303-11086</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-copy-va" onclick="copyVaNumber(event, '104232530311086')">Salin</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Tab E-Wallet -->
+          <div class="pay-tab-content" id="payTabContentEwallet">
+            <div class="ewallet-grid">
+              <div class="ewallet-chip selected" onclick="selectEwallet(this, 'GoPay')">
+                <strong>GoPay</strong>
+                <span>Instant Payment</span>
+              </div>
+              <div class="ewallet-chip" onclick="selectEwallet(this, 'OVO')">
+                <strong>OVO</strong>
+                <span>OVO Cash</span>
+              </div>
+              <div class="ewallet-chip" onclick="selectEwallet(this, 'DANA')">
+                <strong>DANA</strong>
+                <span>DANA Saldo</span>
+              </div>
+              <div class="ewallet-chip" onclick="selectEwallet(this, 'ShopeePay')">
+                <strong>ShopeePay</strong>
+                <span>Saldo ShopeePay</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-confirm-payment" id="btnConfirmPayment" onclick="executePaymentSimulation()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span id="btnConfirmPayText">Bayar Sekarang (Simulasi)</span>
+        </button>
+      </div>
+
+      <!-- State 2: Processing State -->
+      <div id="payProcessingState" style="display: none;" class="pay-state-loading">
+        <div class="pay-spinner"></div>
+        <h4>Memproses Transaksi...</h4>
+        <p>Menghubungkan ke Gateway Perbankan &amp; Mengamankan Kuota Konservasi...</p>
+      </div>
+
+      <!-- State 3: Success State -->
+      <div id="paySuccessState" style="display: none;" class="pay-state-success">
+        <div class="pay-success-icon-box">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Pembayaran Berhasil &amp; Izin Diterbitkan!</h3>
+        <p class="pay-success-sub">Transaksi telah tervalidasi secara sah. Kuota kunjungan Anda telah resmi diamankan.</p>
+
+        <div class="ticket-receipt-card">
+          <div class="receipt-row">
+            <span>Nomor Registrasi:</span>
+            <strong id="receiptRegCode">NP-TKT-...</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Token Akses Gerbang:</span>
+            <code id="receiptPassToken">NP-PASS-...</code>
+          </div>
+          <div class="receipt-row">
+            <span>Status Pembayaran:</span>
+            <span class="badge-status-paid">LUNAS &bull; TERVERIFIKASI</span>
+          </div>
+          <div class="receipt-qr-center">
+            <div id="receiptQrHolder" class="receipt-qr-box"></div>
+            <span class="receipt-qr-note">Pindai QR ini di loket gerbang masuk</span>
+          </div>
+        </div>
+
+        <div class="pay-success-actions">
+          <button type="button" class="btn-download-ticket-now" onclick="downloadIssuedPaymentTicket()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh E-Tiket Resmi (PDF)
+          </button>
+          <button type="button" class="btn-view-passport" onclick="openPassportFromPayment()">
+            Lihat Stempel di Buku Paspor
+          </button>
         </div>
       </div>
+
     </div>
   </div>
 
-<div class="modal-overlay" id="passportModal" onclick="if(event.target === this) closePassportModal()">
+  <div class="modal-overlay" id="passportModal" onclick="if(event.target === this) closePassportModal()">
     <div class="modal-dialog" style="max-width: 540px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
