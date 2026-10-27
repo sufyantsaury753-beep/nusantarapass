@@ -285,15 +285,12 @@ doc.setFont('helvetica', 'bold');
   const ecoRules = dest.eco_guidelines || 'Patuhi rambu pemandu dan instruksi petugas lapangan.';
   doc.text(`Aturan Khusus: ${ecoRules}`, marginL + 5, 181);
 
-doc.setFont('helvetica', 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(11, 19, 43);
-  doc.text('IV. KETENTUAN KUNJUNGAN & KEPATUHAN HUKUM', marginL, 191);
+  doc.text('IV. KETENTUAN KUNJUNGAN & KEPATUHAN HUKUM', marginL, 189.5);
 
-  doc.setFillColor(255, 255, 255);
-  doc.setDrawColor(203, 213, 225);
-  doc.setLineWidth(0.35);
-  doc.rect(marginL, 194, contentW, 50, 'FD');
+  const sec4BoxY = 192.5;
 
   const rulesList = [
     {
@@ -323,25 +320,45 @@ doc.setFont('helvetica', 'bold');
     }
   ];
 
-  let ry = 200;
+  const itemTitleGap = 3.0;
+  const descLineH = 2.8;
+  const itemSpacing = 1.4;
+
+  // Hitung kebutuhan tinggi kotak secara dinamis agar seluruh teks terbungkus rapi tanpa terpotong
+  let requiredContentH = 3.5;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.0);
+  rulesList.forEach(item => {
+    const splitDesc = doc.splitTextToSize(item.desc, contentW - 14);
+    requiredContentH += itemTitleGap + (splitDesc.length * descLineH) + itemSpacing;
+  });
+  requiredContentH += 2.5;
+  const sec4BoxH = Math.max(58, Math.ceil(requiredContentH));
+
+  doc.setFillColor(255, 255, 255);
+  doc.setDrawColor(203, 213, 225);
+  doc.setLineWidth(0.35);
+  doc.rect(marginL, sec4BoxY, contentW, sec4BoxH, 'FD');
+
+  let ry = sec4BoxY + 4.0;
   rulesList.forEach(item => {
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(6.8);
+    doc.setFontSize(6.6);
     doc.setTextColor(15, 23, 42);
     doc.text(item.num, marginL + 5, ry);
     doc.text(item.title, marginL + 9, ry);
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
+    doc.setFontSize(6.0);
     doc.setTextColor(71, 85, 105);
 
     const splitDesc = doc.splitTextToSize(item.desc, contentW - 14);
-    doc.text(splitDesc, marginL + 9, ry + 3.8);
+    doc.text(splitDesc, marginL + 9, ry + itemTitleGap);
 
-    ry += 3.8 + (splitDesc.length * 3.2) + 1.2;
+    ry += itemTitleGap + (splitDesc.length * descLineH) + itemSpacing;
   });
 
-const footY = 249;
+  const footY = Math.max(256, sec4BoxY + sec4BoxH + 4.5);
   doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.4);
   doc.line(marginL, footY, marginR, footY);
@@ -591,18 +608,29 @@ const sec3Y = rY + 6;
   doc.setTextColor(11, 19, 43);
   doc.text('III. KETENTUAN KEPATUHAN & DASAR HUKUM KONSERVASI', marginL, sec3Y);
 
-  doc.setFillColor(255, 255, 255);
-  doc.setDrawColor(203, 213, 225);
-  doc.setLineWidth(0.35);
-  doc.rect(marginL, sec3Y + 3, contentW, 36, 'FD');
-
   const legalPoints = [
     { n: "1.", t: "Keabsahan Rekam Jejak:", d: "Buku Rekapitulasi Paspor ini adalah bukti elektronik resmi kontribusi pemegang paspor dalam mendukung ekowisata berkelanjutan dan pelestarian cagar alam/budaya 38 provinsi." },
     { n: "2.", t: "Akses Masuk Gerbang Loket:", d: "Untuk izin masuk fisik perorangan di pintu gerbang masing-masing destinasi, pengunjung dapat mencetak lembar E-Tiket perorangan ber-QR Code dari sistem NusantaraPass." },
     { n: "3.", t: "Perlindungan Hukum:", d: "Pengunjung wajib mematuhi UU No. 11 Tahun 2010 tentang Cagar Budaya dan UU No. 10 Tahun 2009 tentang Kepariwisataan. Dilarang merusak cagar alam/budaya serta wajib membawa pulang sampah (Zero Waste)." }
   ];
 
-  let lY = sec3Y + 8;
+  const sec3BoxY = sec3Y + 3;
+  let sec3RequiredH = 3.5;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.2);
+  legalPoints.forEach((pt) => {
+    const splitD = doc.splitTextToSize(pt.d, contentW - 14);
+    sec3RequiredH += 3.2 + (splitD.length * 2.8) + 1.2;
+  });
+  sec3RequiredH += 2.5;
+  const sec3BoxH = Math.max(38, Math.ceil(sec3RequiredH));
+
+  doc.setFillColor(255, 255, 255);
+  doc.setDrawColor(203, 213, 225);
+  doc.setLineWidth(0.35);
+  doc.rect(marginL, sec3BoxY, contentW, sec3BoxH, 'FD');
+
+  let lY = sec3BoxY + 4.2;
   legalPoints.forEach((pt) => {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(6.8);
@@ -611,50 +639,52 @@ const sec3Y = rY + 6;
     doc.text(pt.t, marginL + 9, lY);
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
+    doc.setFontSize(6.2);
     doc.setTextColor(71, 85, 105);
     const splitD = doc.splitTextToSize(pt.d, contentW - 14);
-    doc.text(splitD, marginL + 9, lY + 3.8);
+    doc.text(splitD, marginL + 9, lY + 3.2);
 
-    lY += 3.8 + (splitD.length * 3.2) + 1;
+    lY += 3.2 + (splitD.length * 2.8) + 1.2;
   });
 
-const sec4Y = sec3Y + 44;
+  const sec4Y = sec3BoxY + sec3BoxH + 5;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(11, 19, 43);
   doc.text('IV. PENGESAHAN ELEKTRONIK & VERIFIKASI SISTEM', marginL, sec4Y);
 
+  const sec4BoxY = sec4Y + 3;
+  const sec4BoxH = 26;
   doc.setFillColor(255, 255, 255);
   doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.35);
-  doc.rect(marginL, sec4Y + 3, contentW, 26, 'FD');
+  doc.rect(marginL, sec4BoxY, contentW, sec4BoxH, 'FD');
 
-doc.setFont('helvetica', 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.2);
   doc.setTextColor(15, 23, 42);
-  doc.text('Pengelola Platform Geoportal NusantaraPass', marginL + 5, sec4Y + 9);
+  doc.text('Pengelola Platform Geoportal NusantaraPass', marginL + 5, sec4BoxY + 6);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   doc.setTextColor(71, 85, 105);
-  doc.text('Telah diperiksa dan diverifikasi secara elektronik melalui database PostgREST Supabase.', marginL + 5, sec4Y + 14);
-  doc.text(`Kode Autentikasi Sistem: NP-AUTH-PASSPOR-${passSerial}-${now.getFullYear()}`, marginL + 5, sec4Y + 18.5);
-  doc.text('Dokumen ini sah tanpa tanda tangan basah berdasarkan ketentuan UU ITE No. 11/2008.', marginL + 5, sec4Y + 23);
+  doc.text('Telah diperiksa dan diverifikasi secara elektronik melalui database PostgREST Supabase.', marginL + 5, sec4BoxY + 11);
+  doc.text(`Kode Autentikasi Sistem: NP-AUTH-PASSPOR-${passSerial}-${now.getFullYear()}`, marginL + 5, sec4BoxY + 15.5);
+  doc.text('Dokumen ini sah tanpa tanda tangan basah berdasarkan ketentuan UU ITE No. 11/2008.', marginL + 5, sec4BoxY + 20);
 
-doc.setDrawColor(11, 19, 43);
+  doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.4);
-  doc.rect(marginR - 44, sec4Y + 6.5, 39, 17);
+  doc.rect(marginR - 44, sec4BoxY + 4.5, 39, 17);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(6.5);
   doc.setTextColor(11, 19, 43);
-  doc.text('TERVERIFIKASI SAH', marginR - 24.5, sec4Y + 13, { align: 'center' });
+  doc.text('TERVERIFIKASI SAH', marginR - 24.5, sec4BoxY + 11, { align: 'center' });
   doc.setFontSize(5.8);
   doc.setTextColor(71, 85, 105);
-  doc.text('NUSANTARAPASS SISTEM TERPADU', marginR - 24.5, sec4Y + 18, { align: 'center' });
+  doc.text('NUSANTARAPASS SISTEM TERPADU', marginR - 24.5, sec4BoxY + 16, { align: 'center' });
 
-const footY = 282;
+  const footY = Math.max(280, sec4BoxY + sec4BoxH + 5);
   doc.setDrawColor(11, 19, 43);
   doc.setLineWidth(0.4);
   doc.line(marginL, footY, marginR, footY);
