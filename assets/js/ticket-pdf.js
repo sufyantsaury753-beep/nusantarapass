@@ -14,13 +14,14 @@ function generateSingleTicketPDF(ticketData) {
   const dest = ticketData.destination || {};
   const visitorName = ticketData.visitorName || 'Sufyan Tsaury';
   const visitorEmail = ticketData.visitorEmail || 'sufyantsaury753@gmail.com';
-  const passToken = ticketData.passToken || `NP-PASS-${dest.code || 'GEN'}-${Date.now().toString().slice(-6)}`;
-  const qrDataUrl = ticketData.qrDataUrl || null;
 
   const now = new Date();
+  const randSuffix = Math.floor(100000 + Math.random() * 900000).toString();
   const todayDate = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
   const bookingTime = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(':', '.') + ' WIB';
-  const bookingCode = `NP-TKT-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Date.now().toString().slice(-6)}`;
+  const bookingCode = ticketData.bookingCode || `NP-TKT-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${randSuffix}`;
+  const passToken = ticketData.passToken || `NP-PASS-${dest.code || 'GEN'}-${randSuffix}`;
+  const qrDataUrl = ticketData.qrDataUrl || null;
   const priceVal = (dest.ticket_price || 20000).toLocaleString('id-ID');
   const quotaText = dest.daily_quota ? dest.daily_quota.toLocaleString('id-ID') : '1.500';
   const catLabel = (dest.category || 'WISATA').replace(/_/g, ' ').toUpperCase();
@@ -185,12 +186,55 @@ const rightColCenterX = splitX + (contentW - leftColW) / 2;
   doc.setTextColor(71, 85, 105);
   doc.text('VERIFIKASI GERBANG MASUK', rightColCenterX, 98.5, { align: 'center' });
 
-  if (qrDataUrl) {
+  let activeQr = qrDataUrl;
+  if (!activeQr && typeof QRCode !== 'undefined') {
     try {
-      doc.addImage(qrDataUrl, 'PNG', rightColCenterX - 18, 100.5, 36, 36);
+      const hiddenQrDiv = document.createElement('div');
+      hiddenQrDiv.style.position = 'absolute';
+      hiddenQrDiv.style.left = '-9999px';
+      hiddenQrDiv.style.top = '-9999px';
+      document.body.appendChild(hiddenQrDiv);
+
+      const qrPayload = `https://nusantarapass.vercel.app/verify?token=${passToken}&tkt=${bookingCode}&dest=${dest.code || 'IDN'}`;
+      new QRCode(hiddenQrDiv, {
+        text: qrPayload,
+        width: 140,
+        height: 140,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      const qrCanvas = hiddenQrDiv.querySelector('canvas');
+      if (qrCanvas) {
+        activeQr = qrCanvas.toDataURL('image/png');
+      } else {
+        const qrImg = hiddenQrDiv.querySelector('img');
+        if (qrImg && qrImg.src) activeQr = qrImg.src;
+      }
+      document.body.removeChild(hiddenQrDiv);
     } catch (e) {
-      console.warn("QR Error:", e);
+      console.warn("Auto QR error:", e);
     }
+  }
+
+  if (activeQr) {
+    try {
+      doc.addImage(activeQr, 'PNG', rightColCenterX - 18, 100.5, 36, 36);
+    } catch (e) {
+      console.warn("QR Embed Error:", e);
+    }
+  } else {
+    doc.setDrawColor(11, 19, 43);
+    doc.setLineWidth(0.4);
+    doc.rect(rightColCenterX - 18, 100.5, 36, 36);
+    doc.setFont('courier', 'bold');
+    doc.setFontSize(6.5);
+    doc.setTextColor(11, 19, 43);
+    doc.text('KODE VERIFIKASI', rightColCenterX, 115, { align: 'center' });
+    doc.text(passToken, rightColCenterX, 121, { align: 'center' });
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(5);
+    doc.setTextColor(100, 116, 139);
+    doc.text('TERVALIDASI RESMI', rightColCenterX, 127, { align: 'center' });
   }
 
   doc.setFont('courier', 'bold');

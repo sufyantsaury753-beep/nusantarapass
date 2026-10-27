@@ -405,6 +405,255 @@ if (typeof npSaveVisitorPass === 'function') {
 
 let lastDetailPassToken = null;
 
+
+let paymentCountdownInterval = null;
+let currentPayTotal = 25000;
+let lastIssuedTicketData = null;
+
+function openPaymentModal() {
+  if (!currentDest) return;
+  const nameInput = document.getElementById('kioskVisitorName');
+  const emailInput = document.getElementById('kioskVisitorEmail');
+  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
+  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
+
+  const retribusi = currentDest.ticket_price || 20000;
+  const konservasi = 3000;
+  const asuransi = 2000;
+  currentPayTotal = retribusi + konservasi + asuransi;
+
+  const destCatEl = document.getElementById('payDestCategory');
+  if (destCatEl) destCatEl.textContent = (currentDest.category || 'WISATA').replace(/_/g, ' ').toUpperCase();
+
+  const destTitleEl = document.getElementById('payDestTitle');
+  if (destTitleEl) destTitleEl.textContent = currentDest.name || 'Destinasi Nusantara';
+
+  const destMetaEl = document.getElementById('payDestMeta');
+  if (destMetaEl) destMetaEl.textContent = `${currentDest.region || 'Wilayah'} • Provinsi ${currentDest.province || 'Indonesia'}`;
+
+  const itemTicketEl = document.getElementById('payItemTicket');
+  if (itemTicketEl) itemTicketEl.textContent = `Rp ${retribusi.toLocaleString('id-ID')}`;
+
+  const totalAmountEl = document.getElementById('payTotalAmount');
+  if (totalAmountEl) totalAmountEl.textContent = `Rp ${currentPayTotal.toLocaleString('id-ID')}`;
+
+  const btnConfirmPayText = document.getElementById('btnConfirmPayText');
+  if (btnConfirmPayText) btnConfirmPayText.textContent = `Bayar Sekarang (Simulasi Rp ${currentPayTotal.toLocaleString('id-ID')})`;
+
+  // Render QRIS Dinamis
+  const qrisHolder = document.getElementById('simulatedQrisCodeHolder');
+  if (qrisHolder && typeof QRCode !== 'undefined') {
+    qrisHolder.innerHTML = '';
+    const qrisPayload = `00020101021226600016ID.CO.QRIS.WWW01189360098825303110860215NP-${currentDest.code || 'IDN'}51440014ID.LINKAJA.WWW0215936009882530311520458125303360540${currentPayTotal}5802ID5913NUSANTARAPASS6008JAKARTA6304`;
+    new QRCode(qrisHolder, {
+      text: qrisPayload,
+      width: 140,
+      height: 140,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+
+  // Timer 15:00
+  startPaymentCountdown(15 * 60);
+
+  // Set default view: Checkout form
+  const checkoutState = document.getElementById('payCheckoutState');
+  const processingState = document.getElementById('payProcessingState');
+  const successState = document.getElementById('paySuccessState');
+  if (checkoutState) checkoutState.style.display = 'block';
+  if (processingState) processingState.style.display = 'none';
+  if (successState) successState.style.display = 'none';
+
+  switchPayTab('qris');
+
+  const modal = document.getElementById('paymentModal');
+  if (modal) modal.classList.add('active');
+}
+
+function closePaymentModal() {
+  const modal = document.getElementById('paymentModal');
+  if (modal) modal.classList.remove('active');
+  if (paymentCountdownInterval) {
+    clearInterval(paymentCountdownInterval);
+    paymentCountdownInterval = null;
+  }
+}
+
+function startPaymentCountdown(seconds) {
+  if (paymentCountdownInterval) clearInterval(paymentCountdownInterval);
+  let remaining = seconds;
+  const timerEl = document.getElementById('payCountdownTimer');
+  const updateDisplay = () => {
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    if (timerEl) timerEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+  updateDisplay();
+  paymentCountdownInterval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(paymentCountdownInterval);
+      paymentCountdownInterval = null;
+      if (timerEl) timerEl.textContent = '00:00';
+    } else {
+      updateDisplay();
+    }
+  }, 1000);
+}
+
+function switchPayTab(tabName) {
+  ['qris', 'va', 'ewallet'].forEach(tab => {
+    const btn = document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+    const content = document.getElementById(`payTabContent${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+    if (btn) btn.classList.toggle('active', tab === tabName);
+    if (content) content.classList.toggle('active', tab === tabName);
+  });
+}
+
+function selectVaBank(el, vaNum, bankName) {
+  document.querySelectorAll('.va-item').forEach(item => item.classList.remove('selected'));
+  if (el) el.classList.add('selected');
+}
+
+function copyVaNumber(e, num) {
+  if (e) e.stopPropagation();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(num);
+  }
+  alert(`Nomor Virtual Account (${num}) berhasil disalin!`);
+}
+
+function selectEwallet(el, name) {
+  document.querySelectorAll('.ewallet-chip').forEach(item => item.classList.remove('selected'));
+  if (el) el.classList.add('selected');
+}
+
+async function executePaymentSimulation() {
+  const checkoutState = document.getElementById('payCheckoutState');
+  const processingState = document.getElementById('payProcessingState');
+  const successState = document.getElementById('paySuccessState');
+
+  if (checkoutState) checkoutState.style.display = 'none';
+  if (processingState) processingState.style.display = 'block';
+
+  const nameInput = document.getElementById('kioskVisitorName');
+  const emailInput = document.getElementById('kioskVisitorEmail');
+  const name = (nameInput && nameInput.value.trim()) || 'Sufyan Tsaury';
+  const email = (emailInput && emailInput.value.trim()) || 'sufyantsaury753@gmail.com';
+
+  const now = new Date();
+  const randNum = Math.floor(100000 + Math.random() * 900000).toString();
+  const passToken = `NP-PASS-${currentDest.code || 'GEN'}-${randNum}`;
+  const bookingCode = `NP-TKT-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${randNum}`;
+
+  // 1. Simpan & mutasi kuota live di Supabase
+  if (typeof npCheckinVisitor === 'function') {
+    try {
+      await npCheckinVisitor(currentDest.id);
+      renderKioskMetrics();
+    } catch (e) {
+      console.warn("Mutasi kuota error:", e);
+    }
+  }
+
+  // 2. Simpan stempel ke paspor
+  if (!myPassportStamps.includes(currentDest.id)) {
+    myPassportStamps.push(currentDest.id);
+    localStorage.setItem('np_stamps', JSON.stringify(myPassportStamps));
+    updatePassportBadge();
+  }
+
+  // 3. Simpan tiket ke cloud database
+  if (typeof npSaveVisitorPass === 'function') {
+    npSaveVisitorPass({
+      code: passToken,
+      destinationId: currentDest.id,
+      visitorName: name,
+      visitorEmail: email,
+      qrToken: passToken
+    }).catch(e => console.warn('Supabase pass background save:', e));
+  }
+
+  // Delay simulasi proses perbankan 1.2 detik
+  setTimeout(() => {
+    if (processingState) processingState.style.display = 'none';
+    if (successState) successState.style.display = 'block';
+
+    const regEl = document.getElementById('receiptRegCode');
+    if (regEl) regEl.textContent = bookingCode;
+
+    const tokenEl = document.getElementById('receiptPassToken');
+    if (tokenEl) tokenEl.textContent = passToken;
+
+    // Render Unique QR Code in Receipt
+    let qrDataUrl = null;
+    const qrHolder = document.getElementById('receiptQrHolder');
+    if (qrHolder && typeof QRCode !== 'undefined') {
+      qrHolder.innerHTML = '';
+      const qrPayload = `https://nusantarapass.vercel.app/verify?token=${passToken}&tkt=${bookingCode}&dest=${currentDest.code || 'IDN'}`;
+      new QRCode(qrHolder, {
+        text: qrPayload,
+        width: 120,
+        height: 120,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      const canvas = qrHolder.querySelector('canvas');
+      if (canvas) {
+        qrDataUrl = canvas.toDataURL('image/png');
+      } else {
+        const img = qrHolder.querySelector('img');
+        if (img && img.src) qrDataUrl = img.src;
+      }
+    }
+
+    lastIssuedTicketData = {
+      destination: currentDest,
+      visitorName: name,
+      visitorEmail: email,
+      passToken: passToken,
+      bookingCode: bookingCode,
+      qrDataUrl: qrDataUrl
+    };
+
+    lastDetailPassToken = passToken;
+
+    // Tampilkan juga di kartu kiosk halaman utama
+    const passBox = document.getElementById('kioskPassResultBox');
+    const tokenText = document.getElementById('kioskPassTokenText');
+    const qrContainer = document.getElementById('kioskQrCodeContainer');
+    if (tokenText) tokenText.textContent = `TOKEN VERIFIKASI: ${passToken}`;
+    if (qrContainer && typeof QRCode !== 'undefined') {
+      qrContainer.innerHTML = '';
+      new QRCode(qrContainer, {
+        text: passToken,
+        width: 140,
+        height: 140
+      });
+    }
+    if (passBox) passBox.style.display = 'block';
+
+    // Confetti perayaan
+    if (typeof confetti === 'function') {
+      confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });
+    }
+  }, 1200);
+}
+
+function downloadIssuedPaymentTicket() {
+  if (!lastIssuedTicketData) {
+    downloadDetailTicketPDF();
+    return;
+  }
+  if (typeof generateSingleTicketPDF === 'function') {
+    generateSingleTicketPDF(lastIssuedTicketData);
+  }
+}
+
+function openPassportFromPayment() {
+  closePaymentModal();
+  openPassportModal();
+}
+
 function downloadDetailTicketPDF() {
   if (!currentDest) {
     alert("Destinasi belum dipilih.");
