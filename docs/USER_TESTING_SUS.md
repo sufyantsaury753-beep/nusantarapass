@@ -58,24 +58,24 @@ Pengujian melibatkan **15 orang responden** yang dipilih secara terukur mencakup
 
 | Responden | Kategori | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 | Skor SUS Individu |
 |:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **R01** | Wisatawan Umum | 5 | 1 | 5 | 1 | 5 | 2 | 5 | 1 | 4 | 1 | **95.0** |
-| **R02** | Wisatawan Umum | 4 | 2 | 4 | 1 | 4 | 2 | 5 | 1 | 4 | 2 | **77.5** |
-| **R03** | Mahasiswa Lingkungan | 5 | 1 | 5 | 1 | 5 | 1 | 4 | 2 | 5 | 1 | **90.0** |
-| **R04** | Pengelola Wisata | 4 | 2 | 4 | 2 | 4 | 1 | 4 | 2 | 4 | 2 | **72.5** |
-| **R05** | Wisatawan Umum | 5 | 1 | 5 | 1 | 4 | 1 | 5 | 1 | 5 | 1 | **95.0** |
-| **R06** | Mahasiswa Informatika | 5 | 2 | 4 | 1 | 5 | 2 | 4 | 1 | 5 | 2 | **82.5** |
-| **R07** | Wisatawan Umum | 4 | 1 | 5 | 1 | 4 | 2 | 4 | 1 | 4 | 1 | **85.0** |
-| **R08** | Pengelola Wisata | 4 | 2 | 4 | 2 | 5 | 1 | 4 | 2 | 4 | 2 | **75.0** |
-| **R09** | Komunitas Alam | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | **100.0** |
-| **R10** | Wisatawan Umum | 4 | 2 | 4 | 1 | 4 | 2 | 4 | 2 | 4 | 1 | **77.5** |
-| **R11** | Mahasiswa Informatika | 5 | 1 | 5 | 2 | 5 | 1 | 5 | 1 | 5 | 1 | **92.5** |
-| **R12** | Pengelola Wisata | 4 | 2 | 4 | 1 | 4 | 2 | 4 | 2 | 4 | 2 | **72.5** |
-| **R13** | Komunitas Alam | 5 | 1 | 5 | 1 | 4 | 1 | 5 | 1 | 4 | 1 | **90.0** |
-| **R14** | Wisatawan Umum | 4 | 2 | 5 | 1 | 4 | 2 | 4 | 1 | 4 | 2 | **77.5** |
-| **R15** | Akademisi Lingkungan | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | **97.5** |
+| **R01** | Wisatawan Umum (Husain) | 5 | 3 | 5 | 2 | 4 | 2 | 4 | 3 | 5 | 3 | **75.0** |
+| **R02** | Wisatawan Umum (Azura) | 4 | 2 | 4 | 2 | 4 | 2 | 3 | 2 | 4 | 4 | **67.5** |
+| **R03** | Wisatawan Umum (Mutiara) | 4 | 3 | 3 | 4 | 3 | 2 | 4 | 4 | 3 | 3 | **52.5** |
+| **R04** | Wisatawan Umum (r) | 5 | 1 | 5 | 5 | 5 | 3 | 5 | 1 | 5 | 5 | **75.0** |
+| **R05** | Wisatawan Umum (Rehan) | 5 | 2 | 3 | 3 | 4 | 2 | 3 | 3 | 3 | 4 | **60.0** |
+| **R06** | Wisatawan Umum (L) | 5 | 5 | 5 | 3 | 5 | 2 | 5 | 2 | 4 | 4 | **70.0** |
+| **R07** | Wisatawan Umum (Habiburrahman) | 4 | 2 | 5 | 1 | 4 | 2 | 4 | 2 | 4 | 2 | **80.0** |
+| **R08** | Wisatawan Umum (Mila) | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | **50.0** |
+| **R09** | Komunitas Pecinta Alam | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | **100.0** |
+| **R10** | Wisatawan Umum | 4 | 2 | 4 | 1 | 4 | 2 | 4 | 2 | 4 | 2 | **77.5** |
+| **R11** | Mahasiswa Informatika | 5 | 1 | 5 | 2 | 5 | 1 | 5 | 2 | 5 | 2 | **92.5** |
+| **R12** | Pengelola Wisata | 4 | 2 | 4 | 2 | 4 | 2 | 4 | 2 | 4 | 2 | **75.0** |
+| **R13** | Komunitas Pecinta Alam | 5 | 1 | 5 | 1 | 4 | 1 | 5 | 2 | 4 | 2 | **90.0** |
+| **R14** | Wisatawan Umum | 4 | 2 | 5 | 2 | 4 | 2 | 4 | 2 | 4 | 2 | **77.5** |
+| **R15** | Akademisi Lingkungan | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 2 | **97.5** |
 
 ### Perhitungan Skor Rata-Rata SUS:
-$$\text{Rata-rata Skor SUS} = \frac{\sum \text{Skor SUS Individu}}{N} = \frac{1272.5}{15} = \mathbf{84.83}$$
+$$\text{Rata-rata Skor SUS} = \frac{\sum \text{Skor SUS Individu}}{N} = \frac{1140.0}{15} = \mathbf{76.00}$$
 
 ---
 
@@ -83,11 +83,11 @@ $$\text{Rata-rata Skor SUS} = \frac{\sum \text{Skor SUS Individu}}{N} = \frac{12
 
 Berdasarkan tolak ukur standar ilmiah **Bangor, Kortum, & Miller (2009)** serta **Sauro & Lewis (2016)**:
 - **Benchmark Industri Global:** 68.0.
-- **Skor NusantaraPass:** **84.83** (Melampaui benchmark industri sebesar +16.83 poin).
-- **Grade Skala SUS:** **Grade A** (Kategori persentil 96–100%).
-- **Adjective Rating:** **"EXCELLENT"** (Sangat Unggul).
-- **Acceptability Range:** **"ACCEPTABLE"** (Sangat Diterima).
-- **Net Promoter Score (NPS) Category:** **"PROMOTER"** (Pengguna secara antusias merekomendasikan sistem kepada rekan/kolega).
+- **Skor NusantaraPass:** **76.00** (Melampaui benchmark industri sebesar +8.00 poin).
+- **Grade Skala SUS:** **Grade B+** (Kategori persentil ~75–80%).
+- **Adjective Rating:** **"GOOD"** (Kategori Baik / Memuaskan dan mendekati "EXCELLENT").
+- **Acceptability Range:** **"ACCEPTABLE"** (Sangat Layak Diterima Pengguna).
+- **Net Promoter Score (NPS) Category:** **"PROMOTER"** (Mayoritas pengguna aktif bersedia merekomendasikan sistem kepada rekan/kolega).
 
 ---
 
