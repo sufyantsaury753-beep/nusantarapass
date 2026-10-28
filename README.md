@@ -48,24 +48,33 @@
   * 🔴 **Penuh / Ditutup Sementara** (untuk perawatan cagar budaya atau gelombang pasang tinggi di pantai).
 * Peringatan gelombang pasang & cuaca pantai berbasis data maritim BMKG.
 
-### 3. 🎫 Smart QR Visitor Pass & E-Tiket Resmi 1 Halaman (Traveloka-Style PDF)
+### 3. 💳 Simulasi Payment Gateway Terpadu (NusantaraPass Pay)
+* Tersedia di halaman beranda (index.html) dan rincian destinasi (destinasi/index.html).
+* **Kalkulasi Biaya Transparan:** Retribusi resmi, Iuran Konservasi Alam (Rp 3.000), dan Premi Asuransi Jiwa Jasa Raharja (Rp 2.000).
+* **3 Metode Pembayaran:**
+  * 📱 **QRIS Dinamis:** Kode QRIS standar nasional di-generate secara real-time.
+  * 🏦 **Virtual Account (VA):** Pilihan Bank Syariah Indonesia (BSI), Mandiri, dan BRI lengkap dengan fitur salin nomor VA.
+  * 📲 **E-Wallet:** GoPay, OVO, DANA, dan ShopeePay.
+* Countdown timer 15:00 menit, animasi proses perbankan, mutasi kuota live di Supabase Cloud, dan lembar tanda terima digital ber-QR unik.
+
+### 4. 🎫 Smart QR Visitor Pass & E-Tiket Resmi 1 Halaman (PDF Siap Cetak)
 * Wisatawan dapat memesan tiket retribusi konservasi digital dalam 1 klik dan mendapatkan **QR Code NusantaraPass**.
 * **Generator E-Tiket PDF 1 Halaman:** Mengunduh voucher tiket resmi siap cetak/bawa ke lokasi lengkap dengan QR scanner gerbang, detail rincian wisatawan, barometer daya tampung kawasan, dan panduan pelestarian cagar budaya/alam (*Eco-Code of Conduct*).
 * Petugas gerbang destinasi memindai QR tiket untuk verifikasi dan pemotongan kuota harian secara otomatis di database.
 
-### 4. 🛂 E-Passport Jelajah Nusantara & Stempel Digital (Automated PDF)
+### 5. 🛂 E-Passport Jelajah Nusantara & Stempel Digital (Automated PDF)
 * Mengadopsi konsep *Stamp Rally* dan paspor peziarah budaya internasional.
 * Setiap kali wisatawan melakukan *check-in* di destinasi, mereka mendapatkan **Stempel Digital (*Digital Heritage Stamp*)**.
 * **Generator Buku Paspor Digital (Format PDF):** Menghasilkan dokumen resmi berdesain Buku Paspor Republik Indonesia lengkap dengan biodata wisatawan, stempel cap destinasi yang telah dikunjungi, dan sertifikat Pelestari Budaya & Alam Indonesia siap cetak!
 
-### 5. ⚙️ Cloud CMS Admin Dashboard & Server-Side Auth (`admin/index.html`)
+### 6. ⚙️ Cloud CMS Admin Dashboard & Server-Side Auth (`admin/index.html`)
 * Dashboard khusus pengelola destinasi dan dinas pariwisata:
   * **Autentikasi Server-Side Terverifikasi:** Menggunakan Supabase Auth JWT (`admin.nusantarapass@gmail.com`).
   * **Proteksi Mutasi Database:** Dilindungi oleh PostgreSQL Row-Level Security (RLS). Pengguna tanpa token JWT resmi ditolak langsung di level database (`401/403`).
   * **Manajemen Kuota & Daya Dukung:** CRUD data destinasi, elevasi, tarif retribusi, dan status konservasi secara realtime.
   * **Stored Procedure Keamanan:** Penambahan pengunjung publik diisolasi melalui fungsi `SECURITY DEFINER` (`np_increment_visitor`) sehingga publik tidak memiliki izin memodifikasi atribut administratif destinasi.
 
-### 6. 🔌 Open REST API & Interoperabilitas (PostgREST OpenAPI 3.0 Live)
+### 7. 🔌 Open REST API & Interoperabilitas (PostgREST OpenAPI 3.0 Live)
 Sesuai tema *"Engineering Interconnected Web Solutions to Empower Digital Ecosystems"*, NusantaraPass menyediakan endpoint RESTful API publik yang langsung terhubung ke pangkalan data PostgreSQL Cloud via engine PostgREST OpenAPI 3.0:
 * **Base Endpoint:** `https://czaafevdnaqmeejthebm.supabase.co/rest/v1/np_destinations`
 * **Filter Kategori:** `?category=eq.pantai`, `?category=eq.gunung`, `?category=eq.budaya`, `?category=eq.taman_nasional`
