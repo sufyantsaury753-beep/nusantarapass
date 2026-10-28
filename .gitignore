@@ -6,6 +6,13 @@ start-local.bat
 *.docx
 docs/*.docx
 
+# Promotional design & pamphlet assets (Internal design only)
+pamflet/
+docs/pamflet/
+
+# Internal developer automation scripts & migration utilities
+scripts/
+
 # Python & Build cache
 __pycache__/
 *.py[cod]
