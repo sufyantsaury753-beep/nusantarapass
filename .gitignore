@@ -12,6 +12,7 @@ docs/pamflet/
 
 # Internal developer automation scripts & migration utilities
 scripts/
+proposal_assets/
 
 # Python & Build cache
 __pycache__/
